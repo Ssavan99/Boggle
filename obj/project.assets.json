@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\savan\\Desktop\\UNL\\sem 4\\CSCE 361\\Boggle\\Boggle\\Boggle\\Boggle.csproj",
+      "projectUniqueName": "C:\\Users\\savan\\Desktop\\UNL\\sem 4\\CSCE 361\\Boggle\\Boggle.csproj",
       "projectName": "Boggle",
-      "projectPath": "C:\\Users\\savan\\Desktop\\UNL\\sem 4\\CSCE 361\\Boggle\\Boggle\\Boggle\\Boggle.csproj",
+      "projectPath": "C:\\Users\\savan\\Desktop\\UNL\\sem 4\\CSCE 361\\Boggle\\Boggle.csproj",
       "packagesPath": "C:\\Users\\savan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\savan\\Desktop\\UNL\\sem 4\\CSCE 361\\Boggle\\Boggle\\Boggle\\obj\\",
+      "outputPath": "C:\\Users\\savan\\Desktop\\UNL\\sem 4\\CSCE 361\\Boggle\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
