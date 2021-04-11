@@ -19,7 +19,7 @@ namespace Boggle.Controllers
         }
 
         public IActionResult Index()
-        {
+        {            
             return View();
         }
 
