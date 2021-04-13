@@ -2,3 +2,6 @@
 .vs
 Boggle/obj
 .vs
+UnitTests/bin
+UnitTests/obj
+Boggle/bin
