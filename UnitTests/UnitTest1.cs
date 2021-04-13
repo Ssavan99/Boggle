@@ -11,8 +11,6 @@ namespace UnitTests
         [TestMethod]
         public void unitTest1()
         {
-            //Board b = makeBoard();
-            //System.Diagnostics.Trace.WriteLine(b.getStringRepresentation());
             Assert.IsTrue(true);
         }
     }
