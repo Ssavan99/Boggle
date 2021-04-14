@@ -7,21 +7,16 @@ namespace Boggle.Models
     public class Game
     {
         private Board board;
-        private List<int> scores;
-        private List<User> players;
+        private SortedDictionary<User, int> usersScores;
 
         public Game()
         {
             board = new Board();
         }
 
-        public List<int> getScores()
+        public SortedDictionary<User, int> getUsersScores()
         {
-            return scores;
-        }
-        public List<User> getPlayers()
-        {
-            return players;
+            return usersScores;
         }
         public Board getBoard()
         {
@@ -31,18 +26,21 @@ namespace Boggle.Models
         {
             board = b;
         }
-        public void setScores(List<int> s)
+        public void setScores(SortedDictionary<User, int> us)
         {
-            scores = s;
+            usersScores = us;
         }
-        public void setPlayers(List<User> p)
-        {
-            players = p;
-        }
-        public void addPlayer(User u)
-        {
-            players.Add(u);
-            scores.Add(0);
-        }
+        //public int getOneUserScore(User u)
+        //{
+        //    //return usersScores.TryGetValue(u);
+        //}
+
+
+
+        //public void addPlayer(User u)
+        //{
+        //    players.Add(u);
+        //    scores.Add(0);
+        //}
     }
 }
