@@ -23,11 +23,18 @@ namespace Boggle.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult SinglePlayer(string firstName)
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
         }
 
+        
         public IActionResult SinglePlayer()
         {
             return View();
@@ -43,5 +50,6 @@ namespace Boggle.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }
