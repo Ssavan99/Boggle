@@ -13,6 +13,9 @@ namespace Boggle.Controllers
             dict = new WordDictionary();
         }
 
+        //attempts to get points for an input from a user
+        //if the input is worth points, increases the points in the model
+        //and triggers an update to make the view reflect the change
         public void attemptWord(User u, String input)
         {
             Board b = game.getBoard();
@@ -38,32 +41,44 @@ namespace Boggle.Controllers
 
         }
 
-        public String getCoordinateUserInput()
+        //gets any input from a user as a string
+        public String getCoordinateUserInput(User u)
         {
             throw new NotImplementedException();
         }
+
 
         public void getServerTime()
         {
             throw new NotImplementedException();
         }
 
+        
         public void runGame()
         {
-            throw new NotImplementedException();
+
+            //while (timer is running)
+            {
+                foreach (User u in game.getUsers())
+                {
+                    String input = getCoordinateUserInput(u);
+                    attemptWord(u, input);
+                }
+            }
         }
 
+        //increases the score of a user in the model by an amount
         public void increaseModelScore(User u, int amount)
         {
             game.setScoreOfUser(u, amount);
         }
 
-        public void updateModelScore(User u, int score)
+        public void setModelScore(User u, int score)
         {
             game.setScoreOfUser(u, score);
         }
 
-        public void updateViewScore(User u, int score)
+        public void setViewScore(User u, int score)
         {
             throw new NotImplementedException();
         }
