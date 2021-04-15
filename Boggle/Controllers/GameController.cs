@@ -30,7 +30,10 @@ namespace Boggle.Controllers
 
             if (dict.IsWord(word))
             {
-                //update
+                int points = WordValidationEngine.wordPoints(word);
+                increaseModelScore(u, points);
+                //update view score according to model score
+
             }
 
         }
@@ -48,6 +51,11 @@ namespace Boggle.Controllers
         public void runGame()
         {
             throw new NotImplementedException();
+        }
+
+        public void increaseModelScore(User u, int amount)
+        {
+            game.setScoreOfUser(u, amount);
         }
 
         public void updateModelScore(User u, int score)

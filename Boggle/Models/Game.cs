@@ -39,6 +39,10 @@ namespace Boggle.Models
         {
             usersScores[u] = score;
         }
+        public void increaseScoreOfUser(User u, int amount)
+        {
+            usersScores[u] += amount;
+        }
         public void addPlayer(User u)
         {
             usersScores.Add(u, 0);

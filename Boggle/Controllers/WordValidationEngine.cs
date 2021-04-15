@@ -73,5 +73,21 @@ namespace Boggle.Controllers
             else
                 return false;
         }
+        public static int wordPoints(String word)
+        {
+            int n = word.Length;
+            if (n < 5)
+                return 1;
+            if (n == 5)
+                return 2;
+            if (n == 6)
+                return 3;
+            if (n == 7)
+                return 5;
+            if (n >= 8)
+                return 11;
+
+            return -1;
+        }
     }
 }
