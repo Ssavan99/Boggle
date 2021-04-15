@@ -11,9 +11,9 @@ namespace Boggle.Controllers
 
         public void setViewScore(User u, int score);
 
-        public void attemptWord(User u, String input);
+        public String attemptWord(User u, String input);
 
-        public void runGame();
+        public void runGame(User u);
 
         public void getServerTime();
     }

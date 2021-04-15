@@ -1,30 +1,51 @@
 ﻿using System;
+using System.Timers;
 using Boggle.Models;
 
 namespace Boggle.Controllers
 {
     public class GameController : IGameController
     {
-        Game game;
-        WordDictionary dict;
+        private Game game;
+        private Timer timer;
+        private WordDictionary dict;
+        bool running;
 
         public GameController()
         {
             game = new Game();
             dict = new WordDictionary();
+            timer = new Timer();
+            running = false;
         }
 
         //attempts to get points for an input from a user
         //if the input is worth points, increases the points in the model
         //and triggers an update to make the view reflect the change
-        public void attemptWord(User u, String input)
+        //returns the word if valid
+        public String attemptWord(User u, String input)
         {
-            Board b = game.getBoard();
             int[,] coords = WordValidationEngine.generateCoordinates(input);
             if (!WordValidationEngine.isValidInput(coords))
-                return;
+                return null;
+            String word = coordsToWord(coords);
+
+            if (dict.IsWord(word))
+            {
+                int points = WordValidationEngine.wordPoints(word);
+                increaseModelScore(u, points);
+                //update view score according to model score
+            }
+
+            return word;
+
+        }
+
+        public String coordsToWord(int[,] coords)
+        {
+            Board b = game.getBoard();
             String word = "";
-            for (int i = 0; i < coords.Length; i++)
+            for (int i = 0; i < coords.GetLength(0); i++)
             {
                 int r = coords[i, 0];
                 int c = coords[i, 1];
@@ -32,20 +53,15 @@ namespace Boggle.Controllers
                 word += b.getDie(r, c).getUpLetter();
             }
 
-            if (dict.IsWord(word))
-            {
-                int points = WordValidationEngine.wordPoints(word);
-                increaseModelScore(u, points);
-                //update view score according to model score
-
-            }
-
+            word = word.ToLower();
+            return word;
         }
 
         //gets any input from a user as a string
         public String getCoordinateUserInput(User u)
         {
-            throw new NotImplementedException();
+            String input = Console.ReadLine();
+            return input;
         }
 
 
@@ -55,23 +71,36 @@ namespace Boggle.Controllers
         }
 
         
-        public void runGame()
+        public void runGame(User u)
         {
-
             //while (timer is running)
+            //{
+            //    foreach (User u in game.getUsers())
+            //    {
+            //        String input = getCoordinateUserInput(u);
+            //        attemptWord(u, input);
+            //    }
+            //}
+            game.addPlayer(u);
+            running = true;
+            while (running)
             {
-                foreach (User u in game.getUsers())
-                {
-                    String input = getCoordinateUserInput(u);
-                    attemptWord(u, input);
-                }
+                Console.WriteLine(game.getBoard());
+                Console.WriteLine("User has score: " + game.getScoreForUser(u));
+
+                String input = getCoordinateUserInput(u);
+                String word = attemptWord(u, input);
+                if (word != null)
+                    Console.WriteLine(word);
+                if (input.Equals("quit"))
+                    running = false;
             }
         }
 
         //increases the score of a user in the model by an amount
         public void increaseModelScore(User u, int amount)
         {
-            game.setScoreOfUser(u, amount);
+            game.increaseScoreOfUser(u, amount);
         }
 
         public void setModelScore(User u, int score)

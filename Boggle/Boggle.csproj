@@ -5,12 +5,8 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="wwwroot\data\english3.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\data\english3.txt" />
-  </ItemGroup>
-
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <ExternalConsole>true</ExternalConsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Custom' " />
 </Project>
