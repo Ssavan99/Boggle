@@ -15,14 +15,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Custom": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "applicationUrl": "https://localhost:14272;http://localhost:61515",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
     "Boggle": {
       "commandName": "Project",
       "launchBrowser": true,

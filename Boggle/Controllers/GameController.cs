@@ -82,6 +82,7 @@ namespace Boggle.Controllers
             //    }
             //}
             game.addPlayer(u);
+            //game.getBoard().shakeForNewBoard();
             running = true;
             while (running)
             {
