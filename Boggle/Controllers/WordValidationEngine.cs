@@ -8,9 +8,9 @@ namespace Boggle.Controllers
         //checks to make sure that the same letter was not used twice
         public static bool hasDuplicateCoords(int[,] coords)
         {
-            for (int i = 0; i < coords.Length; i++)
+            for (int i = 0; i < coords.GetLength(0); i++)
             {
-                for (int j = 0; j < coords.Length; j++)
+                for (int j = 0; j < coords.GetLength(0); j++)
                 {
                     if (coords[i, 0] == coords[j, 0])
                     {
@@ -51,7 +51,7 @@ namespace Boggle.Controllers
         //finally verifies that no letter is used twice
         public static bool isValidInput(int[,] coords)
         {
-            int n = coords.Length;
+            int n = coords.GetLength(0);
 
             if (n < 3)
                 return false;
