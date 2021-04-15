@@ -5,4 +5,12 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\data\english3.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\data\english3.txt" />
+  </ItemGroup>
+
 </Project>
