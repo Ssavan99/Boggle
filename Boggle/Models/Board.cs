@@ -7,7 +7,7 @@ namespace Boggle.Models
 {
     public class Board : IBoard
     {
-        private int diceRows = 4;
+        private static int diceRows = 4;
         private Die[,] dice;
 
         public Board()
@@ -77,8 +77,25 @@ namespace Boggle.Models
             return dice;
         }
 
-        //returns pretty printed board
-        public override String ToString()
+        //checks if a coordinate is a valid Die
+        public static bool inBounds(int r, int c)
+        {
+            return (0 <= r && r < diceRows) && (0 <= c && c < diceRows);
+        }
+
+        public static bool adjacent(int r1, int c1, int r2, int c2)
+        {
+            bool adjRow = false;
+            if (Math.Abs(r1 - r2) <= 1)
+                adjRow = true;
+            bool adjCol = false;
+            if (Math.Abs(c1 - c2) <= 1)
+                adjCol = true;
+            return (adjRow && adjCol);
+        }
+
+    //returns pretty printed board
+    public override String ToString()
         {
             String res = "--------------------\n";
             for(int i = 0; i < diceRows; i++)
