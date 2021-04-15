@@ -5,6 +5,7 @@ namespace Boggle.Controllers
 {
     public class WordValidationEngine
     {
+        //checks to make sure that the same letter was not used twice
         public static bool hasDuplicateCoords(int[,] coords)
         {
             for (int i = 0; i < coords.Length; i++)
@@ -26,6 +27,8 @@ namespace Boggle.Controllers
             return false;
         }
 
+        //takes in a string like "13 12 22 21" and converts it to a 2D array like
+        //[[1,3], [1,2], [2,2], [2,1]]
         public static int[,] generateCoordinates(String input)
         {
             String[] stringCoords = input.Split(' ');
@@ -43,6 +46,9 @@ namespace Boggle.Controllers
             return coords;
         }
 
+        //makes sure a potential set of coordinates is at least 3 letters long,
+        //makes sure all coordinates are in bounds of the board
+        //finally verifies that no letter is used twice
         public static bool isValidInput(int[,] coords)
         {
             int n = coords.Length;
@@ -73,6 +79,8 @@ namespace Boggle.Controllers
             else
                 return false;
         }
+
+        //returns the number of points for a word based on Boggle rules
         public static int wordPoints(String word)
         {
             int n = word.Length;
