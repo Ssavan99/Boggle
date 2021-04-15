@@ -14,10 +14,15 @@ namespace UnitTests
             String[] f = { "R", "I", "F", "O", "B", "X" };
             Die d = new Die(f);
 
+            Assert.IsTrue("X".Equals(d.getFaces()[5]));
             Assert.IsTrue("O".Equals(d.getFaces()[3]));
             Assert.IsTrue("R".Equals(d.getFaces()[0]));
             Assert.IsTrue("B".Equals(d.getFaces()[4]));
+            Assert.IsTrue("I".Equals(d.getFaces()[1]));
+            Assert.IsTrue("F".Equals(d.getFaces()[2]));
+
         }
+
         [TestMethod]
         [ExpectedException(typeof(ArrayTypeMismatchException))]
         public void badDieInputTest()
@@ -25,6 +30,7 @@ namespace UnitTests
             String[] f = { "R", "I", "F", "O", "B", "X", "T" };
             Die d = new Die(f);
         }
+
         [TestMethod]
         public void rollTest()
         {
