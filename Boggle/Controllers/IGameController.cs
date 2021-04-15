@@ -5,11 +5,11 @@ namespace Boggle.Controllers
 {
     public interface IGameController
     {
-        public String getCoordinateUserInput();
+        public String getCoordinateUserInput(User u);
 
-        public void updateModelScore(User u, int score);
+        public void setModelScore(User u, int score);
 
-        public void updateViewScore(User u, int score);
+        public void setViewScore(User u, int score);
 
         public void attemptWord(User u, String input);
 

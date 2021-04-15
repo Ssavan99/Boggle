@@ -10,6 +10,7 @@ namespace Boggle.Controllers
 
         public GameController()
         {
+            game = new Game();
             dict = new WordDictionary();
         }
 

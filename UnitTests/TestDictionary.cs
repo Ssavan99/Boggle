@@ -13,7 +13,6 @@ namespace UnitTests
         public void CreateDictTest()
         {
             WordDictionary dict = new WordDictionary();
-            dict.CreateDictionary();
             int actualCount = 194433;
             List<String> dictWords = dict.DictionaryWords;
             int count = dictWords.Count;
@@ -25,7 +24,6 @@ namespace UnitTests
         public void IsWordCheckTest()
         {
             WordDictionary dict = new WordDictionary();
-            dict.CreateDictionary();
             string word = "gobble";
             Assert.IsTrue(dict.IsWord(word));
             word = "lalalalalallal";

@@ -13,6 +13,7 @@ namespace Boggle.Models
         public Game()
         {
             board = new Board();
+            usersScores = new SortedDictionary<User, int>();
         }
 
         public List<User> getUsers()
