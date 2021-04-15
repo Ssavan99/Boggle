@@ -13,7 +13,7 @@ namespace Boggle.Controllers
 
         public void attemptWord(User u, String input);
 
-        public void runGame();
+        public void runGame(User u);
 
         public void getServerTime();
     }

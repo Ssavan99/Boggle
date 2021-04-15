@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Timers;
 using Boggle.Models;
 
 namespace Boggle.Controllers
 {
     public class GameController : IGameController
     {
-        Game game;
-        WordDictionary dict;
+        private Game game;
+        private Timer timer;
+        private WordDictionary dict;
+        bool running;
 
         public GameController()
         {
             game = new Game();
             dict = new WordDictionary();
+            timer = new Timer();
+            running = false;
         }
 
         //attempts to get points for an input from a user
@@ -24,13 +29,15 @@ namespace Boggle.Controllers
             if (!WordValidationEngine.isValidInput(coords))
                 return;
             String word = "";
-            for (int i = 0; i < coords.Length; i++)
+            for (int i = 0; i < coords.GetLength(0); i++)
             {
                 int r = coords[i, 0];
                 int c = coords[i, 1];
 
                 word += b.getDie(r, c).getUpLetter();
             }
+
+            word = word.ToLower();
 
             if (dict.IsWord(word))
             {
@@ -45,7 +52,8 @@ namespace Boggle.Controllers
         //gets any input from a user as a string
         public String getCoordinateUserInput(User u)
         {
-            throw new NotImplementedException();
+            String input = Console.ReadLine();
+            return input;
         }
 
 
@@ -55,23 +63,34 @@ namespace Boggle.Controllers
         }
 
         
-        public void runGame()
+        public void runGame(User u)
         {
-
             //while (timer is running)
+            //{
+            //    foreach (User u in game.getUsers())
+            //    {
+            //        String input = getCoordinateUserInput(u);
+            //        attemptWord(u, input);
+            //    }
+            //}
+            game.addPlayer(u);
+            running = true;
+            while (running)
             {
-                foreach (User u in game.getUsers())
-                {
-                    String input = getCoordinateUserInput(u);
-                    attemptWord(u, input);
-                }
+                Console.WriteLine(game.getBoard());
+                String input = getCoordinateUserInput(u);
+                attemptWord(u, input);
+
+                Console.WriteLine(game.getScoreForUser(u));
+                if (input.Equals("quit"))
+                    running = false;
             }
         }
 
         //increases the score of a user in the model by an amount
         public void increaseModelScore(User u, int amount)
         {
-            game.setScoreOfUser(u, amount);
+            game.increaseScoreOfUser(u, amount);
         }
 
         public void setModelScore(User u, int score)
