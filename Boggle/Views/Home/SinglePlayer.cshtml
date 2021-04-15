@@ -1,0 +1,185 @@
+﻿@{
+    ViewData["Title"] = "Single Player";
+}
+<h2>Single Player</h2>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Boggle</h1>
+    <p>Learn about <a href="https://www.hasbro.com/common/instruct/boggle.pdf">how to play</a>.</p>
+</div>
+
+<div id="boggle-container">
+    <img src="/images/logo.png" class="logo" />
+    <div id="board">
+        <div class="row">
+            <div class="boggle">
+                <span>A</span>
+            </div>
+            <div class="boggle">
+                <span>B</span>
+            </div>
+            <div class="boggle">
+                <span>C</span>
+            </div>
+            <div class="boggle">
+                <span>D</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="boggle">
+                <span>A</span>
+            </div>
+            <div class="boggle">
+                <span>B</span>
+            </div>
+            <div class="boggle">
+                <span>C</span>
+            </div>
+            <div class="boggle">
+                <span>D</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="boggle">
+                <span>A</span>
+            </div>
+            <div class="boggle">
+                <span>B</span>
+            </div>
+            <div class="boggle">
+                <span>C</span>
+            </div>
+            <div class="boggle">
+                <span>D</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="boggle">
+                <span>A</span>
+            </div>
+            <div class="boggle">
+                <span>B</span>
+            </div>
+            <div class="boggle">
+                <span>C</span>
+            </div>
+            <div class="boggle">
+                <span>D</span>
+            </div>
+        </div>
+    </div>
+    <div id="submit-word">
+        <form>
+            <label for="input-word"><strong>Current Word</strong></label><br>
+            <input type='text' id="input-word" name="input-word">
+            <input type='submit' value='Submit'>
+        </form>
+    </div>
+    <table id="p1-score-table">
+        <tr id=header>
+            <td>Player One</td>
+        </tr>
+        <tr>
+            <th>Word </th>
+            <th>Score</th>
+        </tr>
+        <tr>
+            <td>string</td>
+            <td>int</td>
+        </tr>
+        <tr>
+            <td>string</td>
+            <td>int</td>
+        </tr>
+        <tr id="footer">
+            <td>Total </td>
+            <td>int</td>
+        </tr>
+    </table>
+</div>
+
+<style>
+    body {
+        background-color: yellowgreen;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #boggle-container {
+        display: flex;
+        flex-direction: column;
+        width: 490px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        align-self: center;
+    }
+
+    #board {
+        background-color: #A9A9A9;
+        padding: 5px;
+        margin-top: 20px;
+    }
+
+    .row {
+        display: flex;
+        text-align: center;
+        flex-direction: row;
+        padding: 5px;
+    }
+
+    .boggle:hover {
+        cursor: pointer;
+    }
+
+    .boggle {
+        width: 80px;
+        height: 80px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        flex: 1 1 auto;
+        margin: 5px;
+    }
+
+    .boggle.selected {
+        background-color: #ACCEEC;
+    }
+
+    .boggle span {
+        font-weight: bold;
+        display: block;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    #submit-word {
+        background-color: aqua;
+        margin: 15px 0;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #p1-score-table tr#header td {
+        background-color: rgb(248, 96, 129);
+    }
+
+    #p1-score-table {
+        /* ReSharper disable once InvalidValue */
+        align-self: left;
+        border: 5px solid #FFCA08;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    #p1-score-table td, #p1-score-table th {
+        border: 5px solid #FFCA08;
+        background-color: white;
+        padding: 5px;
+    }
+
+    #p1-score-table tr#footer td {
+        background-color: #ACCEEC;
+    }
+</style>
