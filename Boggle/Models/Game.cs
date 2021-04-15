@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Boggle.Models
 {
@@ -14,9 +15,13 @@ namespace Boggle.Models
             board = new Board();
         }
 
-        public SortedDictionary<User, int> getUsersScores()
+        public List<User> getUsers()
         {
-            return usersScores;
+            return usersScores.Keys.ToList();
+        }
+        public List<int> getScores()
+        {
+            return usersScores.Values.ToList();
         }
         public Board getBoard()
         {
@@ -26,21 +31,17 @@ namespace Boggle.Models
         {
             board = b;
         }
-        public void setScores(SortedDictionary<User, int> us)
+        public int getScoreForUser(User u)
         {
-            usersScores = us;
+            return usersScores[u];
         }
-        //public int getOneUserScore(User u)
-        //{
-        //    //return usersScores.TryGetValue(u);
-        //}
-
-
-
-        //public void addPlayer(User u)
-        //{
-        //    players.Add(u);
-        //    scores.Add(0);
-        //}
+        public void setScoreOfUser(User u, int score)
+        {
+            usersScores[u] = score;
+        }
+        public void addPlayer(User u)
+        {
+            usersScores.Add(u, 0);
+        }
     }
 }

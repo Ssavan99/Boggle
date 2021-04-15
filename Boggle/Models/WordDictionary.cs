@@ -10,7 +10,7 @@ namespace Boggle.Models
     {
         public List<string> DictionaryWords { get; set ; }
 
-        public void CreateDictionary()
+        public WordDictionary()
         {
             string path = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, @"Boggle\", @"AppData\", "english3.txt");
             //string path = Path.Combine(Environment.CurrentDirectory, @"AppData\", "english3.txt");
