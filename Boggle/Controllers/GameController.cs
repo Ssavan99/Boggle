@@ -61,6 +61,7 @@ namespace Boggle.Controllers
             }
 
             word = word.ToLower();
+
             return word;
         }
 
