@@ -46,7 +46,6 @@ namespace Boggle.Controllers
                 //update view score according to model score
 
             }
-
         }
 
         //gets any input from a user as a string
