@@ -10,8 +10,7 @@ namespace Boggle.Models
         private int id;
         private DateTime startTime;
         private Board board;
-        private SortedDictionary<User, List<string>> usersGuesses;
-        private SortedDictionary<User, int> usersScores;
+        private SortedDictionary<User, UserData> usersData;
 
         public Game() : this(0, DateTime.Now)
         {
@@ -22,8 +21,7 @@ namespace Boggle.Models
             this.id = id;
             this.startTime = startTime;
             board = new Board();
-            usersGuesses = new SortedDictionary<User, List<string>>();
-            usersScores = new SortedDictionary<User, int>();
+            usersData = new SortedDictionary<User, UserData>();
         }
 
         public int getId()
@@ -37,12 +35,13 @@ namespace Boggle.Models
 
         public List<User> getUsers()
         {
-            return usersScores.Keys.ToList();
+            return usersData.Keys.ToList();
         }
-        public List<int> getScores()
+        public SortedDictionary<User, UserData> getUsersData()
         {
-            return usersScores.Values.ToList();
+            return usersData;
         }
+
         public Board getBoard()
         {
             return board;
@@ -53,28 +52,33 @@ namespace Boggle.Models
         }
         public int getScoreForUser(User u)
         {
-            return usersScores[u];
+            return usersData[u].getScore();
         }
         public void setScoreOfUser(User u, int score)
         {
-            usersScores[u] = score;
+            usersData[u].setScore(score);
         }
         public void increaseScoreOfUser(User u, int amount)
         {
-            usersScores[u] += amount;
+            usersData[u].addScore(amount);
+        }
+        public bool hasPlayer(User u)
+        {
+            return usersData.ContainsKey(u);
         }
         public void addPlayer(User u)
         {
-            usersScores.Add(u, 0);
+            usersData.Add(u, new UserData());
         }
-
-        public void userGuess(User u, string guess)
+        public UserData getUserData(User u)
         {
-            if (!usersGuesses.ContainsKey(u))
+            if (usersData.ContainsKey(u))
             {
-                usersGuesses[u] = new List<string>();
+                return usersData[u];
+            } else
+            {
+                return null;
             }
-            usersGuesses[u].Add(guess);
         }
     }
 }

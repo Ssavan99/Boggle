@@ -11,14 +11,21 @@ namespace Boggle.Controllers
     {
         private Server srv;
         private IActionResult gameIdNotFound;
+        private IActionResult okMsg;
 
         public ServerController()
         {
             srv = Server.getInstance();
-            gameIdNotFound = Json(new
+            gameIdNotFound = failedMsg("gameid not found");
+            okMsg = Json(new { ok = true });
+        }
+
+        public IActionResult failedMsg(string m)
+        {
+            return Json(new
             {
                 ok = true,
-                msg = "gameid not found"
+                msg = m
             });
         }
 
@@ -53,20 +60,33 @@ namespace Boggle.Controllers
                 }
             }
 
-            List<string> users = new List<string>();
-            foreach (User u in g.getUsers())
+            Dictionary<string, int> userScores = new Dictionary<string, int>();
+            foreach (var p in g.getUsersData())
             {
-                users.Add(u.getUsername());
+                userScores.Add(p.Key.getUsername(), p.Value.getScore());
             }
 
             return Json(new
             {
                 board = board,
-                users = users,
+                users = userScores,
                 startTime = g.getStartTime(),
             });
         }
 
+        public IActionResult login(int gameId, string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                return failedMsg("invalid username");
+            Game g = srv.getGame(gameId);
+            if (g == null) return gameIdNotFound;
 
+            User u = new User(username);
+            if (!g.hasPlayer(u))
+            {
+                g.addPlayer(u);
+            }
+            return okMsg;
+        }
     }
 }

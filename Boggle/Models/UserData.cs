@@ -30,6 +30,10 @@ namespace Boggle.Models
         {
             return score;
         }
+        public void setScore(int s)
+        {
+            score = s;
+        }
         public void addScore(int add)
         {
             score += add;
