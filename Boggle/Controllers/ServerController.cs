@@ -66,11 +66,17 @@ namespace Boggle.Controllers
                 userScores.Add(p.Key.getUsername(), p.Value.getScore());
             }
 
+            DateTime endTime = g.getStartTime().AddMinutes(3);
+            DateTime now = DateTime.Now;
+            bool ended = now > endTime;
+
             return Json(new
             {
                 board = board,
                 users = userScores,
                 startTime = g.getStartTime(),
+                endTime = endTime,
+                ended = ended,
             });
         }
 
