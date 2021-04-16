@@ -8,13 +8,19 @@ namespace Boggle.Models
     public class Game
     {
         private int id;
+        private DateTime startTime;
         private Board board;
         private SortedDictionary<User, List<string>> usersGuesses;
         private SortedDictionary<User, int> usersScores;
 
-        public Game(int id = 0)
+        public Game() : this(0, DateTime.Now)
+        {
+        }
+
+        public Game(int id, DateTime startTime)
         {
             this.id = id;
+            this.startTime = startTime;
             board = new Board();
             usersGuesses = new SortedDictionary<User, List<string>>();
             usersScores = new SortedDictionary<User, int>();
@@ -23,6 +29,10 @@ namespace Boggle.Models
         public int getId()
         {
             return id;
+        }
+        public DateTime getStartTime()
+        {
+            return startTime;
         }
 
         public List<User> getUsers()

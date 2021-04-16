@@ -12,7 +12,7 @@ namespace Boggle.Controllers
         private Server srv;
         private IActionResult gameIdNotFound;
 
-        public ServerController ()
+        public ServerController()
         {
             srv = Server.getInstance();
             gameIdNotFound = Json(new
@@ -54,7 +54,7 @@ namespace Boggle.Controllers
             }
 
             List<string> users = new List<string>();
-            foreach(User u in g.getUsers())
+            foreach (User u in g.getUsers())
             {
                 users.Add(u.getUsername());
             }
@@ -63,7 +63,10 @@ namespace Boggle.Controllers
             {
                 board = board,
                 users = users,
+                startTime = g.getStartTime(),
             });
         }
+
+
     }
 }

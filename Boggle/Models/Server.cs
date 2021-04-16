@@ -33,7 +33,7 @@ namespace Boggle.Models
                 while (games.ContainsKey(id));
 
                 id = 123;
-                Game g = new Game(id);
+                Game g = new Game(id, DateTime.Now);
                 games[id] = g;
                 return g;
             }
