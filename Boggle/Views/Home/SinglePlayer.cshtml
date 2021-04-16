@@ -1,0 +1,268 @@
+﻿@using Boggle.Controllers
+@using Microsoft.AspNetCore.Http
+@model Game
+
+@{
+    GameController h = new GameController();
+    Game g = new Game();
+    User u = new User("u");
+    g.addPlayer(u);
+    Board b = g.getBoard();
+    Die[,] d = b.shakeForNewBoard();
+    b.setDice(d);
+    var inputWord = "";
+    var inputCoords = "";
+
+
+    if (HttpMethods.IsPost(@Context.Request.Method))
+    {
+        inputCoords = @Context.Request.Query["inputCoords"];
+        inputWord = @Context.Request.Query["input-word"];
+
+
+        h.attemptWord(u,inputCoords.TrimEnd());
+        
+        
+
+        //string[] words = new string[] {};
+        //words.Append(inputWord);
+        //foreach (var word in words)
+
+    }
+}
+
+@{
+   
+
+    
+}
+<!doctype html>
+
+@{
+    ViewData["Title"] = "Single Player";
+}
+<h2>Single Player</h2>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Boggle</h1>
+    <p>Learn how to play <a href="https://www.hasbro.com/common/instruct/boggle.pdf" target="_blank">here!</a> (Opens in new tab)</p>
+</div>
+
+<script>
+    // Add products to <table>
+    function wordsUpdate() {
+        if ($("#p1-score-table").val() != null && $("#input-word").val() != '') {
+            var wordPoints = getPoints();
+            // Add product to Table
+            wordAddToTable(wordPoints);
+
+            // Clear form fields
+            formClear();
+
+            // Focus to product name field
+            $("#input-word").focus();
+        }
+    }
+    function wordAddToTable(wordPoints) {
+        // First check if a <tbody> tag exists, add one if not
+        if ($("#p1-score-table tbody").length == 0) {
+            $("#p1-score-table").append("<tbody></tbody>");
+        }
+
+        // Append product to the table
+        $("#p1-score-table tbody").append("<tr>" +
+            "<td>" + $("#input-word").val() + "</td>" +
+            "<td>" + wordPoints + "</td>" +
+            "</tr>");
+    }
+    function formClear() {
+        $("#input-word").val("");
+    }
+    function addCoords(coord) {
+        var txt=document.getElementById("inputCoords").value; 
+        txt=txt + coord + " "; 
+        document.getElementById("inputCoords").value = txt;
+    }
+    function addLetter(label) {
+        var txt = document.getElementById("input-word").label;
+        txt = txt + label;
+        document.getElementById("input-word").label = txt;
+    }
+    function coordsClear() {
+        $("#inputCoords").val("");
+    }
+</script>
+
+
+
+<div id="boggle-container">
+    <img src="/images/logo.png" class="logo" />
+    <div id="board">
+        <div class="row">
+            <div class="boggle">
+                <!--<span>@Html.Label(b.getDie(0, 0).getUpLetter())</span>-->
+                <button type="button" id="00Button" value="00" class="boggle" onclick="addCoords(this.value); addLetter(this.label);">@Html.Label(b.getDie(0, 0).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="01Button" value="01" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(0, 1).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="02Button" value="02" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(0, 2).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="03Button" value="03" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(0, 3).getUpLetter())</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="boggle">
+            <!-- <span>@Html.Label(b.getDie(1, 0).getUpLetter())</span> -->
+                <button type="button" id="10Button" value="10" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(1, 0).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="11Button" value="11" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(1, 1).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="12Button" value="12" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(1, 2).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="13Button" value="13" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(1, 3).getUpLetter())</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="boggle">
+                <button type="button" id="20Button" value="20" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(2, 0).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="21Button" value="21" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(2, 1).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="22Button" value="22" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(2, 2).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="23Button" value="23" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(2, 3).getUpLetter())</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="boggle">
+                <button type="button" id="30button" value="30" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(3, 0).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="31Button" value="31" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(3, 1).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="32Button" value="32" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(3, 2).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="33Button" value="33"class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(3, 3).getUpLetter())</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="submit-word">
+        <form action="" method="post">
+            <label for="input-word"><strong>Current Word</strong></label><br>
+            <input type="text" id="input-word" name="input-word">
+            <button type="button" id="updateButton" class="btn btn-primary" onclick="wordsUpdate(); coordsClear();">Submit Word</button>
+        </form>
+        <form  action="" method="post" name="inputCoords">
+            <input type="text" id="inputCoords" name="inputCoords"/>
+            <button type="submit" formmethod="post">Submit</button>
+        </form>
+
+    </div>
+    <table id="p1-score-table">
+        <tr id=header>
+            <td>Player One</td>
+        </tr>
+        <tr>
+            <th>Word </th>
+            <th>Score</th>
+        </tr>
+    </table>
+</div>
+
+<style>
+    body {
+        background-color: yellowgreen;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #boggle-container {
+        display: flex;
+        flex-direction: column;
+        width: 490px;
+        margin: 0 auto;
+    }
+
+    .logo {
+        align-self: center;
+    }
+
+    #board {
+        background-color: #A9A9A9;
+        padding: 5px;
+        margin-top: 20px;
+    }
+
+    .row {
+        display: flex;
+        text-align: center;
+        flex-direction: row;
+        padding: 5px;
+    }
+
+    .boggle:hover {
+        cursor: pointer;
+    }
+
+    .boggle {
+        width: 80px;
+        height: 80px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        flex: 1 1 auto;
+        margin: 5px;
+    }
+
+        .boggle.selected {
+            background-color: #ACCEEC;
+        }
+
+        .boggle span {
+            font-weight: bold;
+            display: block;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+    #submit-word {
+        background-color: aqua;
+        margin: 15px 0;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #p1-score-table tr#header td {
+        background-color: rgb(248, 96, 129);
+    }
+
+    #p1-score-table {
+        /* ReSharper disable once InvalidValue */
+        align-self: left;
+        border: 5px solid #FFCA08;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+        #p1-score-table td, #p1-score-table th {
+            border: 5px solid #FFCA08;
+            background-color: white;
+            padding: 5px;
+        }
+
+        #p1-score-table tr#footer td {
+            background-color: #ACCEEC;
+        }
+</style>

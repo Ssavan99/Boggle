@@ -4,6 +4,10 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
+<<<<<<< HEAD
     <ActiveDebugProfile>Console</ActiveDebugProfile>
+=======
+    <ActiveDebugProfile>Boggle</ActiveDebugProfile>
+>>>>>>> 5b960371b6b6d04c3cdeaa55d1c526590834a4a3
   </PropertyGroup>
 </Project>
