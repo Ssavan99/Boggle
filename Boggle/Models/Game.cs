@@ -7,13 +7,22 @@ namespace Boggle.Models
 {
     public class Game
     {
+        private int id;
         private Board board;
+        private SortedDictionary<User, List<string>> usersGuesses;
         private SortedDictionary<User, int> usersScores;
 
-        public Game()
+        public Game(int id = 0)
         {
+            this.id = id;
             board = new Board();
+            usersGuesses = new SortedDictionary<User, List<string>>();
             usersScores = new SortedDictionary<User, int>();
+        }
+
+        public int getId()
+        {
+            return id;
         }
 
         public List<User> getUsers()
@@ -47,6 +56,15 @@ namespace Boggle.Models
         public void addPlayer(User u)
         {
             usersScores.Add(u, 0);
+        }
+
+        public void userGuess(User u, string guess)
+        {
+            if (!usersGuesses.ContainsKey(u))
+            {
+                usersGuesses[u] = new List<string>();
+            }
+            usersGuesses[u].Add(guess);
         }
     }
 }
