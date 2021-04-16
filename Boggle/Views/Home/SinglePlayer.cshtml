@@ -20,7 +20,9 @@
         inputWord = @Context.Request.Query["input-word"];
 
 
-        h.attemptWord(u,inputCoords.TrimEnd());
+        string newWord = h.attemptWord(u,inputCoords.TrimEnd());
+
+
         
         
 
@@ -50,9 +52,11 @@
 
 <script>
     // Add products to <table>
+   
     function wordsUpdate() {
-        if ($("#p1-score-table").val() != null && $("#input-word").val() != '') {
-            var wordPoints = getPoints();
+        if ($("#p1-score-table").val() != null && $("#inputWord").val() != '') {
+            var word = document.getElementById("inputWord").value;
+            var wordPoints = getPoints(word.length);
             // Add product to Table
             wordAddToTable(wordPoints);
 
@@ -60,7 +64,8 @@
             formClear();
 
             // Focus to product name field
-            $("#input-word").focus();
+            $("#inputWord").focus();
+            
         }
     }
     function wordAddToTable(wordPoints) {
@@ -71,89 +76,108 @@
 
         // Append product to the table
         $("#p1-score-table tbody").append("<tr>" +
-            "<td>" + $("#input-word").val() + "</td>" +
+            "<td>" + $("#inputWord").val() + "</td>" +
             "<td>" + wordPoints + "</td>" +
             "</tr>");
     }
     function formClear() {
-        $("#input-word").val("");
+        document.getElementById('inputWord').value = '';
     }
     function addCoords(coord) {
         var txt=document.getElementById("inputCoords").value; 
         txt=txt + coord + " "; 
         document.getElementById("inputCoords").value = txt;
     }
-    function addLetter(label) {
-        var txt = document.getElementById("input-word").label;
+    function addLetter(id) {
+        var label = document.getElementById(id).textContent;
+        var txt = document.getElementById("inputWord").value;
         txt = txt + label;
-        document.getElementById("input-word").label = txt;
+        document.getElementById("inputWord").value = txt;
     }
     function coordsClear() {
-        $("#inputCoords").val("");
+        document.getElementById('inputCoords').value = '';
+    }
+    function getPoints(num) {
+        if (num < 5) {
+            wordPoints = 1;
+        }
+        else if (num == 5) {
+            wordPoints = 2;
+        }
+        else if (num == 6) {
+            wordPoints = 3;
+        }
+        else if (num == 7) {
+            wordPoints = 5;
+        }
+        else {
+            wordPoints = 11;
+        }
+
     }
 </script>
 
 
 
-<div id="boggle-container">
+<div id="boggle-container" runat="server">
     <img src="/images/logo.png" class="logo" />
     <div id="board">
         <div class="row">
             <div class="boggle">
                 <!--<span>@Html.Label(b.getDie(0, 0).getUpLetter())</span>-->
-                <button type="button" id="00Button" value="00" class="boggle" onclick="addCoords(this.value); addLetter(this.label);">@Html.Label(b.getDie(0, 0).getUpLetter())</button>
+                <button type="button" id="00Button" value="00" class="boggle" onclick="addCoords(this.value); addLetter(this.id);">@Html.Label(b.getDie(0, 0).getUpLetter())</button>
             </div>
             <div class="boggle">
-                <button type="button" id="01Button" value="01" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(0, 1).getUpLetter())</button>
+                <button type="button" id="01Button" value="01" class="boggle" onclick="addCoords(this.value); addLetter(this.id);">@Html.Label(b.getDie(0, 1).getUpLetter())</button>
             </div>
             <div class="boggle">
-                <button type="button" id="02Button" value="02" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(0, 2).getUpLetter())</button>
+                <button type="button" id="02Button" value="02" class="boggle" onclick="addCoords(this.value); addLetter(this.id);">@Html.Label(b.getDie(0, 2).getUpLetter())</button>
             </div>
             <div class="boggle">
-                <button type="button" id="03Button" value="03" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(0, 3).getUpLetter())</button>
+                <button type="button" id="03Button" value="03" class="boggle" onclick="addCoords(this.value); addLetter(this.id);">@Html.Label(b.getDie(0, 3).getUpLetter())</button>
             </div>
         </div>
         <div class="row">
             <div class="boggle">
             <!-- <span>@Html.Label(b.getDie(1, 0).getUpLetter())</span> -->
-                <button type="button" id="10Button" value="10" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(1, 0).getUpLetter())</button>
+                <button type="button" id="10Button" value="10" class="boggle" onclick="addCoords(this.value); addLetter(this.id);">@Html.Label(b.getDie(1, 0).getUpLetter())</button>
             </div>
             <div class="boggle">
-                <button type="button" id="11Button" value="11" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(1, 1).getUpLetter())</button>
+                <button type="button" id="11Button" value="11" class="boggle" onclick="addCoords(this.value); addLetter(this.id);">@Html.Label(b.getDie(1, 1).getUpLetter())</button>
             </div>
             <div class="boggle">
-                <button type="button" id="12Button" value="12" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(1, 2).getUpLetter())</button>
+                <button type="button" id="12Button" value="12" class="boggle" onclick="addCoords(this.value); addLetter(this.id);">@Html.Label(b.getDie(1, 2).getUpLetter())</button>
             </div>
             <div class="boggle">
-                <button type="button" id="13Button" value="13" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(1, 3).getUpLetter())</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="boggle">
-                <button type="button" id="20Button" value="20" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(2, 0).getUpLetter())</button>
-            </div>
-            <div class="boggle">
-                <button type="button" id="21Button" value="21" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(2, 1).getUpLetter())</button>
-            </div>
-            <div class="boggle">
-                <button type="button" id="22Button" value="22" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(2, 2).getUpLetter())</button>
-            </div>
-            <div class="boggle">
-                <button type="button" id="23Button" value="23" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(2, 3).getUpLetter())</button>
+                <button type="button" id="13Button" value="13" class="boggle" onclick="addCoords(this.value); addLetter(this.id);">@Html.Label(b.getDie(1, 3).getUpLetter())</button>
             </div>
         </div>
         <div class="row">
             <div class="boggle">
-                <button type="button" id="30button" value="30" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(3, 0).getUpLetter())</button>
+                <button type="button" id="20Button" value="20" class="boggle" onclick="addCoords(this.value);addLetter(this.id);">@Html.Label(b.getDie(2, 0).getUpLetter())</button>
             </div>
             <div class="boggle">
-                <button type="button" id="31Button" value="31" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(3, 1).getUpLetter())</button>
+                <button type="button" id="21Button" value="21" class="boggle" onclick="addCoords(this.value); addLetter(this.id);">@Html.Label(b.getDie(2, 1).getUpLetter())</button>
             </div>
             <div class="boggle">
-                <button type="button" id="32Button" value="32" class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(3, 2).getUpLetter())</button>
+                <button type="button" id="22Button" value="22" class="boggle" onclick="addCoords(this.value);addLetter(this.id);">@Html.Label(b.getDie(2, 2).getUpLetter())</button>
             </div>
             <div class="boggle">
-                <button type="button" id="33Button" value="33"class="boggle" onclick="addCoords(this.value);">@Html.Label(b.getDie(3, 3).getUpLetter())</button>
+                <button type="button" id="23Button" value="23" class="boggle" onclick="addCoords(this.value);addLetter(this.id);">@Html.Label(b.getDie(2, 3).getUpLetter())</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="boggle">
+                <button type="button" id="30button" value="30" class="boggle" onclick="addCoords(this.value);addLetter(this.id);">@Html.Label(b.getDie(3, 0).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="31Button" value="31" class="boggle" onclick="addCoords(this.value);addLetter(this.id);">@Html.Label(b.getDie(3, 1).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="32Button" value="32" class="boggle" onclick="addCoords(this.value);addLetter(this.id);">@Html.Label(b.getDie(3, 2).getUpLetter())</button>
+            </div>
+            <div class="boggle">
+                <button type="button" id="33Button" value="33"class="boggle" onclick="addCoords(this.value);addLetter(this.id);">@Html.Label(b.getDie(3, 3).getUpLetter())</button>
             </div>
         </div>
     </div>
@@ -161,13 +185,12 @@
     <div id="submit-word">
         <form action="" method="post">
             <label for="input-word"><strong>Current Word</strong></label><br>
-            <input type="text" id="input-word" name="input-word">
-            <button type="button" id="updateButton" class="btn btn-primary" onclick="wordsUpdate(); coordsClear();">Submit Word</button>
+
+            <!--<button type="button" id="updateButton" class="btn btn-primary" onclick=" coordsClear();">Submit Word</button>-->
         </form>
-        <form  action="" method="post" name="inputCoords">
-            <input type="text" id="inputCoords" name="inputCoords"/>
-            <button type="submit" formmethod="post">Submit</button>
-        </form>
+        <input type="text" id="inputWord" name="input-word">
+        <input type="text" id="inputCoords" name="inputCoords" value="" />
+        <button type="button" id="updateButton" class="btn btn-primary" onclick="wordsUpdate(); coordsClear();">Submit Word</button>
 
     </div>
     <table id="p1-score-table">
