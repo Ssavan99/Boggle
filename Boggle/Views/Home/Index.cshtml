@@ -3,6 +3,15 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-3">Welcome to Boggle</h1>
+    <p>Learn how to play <a href="https://www.hasbro.com/common/instruct/boggle.pdf" target="_blank">here!</a> (Opens in new tab)</p>
+</div>
+
+<div class="text-center">
+    <h1 class="display-4">Would you like a single player game or a multiplayer game?</h1>
+    @Html.ActionLink("SinglePlayer", $"SinglePlayer", "Home", null, null);
+</div>
+
+<div class="text-center">
+    @Html.ActionLink("Multiplayer", $"MultiPlayer", "Home", null, null);
 </div>

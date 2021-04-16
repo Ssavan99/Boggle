@@ -8,21 +8,26 @@ namespace Boggle.Models
     public class Game
     {
         private Board board;
-        private SortedDictionary<User, int> usersScores;
+        private List<User> users;
 
         public Game()
         {
             board = new Board();
-            usersScores = new SortedDictionary<User, int>();
+            users = new List<User>();
         }
 
         public List<User> getUsers()
         {
-            return usersScores.Keys.ToList();
+            return users;
         }
         public List<int> getScores()
         {
-            return usersScores.Values.ToList();
+            List<int> scores = new List<int>();
+            foreach (var user in users)
+            {
+                scores.Add(user.score);
+            }
+            return scores;
         }
         public Board getBoard()
         {
@@ -34,19 +39,19 @@ namespace Boggle.Models
         }
         public int getScoreForUser(User u)
         {
-            return usersScores[u];
+            return u.score;
         }
-        public void setScoreOfUser(User u, int score)
-        {
-            usersScores[u] = score;
-        }
-        public void increaseScoreOfUser(User u, int amount)
-        {
-            usersScores[u] += amount;
-        }
+       // public void setScoreOfUser(User u, int score)
+        //{
+          //  usersScores[u] = score;
+        //}
+       // public void increaseScoreOfUser(User u, int amount)
+        //{
+          //  usersScores[u] += amount;
+        //}
         public void addPlayer(User u)
         {
-            usersScores.Add(u, 0);
+            users.Add(u);
         }
     }
 }

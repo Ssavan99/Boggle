@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Boggle.Controllers;
+using Boggle.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -13,7 +13,11 @@ namespace Boggle
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            User u = new User("Eylon");
+            GameController gc = new GameController();
+            gc.runGame(u);
+
+            //CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -11,9 +11,10 @@ namespace Boggle.Models
         public List<string> DictionaryWords { get; set ; }
 
         public WordDictionary()
-        {
-            string path = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, @"Boggle\", @"AppData\", "english3.txt");
-            //string path = Path.Combine(Environment.CurrentDirectory, @"AppData\", "english3.txt");
+        {   
+            //the first path is for running tests while the second is for running the program
+            //string path = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, @"Boggle", @"AppData", "english3.txt");
+            string path = Path.Combine(Environment.CurrentDirectory, @"AppData", "english3.txt");
             var logFile = File.ReadAllLines(path);
             var logList = new List<string>();
             foreach (var s in logFile)
