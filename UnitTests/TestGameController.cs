@@ -26,34 +26,9 @@ namespace UnitTests
             String word2 = controller1.coordsToWord(coords2);
             String word3 = controller1.coordsToWord(coords3);
 
-            Assert.AreEqual(word1, "PURE");
-            Assert.AreEqual(word2, "PUREE");
-            Assert.AreEqual(word3, "DAY");
+            Assert.AreEqual(word1, "pure");
+            Assert.AreEqual(word2, "puree");
+            Assert.AreEqual(word3, "day");
         }
-
-        public Game makeGame(User player)
-        {
-            Game g = new Game();
-            User u = new User("user");
-            g.addPlayer(u);
-
-                return g;
-        }
-
-        /*[TestMethod]
-        public void getCoordinateUserInputTest()
-        {
-            User u = new User("first user");
-            Game g = makeGame(u);
-            List<User> users = g.getUsers();
-
-            String s1 = "33 23 13 03";
-            var stringReader = new StringReader(s1);
-
-            GameController controller = new GameController();
-
-            Assert.AreEqual(controller.getCoordinateUserInput(u), s1);
-
-        }*/
     }
 }
