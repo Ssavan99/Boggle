@@ -54,18 +54,8 @@ namespace Boggle.Controllers
             }
 
             word = word.ToLower();
-<<<<<<< HEAD
 
-            if (dict.IsWord(word))
-            {
-                int points = WordValidationEngine.wordPoints(word);
-                increaseModelScore(u, points);
-                //update view score according to model score
-
-            }
-=======
             return word;
->>>>>>> 5b960371b6b6d04c3cdeaa55d1c526590834a4a3
         }
 
         //gets any input from a user as a string
