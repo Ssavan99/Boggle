@@ -22,12 +22,28 @@ namespace Boggle.Controllers
         //attempts to get points for an input from a user
         //if the input is worth points, increases the points in the model
         //and triggers an update to make the view reflect the change
-        public void attemptWord(User u, String input)
+        //returns the word if valid
+        public String attemptWord(User u, String input)
         {
-            Board b = game.getBoard();
             int[,] coords = WordValidationEngine.generateCoordinates(input);
             if (!WordValidationEngine.isValidInput(coords))
-                return;
+                return null;
+            String word = coordsToWord(coords);
+
+            if (dict.IsWord(word))
+            {
+                int points = WordValidationEngine.wordPoints(word);
+                increaseModelScore(u, points);
+                //update view score according to model score
+            }
+
+            return word;
+
+        }
+
+        public String coordsToWord(int[,] coords)
+        {
+            Board b = game.getBoard();
             String word = "";
             for (int i = 0; i < coords.GetLength(0); i++)
             {
@@ -38,15 +54,7 @@ namespace Boggle.Controllers
             }
 
             word = word.ToLower();
-
-            if (dict.IsWord(word))
-            {
-                int points = WordValidationEngine.wordPoints(word);
-                increaseModelScore(u, points);
-                //update view score according to model score
-
-            }
-
+            return word;
         }
 
         //gets any input from a user as a string
@@ -74,14 +82,17 @@ namespace Boggle.Controllers
             //    }
             //}
             game.addPlayer(u);
+            //game.getBoard().shakeForNewBoard();
             running = true;
             while (running)
             {
                 Console.WriteLine(game.getBoard());
-                String input = getCoordinateUserInput(u);
-                attemptWord(u, input);
+                Console.WriteLine("User has score: " + game.getScoreForUser(u));
 
-                Console.WriteLine(game.getScoreForUser(u));
+                String input = getCoordinateUserInput(u);
+                String word = attemptWord(u, input);
+                if (word != null)
+                    Console.WriteLine(word);
                 if (input.Equals("quit"))
                     running = false;
             }
