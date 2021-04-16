@@ -25,7 +25,7 @@ namespace Boggle.Models
             List<int> scores = new List<int>();
             foreach (var user in users)
             {
-                scores.Add(user.score);
+                scores.Add(user.getScore());
             }
             return scores;
         }
@@ -39,16 +39,8 @@ namespace Boggle.Models
         }
         public int getScoreForUser(User u)
         {
-            return u.score;
+            return u.getScore();
         }
-       // public void setScoreOfUser(User u, int score)
-        //{
-          //  usersScores[u] = score;
-        //}
-       // public void increaseScoreOfUser(User u, int amount)
-        //{
-          //  usersScores[u] += amount;
-        //}
         public void addPlayer(User u)
         {
             users.Add(u);

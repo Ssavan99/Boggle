@@ -37,43 +37,22 @@ namespace UnitTests
             Assert.IsTrue(users.Contains(arr[2]));
         }
 
-        // tests that getScores returns and that unaltered values are 0
         [TestMethod]
         public void getScoresTest()
         {
-            User[] users = { new User("first user"), new User("second user"), new User("third user") };
-            Game g = makeGame(users);
+            User[] arr = { new User("first user"), new User("second user"), new User("third user") };
+
+            Game g = makeGame(arr);
+
+            g.getUsers()[0].updateScore(10);
+            g.getUsers()[1].updateScore(20);
+            g.getUsers()[2].updateScore(30);
 
             List<int> scores = g.getScores();
 
-            foreach(int s in scores)
-            {
-                Assert.AreEqual(0, s);
-            }
-        }
-
-        // by virtue of class design this also tests the getScoreForUser function
-        [TestMethod]
-        public void increaseScoreOfUserTest()
-        {
-            User[] users = { new User("first user"), new User("second user"), new User("third user"), new User("fourth user") };
-            Game g = makeGame(users);
-
-            g.increaseScoreOfUser(users[0], 30);
-            g.increaseScoreOfUser(users[1], 10);
-            g.increaseScoreOfUser(users[2], 20);
-            g.increaseScoreOfUser(users[3], 1);
-
-            Assert.AreEqual(g.getScoreForUser(users[0]), 30);
-            Assert.AreEqual(g.getScoreForUser(users[1]), 10);
-            Assert.AreEqual(g.getScoreForUser(users[2]), 20);
-            Assert.AreEqual(g.getScoreForUser(users[3]), 1);
-
-            g.increaseScoreOfUser(users[0], 1);
-            g.increaseScoreOfUser(users[1], 90);
-
-            Assert.AreEqual(g.getScoreForUser(users[0]), 31);
-            Assert.AreEqual(g.getScoreForUser(users[1]), 100);
+            Assert.AreEqual(scores[0], 10);
+            Assert.AreEqual(scores[1], 20);
+            Assert.AreEqual(scores[2], 30);
         }
     }
 }
