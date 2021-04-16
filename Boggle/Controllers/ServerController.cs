@@ -52,7 +52,18 @@ namespace Boggle.Controllers
                     board[i][j] = g.getBoard().getDie(i, j).getUpLetter();
                 }
             }
-            return Json(board);
+
+            List<string> users = new List<string>();
+            foreach(User u in g.getUsers())
+            {
+                users.Add(u.getUsername());
+            }
+
+            return Json(new
+            {
+                board = board,
+                users = users,
+            });
         }
     }
 }
