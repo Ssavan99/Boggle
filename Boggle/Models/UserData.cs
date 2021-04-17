@@ -21,9 +21,17 @@ namespace Boggle.Models
         {
             return guesses;
         }
-        public void addGuess(string guess)
+        public bool addGuess(string guess)
         {
-            guesses.Add(guess);
+            if (!guesses.Contains(guess))
+            {
+                guesses.Add(guess);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public int getScore()

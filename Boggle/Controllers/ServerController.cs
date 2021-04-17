@@ -101,8 +101,8 @@ namespace Boggle.Controllers
             Game g = srv.getGame(gameId);
             if (g == null) return gameIdNotFound;
             User u = new User(username);
-            if (g == null) return usernameNotFound;
             UserData ud = g.getUserData(u);
+            if (ud == null) return usernameNotFound;
             Board b = g.getBoard();
 
             int[,] coords = WordValidationEngine.generateCoordinates(strcoords);
@@ -118,7 +118,10 @@ namespace Boggle.Controllers
             }
 
             word = word.ToLower();
-            ud.addGuess(word);
+            if(!ud.addGuess(word))
+            {
+                return failedMsg("duplicated guess");
+            }
 
             return okMsg;
         }
