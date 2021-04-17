@@ -6,8 +6,8 @@ namespace Boggle.Models
     public class User
     {
         private String username;
-        public List<String> wordsUsed { get; set; }
-        public int score { get; set; }
+        private List<String> wordsUsed;
+        private int score;
 
         public User(String u)
         {
@@ -26,14 +26,25 @@ namespace Boggle.Models
             username = u;
         }
 
+        public List<String> getWordsUsed()
+        {
+            return wordsUsed;
+        }
+
+        public int getScore()
+        {
+            return score;
+        }
+
         public void addWord(String word)
         {
-            wordsUsed.Add(word);
+            if(!isUsed(word))
+                wordsUsed.Add(word);
         }
 
         public void updateScore(int points)
         {
-            score = score + points;
+            score += points;
         }
 
         public bool isUsed(String word)
