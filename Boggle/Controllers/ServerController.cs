@@ -120,7 +120,7 @@ namespace Boggle.Controllers
                 int[,] coords = WordValidationEngine.generateCoordinates(strcoords);
                 if (!WordValidationEngine.isValidInput(coords))
                     return failedMsg("invalid coords");
-                String word = "";
+                string word = "";
                 for (int i = 0; i < coords.GetLength(0); i++)
                 {
                     int r = coords[i, 0];
