@@ -10,13 +10,14 @@ namespace Boggle.Controllers
     public class ServerController : Controller
     {
         private Server srv;
-        private IActionResult gameIdNotFound;
+        private IActionResult gameIdNotFound, usernameNotFound;
         private IActionResult okMsg;
 
         public ServerController()
         {
             srv = Server.getInstance();
             gameIdNotFound = failedMsg("gameid not found");
+            usernameNotFound = failedMsg("username not found");
             okMsg = Json(new { ok = true });
         }
 
@@ -92,6 +93,33 @@ namespace Boggle.Controllers
             {
                 g.addPlayer(u);
             }
+            return okMsg;
+        }
+
+        public IActionResult guess(int gameId, string username, string strcoords)
+        {
+            Game g = srv.getGame(gameId);
+            if (g == null) return gameIdNotFound;
+            User u = new User(username);
+            if (g == null) return usernameNotFound;
+            UserData ud = g.getUserData(u);
+            Board b = g.getBoard();
+
+            int[,] coords = WordValidationEngine.generateCoordinates(strcoords);
+            if (!WordValidationEngine.isValidInput(coords))
+                return failedMsg("invalid coords");
+            String word = "";
+            for (int i = 0; i < coords.GetLength(0); i++)
+            {
+                int r = coords[i, 0];
+                int c = coords[i, 1];
+
+                word += b.getDie(r, c).getUpLetter();
+            }
+
+            word = word.ToLower();
+            ud.addGuess(word);
+
             return okMsg;
         }
     }
