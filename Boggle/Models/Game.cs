@@ -7,23 +7,41 @@ namespace Boggle.Models
 {
     public class Game
     {
+        private int id;
+        private DateTime startTime;
         private Board board;
-        private SortedDictionary<User, int> usersScores;
+        private SortedDictionary<User, UserData> usersData;
 
-        public Game()
+        public Game() : this(0, DateTime.Now)
         {
+        }
+
+        public Game(int id, DateTime startTime)
+        {
+            this.id = id;
+            this.startTime = startTime;
             board = new Board();
-            usersScores = new SortedDictionary<User, int>();
+            usersData = new SortedDictionary<User, UserData>();
+        }
+
+        public int getId()
+        {
+            return id;
+        }
+        public DateTime getStartTime()
+        {
+            return startTime;
         }
 
         public List<User> getUsers()
         {
-            return usersScores.Keys.ToList();
+            return usersData.Keys.ToList();
         }
-        public List<int> getScores()
+        public SortedDictionary<User, UserData> getUsersData()
         {
-            return usersScores.Values.ToList();
+            return usersData;
         }
+
         public Board getBoard()
         {
             return board;
@@ -34,19 +52,33 @@ namespace Boggle.Models
         }
         public int getScoreForUser(User u)
         {
-            return usersScores[u];
+            return usersData[u].getScore();
         }
         public void setScoreOfUser(User u, int score)
         {
-            usersScores[u] = score;
+            usersData[u].setScore(score);
         }
         public void increaseScoreOfUser(User u, int amount)
         {
-            usersScores[u] += amount;
+            usersData[u].addScore(amount);
+        }
+        public bool hasPlayer(User u)
+        {
+            return usersData.ContainsKey(u);
         }
         public void addPlayer(User u)
         {
-            usersScores.Add(u, 0);
+            usersData.Add(u, new UserData());
+        }
+        public UserData getUserData(User u)
+        {
+            if (usersData.ContainsKey(u))
+            {
+                return usersData[u];
+            } else
+            {
+                return null;
+            }
         }
     }
 }
