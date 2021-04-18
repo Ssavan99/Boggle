@@ -39,6 +39,11 @@ namespace Boggle.Models
             return wordsUsed;
         }
 
+        public void setScore(int s)
+        {
+            score = s;
+        }
+
         public int getScore()
         {
             return score;
