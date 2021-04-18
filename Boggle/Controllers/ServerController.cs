@@ -10,7 +10,7 @@ namespace Boggle.Controllers
     public class ServerController : Controller
     {
         private Server srv;
-        private IActionResult gameIdNotFound, invalidUsername, usernameNotFound;
+        private IActionResult gameIdNotFound, invalidUsername, usernameNotFound, gameWasEnded;
         private IActionResult okMsg;
 
         public ServerController()
@@ -19,16 +19,30 @@ namespace Boggle.Controllers
             gameIdNotFound = failedMsg("gameid not found");
             invalidUsername = failedMsg("invalid username");
             usernameNotFound = failedMsg("username not found");
+            gameWasEnded = failedMsg("game was ended");
             okMsg = Json(new { ok = true });
         }
 
-        public IActionResult failedMsg(string m)
+        private IActionResult failedMsg(string m)
         {
             return Json(new
             {
                 ok = true,
                 msg = m
             });
+        }
+        private void calcScores(Game g)
+        {
+
+        }
+        private bool checkIsEnded(Game g)
+        {
+            if(!g.isEnded() && g.getEndTime() > DateTime.Now)
+            {
+                g.setEnded(true);
+                calcScores(g);
+            }
+            return g.isEnded();
         }
 
         public IActionResult Index()
@@ -66,23 +80,27 @@ namespace Boggle.Controllers
                         board[i][j] = g.getBoard().getDie(i, j).getUpLetter();
                     }
                 }
+                bool ended = g.isEnded();
 
+                List<string> users = g.getUsers().Select(u => u.getUsername()).ToList();
                 Dictionary<string, int> userScores = new Dictionary<string, int>();
-                foreach (var p in g.getUsers())
+                Dictionary<string, List<string>> userGuesses = new Dictionary<string, List<string>>();
+                if (ended)
                 {
-                    userScores.Add(p.getUsername(), p.getScore());
+                    foreach (var p in g.getUsers())
+                    {
+                        userScores.Add(p.getUsername(), p.getScore());
+                        userGuesses.Add(p.getUsername(), p.getWordsUsed());
+                    }
                 }
-
-                DateTime endTime = g.getStartTime().AddMinutes(3);
-                DateTime now = DateTime.Now;
-                bool ended = now > endTime;
 
                 return Json(new
                 {
                     board = board,
-                    users = userScores,
+                    users = users,
+                    userScores = userScores,
+                    userGuesses = userGuesses,
                     startTime = g.getStartTime(),
-                    endTime = endTime,
                     ended = ended,
                 });
             }
@@ -94,6 +112,8 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                if (checkIsEnded(g))
+                    return gameWasEnded;
                 if (string.IsNullOrWhiteSpace(username))
                     return invalidUsername;
                 User u = g.getUser(username);
@@ -111,6 +131,8 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                if (checkIsEnded(g))
+                    return gameWasEnded;
                 if (string.IsNullOrWhiteSpace(username))
                     return invalidUsername;
                 User u = g.getUser(username);
@@ -143,5 +165,17 @@ namespace Boggle.Controllers
                 return okMsg;
             }
         }
+
+        public IActionResult endGame(int gameId)
+        {
+            Game g = srv.getGame(gameId);
+            if (g == null) return gameIdNotFound;
+            lock (g)
+            {
+                g.setEnded(true);
+                return okMsg;
+            }
+        }
+
     }
 }

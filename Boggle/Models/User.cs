@@ -5,23 +5,19 @@ using System.Collections.Generic;
 
 namespace Boggle.Models
 {
-    public class User : IComparable<User>
+    public class User
     {
-        private String username;
-        private List<String> wordsUsed;
+        private string username;
+        private List<string> wordsUsed;
+        private List<string> wordsUsedOk;
         private int score;
 
-        public User(String u)
+        public User(string u)
         {
             username = u;
-            wordsUsed = new List<String>();
+            wordsUsed = new List<string>();
+            wordsUsedOk = new List<string>();
             score = 0;
-        }
-
-        public int CompareTo([AllowNull] User other)
-        {
-            if (other == null) return username.CompareTo(null);
-            else return username.CompareTo(other.username);
         }
 
         public String getUsername()
@@ -29,12 +25,12 @@ namespace Boggle.Models
             return username;
         }
 
-        public void setUsername(String u)
+        public void setUsername(string u)
         {
             username = u;
         }
 
-        public List<String> getWordsUsed()
+        public List<string> getWordsUsed()
         {
             return wordsUsed;
         }
@@ -49,7 +45,7 @@ namespace Boggle.Models
             return score;
         }
 
-        public void addWord(String word)
+        public void addWord(string word)
         {
             if(!isUsed(word))
                 wordsUsed.Add(word);
@@ -60,7 +56,7 @@ namespace Boggle.Models
             score += points;
         }
 
-        public bool isUsed(String word)
+        public bool isUsed(string word)
         {
             if (wordsUsed.Contains(word))
             {

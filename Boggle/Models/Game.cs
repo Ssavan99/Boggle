@@ -12,6 +12,9 @@ namespace Boggle.Models
         private Board board;
         private Dictionary<string, User> users;
 
+        private bool ended;
+        private const int gameDurationSec = 3 * 60;
+
         public Game() : this(0, DateTime.Now)
         {
         }
@@ -86,6 +89,20 @@ namespace Boggle.Models
             {
                 return null;
             }
+        }
+
+
+        public void setEnded(bool ended)
+        {
+            this.ended = ended;
+        }
+        public bool isEnded()
+        {
+            return ended;
+        }
+        public DateTime getEndTime()
+        {
+            return startTime.AddSeconds(gameDurationSec);
         }
     }
 }
