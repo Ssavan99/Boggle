@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 
 using System.Collections.Generic;
+using Boggle.Controllers;
 
 namespace Boggle.Models
 {
@@ -20,7 +21,7 @@ namespace Boggle.Models
             score = 0;
         }
 
-        public String getUsername()
+        public string getUsername()
         {
             return username;
         }
@@ -63,6 +64,16 @@ namespace Boggle.Models
                 return true;
             }
             return false;
+        }
+
+        public void addWordUsedOk(string word)
+        {
+            wordsUsedOk.Add(word);
+            updateScore(WordValidationEngine.wordPoints(word));
+        }
+        public List<string> getWordsUsedOk()
+        {
+            return wordsUsedOk;
         }
     }
 }

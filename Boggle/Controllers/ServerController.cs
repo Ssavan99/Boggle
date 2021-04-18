@@ -33,11 +33,29 @@ namespace Boggle.Controllers
         }
         private void calcScores(Game g)
         {
-
+            Dictionary<string, int> freq = new Dictionary<string, int>();
+            foreach (User u in g.getUsers())
+            {
+                foreach (string w in u.getWordsUsed())
+                {
+                    if (freq.ContainsKey(w)) freq[w]++;
+                    else freq[w] = 1;
+                }
+            }
+            foreach (User u in g.getUsers())
+            {
+                foreach (string w in u.getWordsUsed())
+                {
+                    if (WordDictionary.getInstance().IsWord(w) && freq[w] == 1)
+                    {
+                        u.addWordUsedOk(w);
+                    }
+                }
+            }
         }
         private bool checkIsEnded(Game g)
         {
-            if(!g.isEnded() && g.getEndTime() > DateTime.Now)
+            if (!g.isEnded() && g.getEndTime() < DateTime.Now)
             {
                 g.setEnded(true);
                 calcScores(g);
@@ -55,7 +73,7 @@ namespace Boggle.Controllers
             Game g = srv.newGame();
             lock (g)
             {
-                g.getBoard().shakeForNewBoard();
+                //g.getBoard().shakeForNewBoard();
                 return Json(new
                 {
                     ok = true,
@@ -172,7 +190,10 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                if (checkIsEnded(g))
+                    return gameWasEnded;
                 g.setEnded(true);
+                calcScores(g);
                 return okMsg;
             }
         }
