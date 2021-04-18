@@ -10,7 +10,8 @@ namespace Boggle.Models
         private int id;
         private DateTime startTime;
         private Board board;
-        private SortedDictionary<User, UserData> usersData;
+      //  private SortedDictionary<User, UserData> usersData;
+        private List<User> users;
 
         public Game() : this(0, DateTime.Now)
         {
@@ -21,7 +22,8 @@ namespace Boggle.Models
             this.id = id;
             this.startTime = startTime;
             board = new Board();
-            usersData = new SortedDictionary<User, UserData>();
+            users = new List<User>();
+           // usersData = new SortedDictionary<User, UserData>();
         }
 
         public int getId()
@@ -35,13 +37,14 @@ namespace Boggle.Models
 
         public List<User> getUsers()
         {
-            return usersData.Keys.ToList();
+            return users;
         }
+        /*
         public SortedDictionary<User, UserData> getUsersData()
         {
             return usersData;
         }
-
+        */
         public Board getBoard()
         {
             return board;
@@ -52,24 +55,35 @@ namespace Boggle.Models
         }
         public int getScoreForUser(User u)
         {
-            return usersData[u].getScore();
+            return u.getScore();
+            //return usersData[u].getScore();
         }
         public void setScoreOfUser(User u, int score)
         {
-            usersData[u].setScore(score);
+            u.setScore(score);
+        }
+        public List<int> getScores()
+        {
+            List<int> scores = new List<int>();
+            foreach (User user in users)
+            {
+                scores.Add(user.getScore());
+            }
+            return scores;
         }
         public void increaseScoreOfUser(User u, int amount)
         {
-            usersData[u].addScore(amount);
+            u.updateScore(amount);
         }
         public bool hasPlayer(User u)
         {
-            return usersData.ContainsKey(u);
+            return users.Exists(user => user == u);
         }
         public void addPlayer(User u)
         {
-            usersData.Add(u, new UserData());
+            users.Add(u);
         }
+        /*
         public UserData getUserData(User u)
         {
             if (usersData.ContainsKey(u))
@@ -79,6 +93,7 @@ namespace Boggle.Models
             {
                 return null;
             }
-        }
+            users.Add(u);
+        }*/
     }
 }
