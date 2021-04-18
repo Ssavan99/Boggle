@@ -8,6 +8,8 @@ namespace Boggle.Models
 {
     public class WordDictionary
     {
+        private static WordDictionary inst = new WordDictionary();
+
         public List<string> DictionaryWords { get; set ; }
 
         public WordDictionary()
@@ -38,6 +40,11 @@ namespace Boggle.Models
                 return true;
             }
             return false;
+        }
+
+        public static WordDictionary getInstance()
+        {
+            return inst;
         }
     }
 }

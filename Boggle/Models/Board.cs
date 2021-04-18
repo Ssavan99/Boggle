@@ -33,6 +33,11 @@ namespace Boggle.Models
                 { d9, d10, d11, d12 }, { d13, d14, d15, d16 } };
         }
 
+        public int boardSize()
+        {
+            return diceRows;
+        }
+
         public void setDice(Die[,] d)
         {
             dice = d;

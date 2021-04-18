@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+
 using System.Collections.Generic;
 
 namespace Boggle.Models
 {
-    public class User
+    public class User : IComparable<User>
     {
         private String username;
         private List<String> wordsUsed;
@@ -14,6 +16,12 @@ namespace Boggle.Models
             username = u;
             wordsUsed = new List<String>();
             score = 0;
+        }
+
+        public int CompareTo([AllowNull] User other)
+        {
+            if (other == null) return username.CompareTo(null);
+            else return username.CompareTo(other.username);
         }
 
         public String getUsername()
