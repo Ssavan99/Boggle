@@ -62,6 +62,15 @@ namespace Boggle.Models
         {
             u.setScore(score);
         }
+        public List<int> getScores()
+        {
+            List<int> scores = new List<int>();
+            foreach (User user in users)
+            {
+                scores.Add(user.getScore());
+            }
+            return scores;
+        }
         public void increaseScoreOfUser(User u, int amount)
         {
             u.updateScore(amount);

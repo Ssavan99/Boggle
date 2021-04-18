@@ -67,9 +67,9 @@ namespace Boggle.Controllers
                 }
 
                 Dictionary<string, int> userScores = new Dictionary<string, int>();
-                foreach (var p in g.getUsersData())
+                foreach (var p in g.getUsers())
                 {
-                    userScores.Add(p.Key.getUsername(), p.Value.getScore());
+                    userScores.Add(p.getUsername(), p.getScore());
                 }
 
                 DateTime endTime = g.getStartTime().AddMinutes(3);
@@ -113,8 +113,8 @@ namespace Boggle.Controllers
                 if (string.IsNullOrWhiteSpace(username))
                     return failedMsg("invalid username");
                 User u = new User(username);
-                UserData ud = g.getUserData(u);
-                if (ud == null) return usernameNotFound;
+                //UserData ud = g.getUserData(u);
+                if (g.hasPlayer(u)) return usernameNotFound;
                 Board b = g.getBoard();
 
                 int[,] coords = WordValidationEngine.generateCoordinates(strcoords);
@@ -130,9 +130,13 @@ namespace Boggle.Controllers
                 }
 
                 word = word.ToLower();
-                if (!ud.addGuess(word))
+                if (u.isUsed(word))
                 {
                     return failedMsg("duplicated guess");
+                }
+                else
+                {
+                    u.addWord(word);
                 }
 
                 return okMsg;
