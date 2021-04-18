@@ -95,10 +95,10 @@ namespace Boggle.Controllers
             {
                 if (string.IsNullOrWhiteSpace(username))
                     return failedMsg("invalid username");
-                User u = new User(username);
-                if (!g.hasPlayer(u))
+                User u = g.getUser(username);
+                if (u == null)
                 {
-                    g.addPlayer(u);
+                    g.addPlayer(new User(username));
                 }
                 return okMsg;
             }
@@ -112,9 +112,9 @@ namespace Boggle.Controllers
             {
                 if (string.IsNullOrWhiteSpace(username))
                     return failedMsg("invalid username");
-                User u = new User(username);
-                //UserData ud = g.getUserData(u);
-                if (g.hasPlayer(u)) return usernameNotFound;
+                User u = g.getUser(username);
+                if (u == null)
+                    return usernameNotFound;
                 Board b = g.getBoard();
 
                 int[,] coords = WordValidationEngine.generateCoordinates(strcoords);

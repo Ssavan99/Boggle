@@ -10,8 +10,7 @@ namespace Boggle.Models
         private int id;
         private DateTime startTime;
         private Board board;
-      //  private SortedDictionary<User, UserData> usersData;
-        private List<User> users;
+        private Dictionary<string, User> users;
 
         public Game() : this(0, DateTime.Now)
         {
@@ -22,8 +21,7 @@ namespace Boggle.Models
             this.id = id;
             this.startTime = startTime;
             board = new Board();
-            users = new List<User>();
-           // usersData = new SortedDictionary<User, UserData>();
+            users = new Dictionary<string, User>();
         }
 
         public int getId()
@@ -37,14 +35,9 @@ namespace Boggle.Models
 
         public List<User> getUsers()
         {
-            return users;
+            return users.Values.ToList();
         }
-        /*
-        public SortedDictionary<User, UserData> getUsersData()
-        {
-            return usersData;
-        }
-        */
+
         public Board getBoard()
         {
             return board;
@@ -65,7 +58,7 @@ namespace Boggle.Models
         public List<int> getScores()
         {
             List<int> scores = new List<int>();
-            foreach (User user in users)
+            foreach (User user in users.Values)
             {
                 scores.Add(user.getScore());
             }
@@ -77,23 +70,22 @@ namespace Boggle.Models
         }
         public bool hasPlayer(User u)
         {
-            return users.Exists(user => user == u);
+            return users.ContainsKey(u.getUsername());
         }
         public void addPlayer(User u)
         {
-            users.Add(u);
+            users.Add(u.getUsername(), u);
         }
-        /*
-        public UserData getUserData(User u)
+        public User getUser(string username)
         {
-            if (usersData.ContainsKey(u))
+            if (users.ContainsKey(username))
             {
-                return usersData[u];
-            } else
+                return users[username];
+            }
+            else
             {
                 return null;
             }
-            users.Add(u);
-        }*/
+        }
     }
 }
