@@ -10,13 +10,14 @@ namespace Boggle.Controllers
     public class ServerController : Controller
     {
         private Server srv;
-        private IActionResult gameIdNotFound, usernameNotFound;
+        private IActionResult gameIdNotFound, invalidUsername, usernameNotFound;
         private IActionResult okMsg;
 
         public ServerController()
         {
             srv = Server.getInstance();
             gameIdNotFound = failedMsg("gameid not found");
+            invalidUsername = failedMsg("invalid username");
             usernameNotFound = failedMsg("username not found");
             okMsg = Json(new { ok = true });
         }
@@ -94,7 +95,7 @@ namespace Boggle.Controllers
             lock (g)
             {
                 if (string.IsNullOrWhiteSpace(username))
-                    return failedMsg("invalid username");
+                    return invalidUsername;
                 User u = g.getUser(username);
                 if (u == null)
                 {
@@ -111,7 +112,7 @@ namespace Boggle.Controllers
             lock (g)
             {
                 if (string.IsNullOrWhiteSpace(username))
-                    return failedMsg("invalid username");
+                    return invalidUsername;
                 User u = g.getUser(username);
                 if (u == null)
                     return usernameNotFound;
