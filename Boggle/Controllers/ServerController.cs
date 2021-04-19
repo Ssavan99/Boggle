@@ -94,8 +94,7 @@ namespace Boggle.Controllers
                 if (u == null)
                     return usernameNotFound;
 
-                if (checkIsEnded(g))
-                    return gameWasEnded;
+                checkIsEnded(g);
                 int remainingTime = (int)g.getEndTime().Subtract(DateTime.Now).TotalSeconds;
                 bool ended = g.isEnded();
 
