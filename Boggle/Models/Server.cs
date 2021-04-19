@@ -32,7 +32,7 @@ namespace Boggle.Models
                 do id = rnd.Next(1, 1000000);
                 while (games.ContainsKey(id));
 
-                id = 123;
+                //id = 123;
                 Game g = new Game(id, DateTime.Now);
                 games[id] = g;
                 return g;
