@@ -82,12 +82,18 @@ namespace Boggle.Controllers
             }
         }
 
-        public IActionResult getGameState(int gameId)
+        public IActionResult getGameState(int gameId, string username)
         {
             Game g = srv.getGame(gameId);
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                if (string.IsNullOrWhiteSpace(username))
+                    return invalidUsername;
+                User u = g.getUser(username);
+                if (u == null)
+                    return usernameNotFound;
+
                 int sz = g.getBoard().boardSize();
                 string[][] board = new string[sz][];
                 for (int i = 0; i < sz; i++)
@@ -103,17 +109,23 @@ namespace Boggle.Controllers
                 List<string> users = g.getUsers().Select(u => u.getUsername()).ToList();
                 Dictionary<string, int> userScores = new Dictionary<string, int>();
                 Dictionary<string, List<string>> userGuesses = new Dictionary<string, List<string>>();
-                if (ended)
+                foreach (var p in g.getUsers())
                 {
-                    foreach (var p in g.getUsers())
+                    int score = p.getScore();
+                    List<string> wordUsed = p.getWordsUsed();
+                    if (!ended && p.getUsername() != u.getUsername())
                     {
-                        userScores.Add(p.getUsername(), p.getScore());
-                        userGuesses.Add(p.getUsername(), p.getWordsUsed());
+                        // Mask out private data
+                        score = 0;
+                        wordUsed = wordUsed.Select(x => "?").ToList();
                     }
+                    userScores.Add(p.getUsername(), score);
+                    userGuesses.Add(p.getUsername(), wordUsed);
                 }
 
                 return Json(new
                 {
+                    gameId = gameId,
                     board = board,
                     users = users,
                     userScores = userScores,

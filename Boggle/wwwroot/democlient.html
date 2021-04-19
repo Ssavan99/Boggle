@@ -5,7 +5,10 @@
     <title></title>
     <script src="js/jquery/jquery.min.js" type="text/javascript"></script>
     <script>
-        var boggle = {};
+        var boggle = {
+            size: 4,
+            selected: []
+        };
 
         function newGame() {
             return $.ajax({
@@ -26,46 +29,187 @@
             });
         }
 
-        function checkRespErr(resp) {
-            if (!resp.ok) {
-                return $.Deferred().reject(resp.msg);
+        function getGameState() {
+            return $.ajax({
+                url: "/Server/getGameState",
+                dataType: "json",
+                type: "get",
+                data: {
+                    gameId: boggle.gameId,
+                    username: boggle.username
+                }
+            });
+        }
+
+        function guess(coords) {
+            return $.ajax({
+                url: "/Server/guess",
+                dataType: "json",
+                type: "get",
+                data: {
+                    gameId: boggle.gameId,
+                    username: boggle.username,
+                    strcoords: coords
+                }
+            });
+        }
+
+        function initGame(g) {
+            $("#sc_start").hide();
+            $("#sc_game").fadeIn();
+            $("#lbl_gameid").text(g.gameId);
+            $("#lbl_username").text(boggle.username);
+
+            console.log("game state: ", g);
+            fillBoard(g.board);
+        }
+
+        function cell(i, j) {
+            return $("#cell_" + i + j);
+        }
+
+        function fillBoard(board) {
+            for (var i = 0; i < boggle.size; i++) {
+                for (var j = 0; j < boggle.size; j++) {
+                    (function (i, j) {
+                        cell(i, j)
+                            .text(board[i][j])
+                            .click(function () {
+                                boggle.selected.push({ i: i, j: j });
+                                renderSelected();
+                            });
+                    })(i, j);
+                }
             }
         }
+
+        function renderSelected() {
+            for (var i = 0; i < boggle.size; i++) {
+                for (var j = 0; j < boggle.size; j++) {
+                    cell(i, j).css("background-color", "");
+                }
+            }
+            var s = boggle.selected;
+            for (var i = 0; i < s.length; i++) {
+                cell(s[i].i, s[i].j).css("background-color", "lightgreen");
+            }
+        }
+
         $(document).ready(function () {
-            //$("#sc_game").hide();
+            $("#sc_game").hide();
+
             $("#btn_newgame").click(function () {
-                //$("#sc_start").hide();
-                //$("#sc_game").fadeIn();
+                boggle.username = $("#txt_username").val();
                 newGame()
                     .then(function (ngResp) {
                         console.log("new game: ", ngResp);
-                        checkRespErr(ngResp);
+                        if (!ngResp.ok) {
+                            return $.Deferred().reject(ngResp.msg);
+                        }
                         boggle.gameId = ngResp.gameId;
                         return login();
                     })
-                    .done(function (loginResp) {
+                    .then(function (loginResp) {
                         console.log("login: ", loginResp);
-                        checkRespErr(loginResp);
+                        if (!loginResp.ok) {
+                            return $.Deferred().reject(loginResp.msg);
+                        }
                     })
-                    .fail(function (jqxhr, status, err) {
+                    .then(getGameState)
+                    .then(function (stt) {
+                        initGame(stt);
+                    })
+                    .fail(function (err) {
                         alert("Fail: " + err);
+                    });
+            });
+            $("#btn_joingame").click(function () {
+                boggle.gameId = parseInt($("#txt_gameid").val());
+                boggle.username = $("#txt_username").val();
+                login()
+                    .then(function (loginResp) {
+                        console.log("login: ", loginResp);
+                        if (!loginResp.ok) {
+                            return $.Deferred().reject(loginResp.msg);
+                        }
                     })
-                    ;
+                    .then(getGameState)
+                    .then(function (stt) {
+                        initGame(stt);
+                    })
+                    .fail(function (err) {
+                        alert("Fail: " + err);
+                    });
+            });
+
+            $("#btn_guess").click(function () {
+                str = "";
+                var s = boggle.selected;
+                for (var i = 0; i < s.length; i++) {
+                    str += s[i].i.toString() + s[i].j.toString() + " ";
+                }
+                str = str.trim();
+                guess(str).then(function (r) {
+                    if (!r.ok) {
+                        alert(r.msg);
+                    }
+                    $("#btn_resetguess").click();
+                });
+            });
+            $("#btn_resetguess").click(function () {
+                boggle.selected = [];
+                renderSelected();
             });
         });
     </script>
+    <style>
+        #tbl_game button {
+            width: 2.5em;
+        }
+    </style>
 </head>
 <body>
     <div id="sc_start">
-        <input id="txt_gameid" placeholder="Game ID" /><br />
-        <input id="txt_username" placeholder="Username" /><br />
+        <input id="txt_gameid" placeholder="Game ID" value="123" /><br />
+        <input id="txt_username" placeholder="Username" value="hao" /><br />
         <button id="btn_joingame">Join Game</button>
         <button id="btn_newgame">New Game</button>
     </div>
 
     <div id="sc_game">
+        GameID: <span id="lbl_gameid"></span>,
+        Username: <span id="lbl_username"></span>
+
         <table id="tbl_game">
+            <tr>
+                <td><button id="cell_00">?</button></td>
+                <td><button id="cell_01">?</button></td>
+                <td><button id="cell_02">?</button></td>
+                <td><button id="cell_03">?</button></td>
+            </tr>
+            <tr>
+                <td><button id="cell_10">?</button></td>
+                <td><button id="cell_11">?</button></td>
+                <td><button id="cell_12">?</button></td>
+                <td><button id="cell_13">?</button></td>
+            </tr>
+            <tr>
+                <td><button id="cell_20">?</button></td>
+                <td><button id="cell_21">?</button></td>
+                <td><button id="cell_22">?</button></td>
+                <td><button id="cell_23">?</button></td>
+            </tr>
+            <tr>
+                <td><button id="cell_30">?</button></td>
+                <td><button id="cell_31">?</button></td>
+                <td><button id="cell_32">?</button></td>
+                <td><button id="cell_33">?</button></td>
+            </tr>
         </table>
+
+        <br />
+        <button id="btn_guess">Guess</button>
+        <button id="btn_resetguess">Reset</button>
     </div>
 </body>
 </html>
