@@ -54,6 +54,16 @@
             });
         }
 
+        function endGame() {
+            return $.ajax({
+                url: "/Server/endGame",
+                dataType: "json",
+                data: {
+                    gameId: boggle.gameId
+                }
+            });
+        } 
+
         function initGame(g) {
             $("#sc_start").hide();
             $("#sc_game").fadeIn();
@@ -62,6 +72,8 @@
 
             console.log("game state: ", g);
             fillBoard(g.board);
+
+            refreshState(g.gameId, true);
         }
 
         function cell(i, j) {
@@ -93,6 +105,41 @@
             for (var i = 0; i < s.length; i++) {
                 cell(s[i].i, s[i].j).css("background-color", "lightgreen");
             }
+        }
+
+        function refreshState(gameid, auto) {
+            if (boggle.gameId != gameid) return;
+
+            getGameState().then(function (g) {
+                console.log("= refresh: ", g);
+                if (!g.ok) {
+                    alert("fail to refresh game state: " + g.msg);
+                    return;
+                }
+
+                var tbody = $("#tbl_scoreboard tbody");
+                tbody.html("");
+                for (var i = 0; i < g.users.length; i++) {
+                    var u = g.users[i];
+                    var tr = $("<tr/>");
+                    $("<td/>").text(u).appendTo(tr);
+                    $("<td/>").text(g.ended ? g.userScores[u] : "?").appendTo(tr);
+                    $("<td/>").text(g.userGuesses[u]).appendTo(tr);
+                    $("<td/>").text(g.userGuessesOk[u]).appendTo(tr);
+                    tbody.append(tr);
+                }
+
+                if (g.ended) {
+                    $("#lbl_ended").show();
+                } else {
+                    $("#lbl_ended").hide();
+                }
+                if (auto && !g.ended) {
+                    setTimeout(function () {
+                        refreshState(gameid, true);
+                    }, 1000);
+                }
+            })
         }
 
         $(document).ready(function () {
@@ -154,11 +201,18 @@
                         alert(r.msg);
                     }
                     $("#btn_resetguess").click();
+                    refreshState(boggle.gameId);
                 });
             });
             $("#btn_resetguess").click(function () {
                 boggle.selected = [];
                 renderSelected();
+            });
+
+            $("#btn_endgame").click(function () {
+                endGame().then(function () {
+                    refreshState(boggle.gameId);
+                })
             });
         });
     </script>
@@ -170,16 +224,18 @@
 </head>
 <body>
     <div id="sc_start">
-        <input id="txt_gameid" placeholder="Game ID" value="123" /><br />
-        <input id="txt_username" placeholder="Username" value="hao" /><br />
+        <input id="txt_gameid" placeholder="Game ID" value="" /><br />
+        <input id="txt_username" placeholder="Username" value="" /><br />
         <button id="btn_joingame">Join Game</button>
         <button id="btn_newgame">New Game</button>
     </div>
 
     <div id="sc_game">
         GameID: <span id="lbl_gameid"></span>,
-        Username: <span id="lbl_username"></span>
+        Username: <span id="lbl_username"></span>,
+        <span id="lbl_ended"><b>Game is ended</b></span>
 
+        <br />
         <table id="tbl_game">
             <tr>
                 <td><button id="cell_00">?</button></td>
@@ -210,6 +266,21 @@
         <br />
         <button id="btn_guess">Guess</button>
         <button id="btn_resetguess">Reset</button>
+        <button id="btn_endgame">End Game</button>
+
+        <br /><br /><br />
+        <table id="tbl_scoreboard" border="1">
+            <thead>
+                <tr>
+                    <td>Username</td>
+                    <td>Score</td>
+                    <td>Guesses</td>
+                    <td>Correct</td>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

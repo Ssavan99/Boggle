@@ -109,27 +109,36 @@ namespace Boggle.Controllers
                 List<string> users = g.getUsers().Select(u => u.getUsername()).ToList();
                 Dictionary<string, int> userScores = new Dictionary<string, int>();
                 Dictionary<string, List<string>> userGuesses = new Dictionary<string, List<string>>();
+                Dictionary<string, List<string>> userGuessesOk = new Dictionary<string, List<string>>();
                 foreach (var p in g.getUsers())
                 {
                     int score = p.getScore();
                     List<string> wordUsed = p.getWordsUsed();
+                    List<string> wordUsedOk = p.getWordsUsedOk();
                     if (!ended && p.getUsername() != u.getUsername())
                     {
                         // Mask out private data
                         score = 0;
                         wordUsed = wordUsed.Select(x => "?").ToList();
                     }
+                    if (!ended)
+                    {
+                        wordUsedOk = new List<string>();
+                    }
                     userScores.Add(p.getUsername(), score);
                     userGuesses.Add(p.getUsername(), wordUsed);
+                    userGuessesOk.Add(p.getUsername(), wordUsedOk);
                 }
 
                 return Json(new
                 {
+                    ok = true,
                     gameId = gameId,
                     board = board,
                     users = users,
                     userScores = userScores,
                     userGuesses = userGuesses,
+                    userGuessesOk = userGuessesOk,
                     startTime = g.getStartTime(),
                     ended = ended,
                 });
