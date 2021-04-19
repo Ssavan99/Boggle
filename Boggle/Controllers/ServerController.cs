@@ -94,6 +94,11 @@ namespace Boggle.Controllers
                 if (u == null)
                     return usernameNotFound;
 
+                if (checkIsEnded(g))
+                    return gameWasEnded;
+                int remainingTime = (int)g.getEndTime().Subtract(DateTime.Now).TotalSeconds;
+                bool ended = g.isEnded();
+
                 int sz = g.getBoard().boardSize();
                 string[][] board = new string[sz][];
                 for (int i = 0; i < sz; i++)
@@ -104,7 +109,6 @@ namespace Boggle.Controllers
                         board[i][j] = g.getBoard().getDie(i, j).getUpLetter();
                     }
                 }
-                bool ended = g.isEnded();
 
                 List<string> users = g.getUsers().Select(u => u.getUsername()).ToList();
                 Dictionary<string, int> userScores = new Dictionary<string, int>();
@@ -141,6 +145,7 @@ namespace Boggle.Controllers
                     userGuessesOk = userGuessesOk,
                     startTime = g.getStartTime(),
                     ended = ended,
+                    remainingTime = remainingTime,
                 });
             }
         }
