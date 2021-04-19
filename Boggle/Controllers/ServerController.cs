@@ -27,7 +27,7 @@ namespace Boggle.Controllers
         {
             return Json(new
             {
-                ok = true,
+                ok = false,
                 msg = m
             });
         }

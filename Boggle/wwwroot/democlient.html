@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="js/jquery/jquery.min.js" type="text/javascript"></script>
+    <script>
+        var boggle = {};
+
+        function newGame() {
+            return $.ajax({
+                url: "/Server/newGame",
+                dataType: "json",
+            });
+        }
+
+        function login() {
+            return $.ajax({
+                url: "/Server/login",
+                dataType: "json",
+                type: "get",
+                data: {
+                    gameId: boggle.gameId,
+                    username: boggle.username
+                }
+            });
+        }
+
+        function checkRespErr(resp) {
+            if (!resp.ok) {
+                return $.Deferred().reject(resp.msg);
+            }
+        }
+        $(document).ready(function () {
+            //$("#sc_game").hide();
+            $("#btn_newgame").click(function () {
+                //$("#sc_start").hide();
+                //$("#sc_game").fadeIn();
+                newGame()
+                    .then(function (ngResp) {
+                        console.log("new game: ", ngResp);
+                        checkRespErr(ngResp);
+                        boggle.gameId = ngResp.gameId;
+                        return login();
+                    })
+                    .done(function (loginResp) {
+                        console.log("login: ", loginResp);
+                        checkRespErr(loginResp);
+                    })
+                    .fail(function (jqxhr, status, err) {
+                        alert("Fail: " + err);
+                    })
+                    ;
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="sc_start">
+        <input id="txt_gameid" placeholder="Game ID" /><br />
+        <input id="txt_username" placeholder="Username" /><br />
+        <button id="btn_joingame">Join Game</button>
+        <button id="btn_newgame">New Game</button>
+    </div>
+
+    <div id="sc_game">
+        <table id="tbl_game">
+        </table>
+    </div>
+</body>
+</html>
