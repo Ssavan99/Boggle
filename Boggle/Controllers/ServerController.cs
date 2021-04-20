@@ -160,6 +160,11 @@ namespace Boggle.Controllers
                 if (string.IsNullOrWhiteSpace(username))
                     return invalidUsername;
                 User u = g.getUser(username);
+                if (g.isUsernameUsed(u, username))
+                {
+                    return failedMsg("Username already used");
+                }
+
                 if (u == null)
                 {
                     g.addPlayer(new User(username));
