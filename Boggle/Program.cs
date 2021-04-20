@@ -15,9 +15,9 @@ namespace Boggle
         {
             User u = new User("Eylon");
             GameController gc = new GameController();
-            //gc.runGame(u);
+            gc.runGame(u);
 
-            CreateHostBuilder(args).Build().Run();
+            //CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
