@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 
 namespace Boggle.Models
 {
@@ -89,6 +90,16 @@ namespace Boggle.Models
             {
                 return null;
             }
+        }
+
+        public bool isUsernameUsed(User u, string username)
+        {
+            if (users.ContainsKey(username))
+            {
+                return true;
+            }
+
+            return false;
         }
 
 
