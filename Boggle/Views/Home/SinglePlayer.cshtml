@@ -124,7 +124,6 @@
     <div id="board">
         <div class="row">
             <div class="boggle">
-                <!--<span>@Html.Label(b.getDie(0, 0).getUpLetter())</span>-->
                 <button type="button" id="00Button" value="00" class="boggle" onclick="addCoords(this.value); addLetter(this.id);">@Html.Label(b.getDie(0, 0).getUpLetter())</button>
             </div>
             <div class="boggle">
@@ -139,7 +138,6 @@
         </div>
         <div class="row">
             <div class="boggle">
-            <!-- <span>@Html.Label(b.getDie(1, 0).getUpLetter())</span> -->
                 <button type="button" id="10Button" value="10" class="boggle" onclick="addCoords(this.value); addLetter(this.id);">@Html.Label(b.getDie(1, 0).getUpLetter())</button>
             </div>
             <div class="boggle">
@@ -186,7 +184,7 @@
         <form action="" method="post">
             <label for="input-word"><strong>Current Word</strong></label><br>
 
-            <!--<button type="button" id="updateButton" class="btn btn-primary" onclick=" coordsClear();">Submit Word</button>-->
+            
         </form>
         <input type="text" id="inputWord" name="input-word">
         <input type="text" id="inputCoords" name="inputCoords" value="" />
@@ -247,17 +245,17 @@
         margin: 5px;
     }
 
-        .boggle.selected {
-            background-color: #ACCEEC;
-        }
+    .boggle.selected {
+        background-color: #ACCEEC;
+    }
 
-        .boggle span {
-            font-weight: bold;
-            display: block;
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%);
-        }
+    .boggle span {
+        font-weight: bold;
+        display: block;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
     #submit-word {
         background-color: aqua;
@@ -279,13 +277,13 @@
         text-align: left;
     }
 
-        #p1-score-table td, #p1-score-table th {
-            border: 5px solid #FFCA08;
-            background-color: white;
-            padding: 5px;
-        }
+    #p1-score-table td, #p1-score-table th {
+        border: 5px solid #FFCA08;
+        background-color: white;
+        padding: 5px;
+    }
 
-        #p1-score-table tr#footer td {
-            background-color: #ACCEEC;
-        }
+    #p1-score-table tr#footer td {
+        background-color: #ACCEEC;
+    }
 </style>
