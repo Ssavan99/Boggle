@@ -32,8 +32,15 @@ namespace Boggle.Controllers
 
             if (dict.IsWord(word))
             {
+                if (u.isUsed(word))
+                {
+                    Console.WriteLine("You have used the word!");
+                    return null;
+                }
                 int points = WordValidationEngine.wordPoints(word);
-                increaseModelScore(u, points);
+                u.addWord(word);
+                u.updateScore(points);
+                //increaseModelScore(u, points);
                 //update view score according to model score
             }
 
@@ -54,6 +61,7 @@ namespace Boggle.Controllers
             }
 
             word = word.ToLower();
+
             return word;
         }
 
@@ -82,6 +90,7 @@ namespace Boggle.Controllers
             //    }
             //}
             game.addPlayer(u);
+            //game.getBoard().shakeForNewBoard();
             running = true;
             while (running)
             {
@@ -98,16 +107,16 @@ namespace Boggle.Controllers
         }
 
         //increases the score of a user in the model by an amount
-        public void increaseModelScore(User u, int amount)
-        {
-            game.increaseScoreOfUser(u, amount);
-        }
-
+        //public void increaseModelScore(User u, int amount)
+        //{
+          //  game.increaseScoreOfUser(u, amount);
+        //}
+        /*
         public void setModelScore(User u, int score)
         {
             game.setScoreOfUser(u, score);
         }
-
+        */
         public void setViewScore(User u, int score)
         {
             throw new NotImplementedException();

@@ -2,28 +2,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 
 namespace Boggle.Models
 {
     public class Game
     {
+        private int id;
+        private DateTime startTime;
         private Board board;
-        private SortedDictionary<User, int> usersScores;
+        private Dictionary<string, User> users;
 
-        public Game()
+        private bool ended;
+        private const int gameDurationSec = 3 * 60;
+
+        public Game() : this(0, DateTime.Now)
         {
+        }
+
+        public Game(int id, DateTime startTime)
+        {
+            this.id = id;
+            this.startTime = startTime;
             board = new Board();
-            usersScores = new SortedDictionary<User, int>();
+            users = new Dictionary<string, User>();
+        }
+
+        public int getId()
+        {
+            return id;
+        }
+        public DateTime getStartTime()
+        {
+            return startTime;
         }
 
         public List<User> getUsers()
         {
-            return usersScores.Keys.ToList();
+            return users.Values.ToList();
         }
-        public List<int> getScores()
-        {
-            return usersScores.Values.ToList();
-        }
+
         public Board getBoard()
         {
             return board;
@@ -34,19 +52,68 @@ namespace Boggle.Models
         }
         public int getScoreForUser(User u)
         {
-            return usersScores[u];
+            return u.getScore();
+            //return usersData[u].getScore();
         }
         public void setScoreOfUser(User u, int score)
         {
-            usersScores[u] = score;
+            u.setScore(score);
+        }
+        public List<int> getScores()
+        {
+            List<int> scores = new List<int>();
+            foreach (User user in users.Values)
+            {
+                scores.Add(user.getScore());
+            }
+            return scores;
         }
         public void increaseScoreOfUser(User u, int amount)
         {
-            usersScores[u] += amount;
+            u.updateScore(amount);
+        }
+        public bool hasPlayer(User u)
+        {
+            return users.ContainsKey(u.getUsername());
         }
         public void addPlayer(User u)
         {
-            usersScores.Add(u, 0);
+            users.Add(u.getUsername(), u);
+        }
+        public User getUser(string username)
+        {
+            if (users.ContainsKey(username))
+            {
+                return users[username];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public bool isUsernameUsed(User u, string username)
+        {
+            if (users.ContainsKey(username))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public void setEnded(bool ended)
+        {
+            this.ended = ended;
+        }
+        public bool isEnded()
+        {
+            return ended;
+        }
+        public DateTime getEndTime()
+        {
+            return startTime.AddSeconds(gameDurationSec);
         }
     }
 }
