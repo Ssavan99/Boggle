@@ -23,11 +23,12 @@ namespace Boggle.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult SinglePlayer(string firstName)
+        public IActionResult Democlient()
         {
             return View();
         }
+
+
 
         public IActionResult Privacy()
         {

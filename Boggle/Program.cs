@@ -17,7 +17,7 @@ namespace Boggle
             GameController gc = new GameController();
             //gc.runGame(u);
 
-            //CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

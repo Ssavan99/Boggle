@@ -73,7 +73,7 @@ namespace Boggle.Controllers
             Game g = srv.newGame();
             lock (g)
             {
-                //g.getBoard().shakeForNewBoard();
+                g.getBoard().shakeForNewBoard();
                 return Json(new
                 {
                     ok = true,
