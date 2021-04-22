@@ -115,5 +115,18 @@ namespace Boggle.Models
         {
             return startTime.AddSeconds(gameDurationSec);
         }
+
+        public void resetGame()
+        {
+            //store all user:score pairs in gameLog
+
+            foreach(User u in users.Values)
+            {
+                u.setScore(0);
+            }
+            board.shakeForNewBoard();
+            ended = false;
+            startTime = DateTime.Now;
+        }
     }
 }
