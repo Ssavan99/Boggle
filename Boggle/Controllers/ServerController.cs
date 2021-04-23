@@ -228,5 +228,16 @@ namespace Boggle.Controllers
             }
         }
 
+        public IActionResult resetGame(int gameId)
+        {
+            Game g = srv.getGame(gameId);
+            if (g == null) return gameIdNotFound;
+            lock (g)
+            {
+                g.resetGame();
+                return okMsg;
+            }
+        }
+
     }
 }

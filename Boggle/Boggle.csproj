@@ -9,7 +9,6 @@
     <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'IIS Express' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Console' " />
   <ItemGroup>
     <None Remove="Views\Home\democlient.html" />

@@ -64,6 +64,16 @@
             });
         }
 
+        function resetGame() {
+            return $.ajax({
+                url: "/Server/resetGame",
+                dataType: "json",
+                data: {
+                    gameId: boggle.gameId
+                }
+            });
+        }
+
         function initGame(g) {
             $("#sc_start").hide();
             $("#sc_game").fadeIn();
