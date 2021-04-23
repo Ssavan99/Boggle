@@ -75,5 +75,11 @@ namespace Boggle.Models
         {
             return wordsUsedOk;
         }
+
+        public void emptyWordLists()
+        {
+            wordsUsed.Clear();
+            wordsUsedOk.Clear();
+        }
     }
 }

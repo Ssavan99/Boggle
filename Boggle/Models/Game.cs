@@ -12,7 +12,7 @@ namespace Boggle.Models
         private DateTime startTime;
         private Board board;
         private Dictionary<string, User> users;
-
+        private List<Dictionary<string, int>> gameLog;
         private bool ended;
         private const int gameDurationSec = 3 * 60;
 
@@ -26,6 +26,7 @@ namespace Boggle.Models
             this.startTime = startTime;
             board = new Board();
             users = new Dictionary<string, User>();
+            gameLog = new List<Dictionary<string, int>>();
         }
 
         public int getId()
@@ -118,11 +119,18 @@ namespace Boggle.Models
 
         public void resetGame()
         {
-            //store all user:score pairs in gameLog
 
+            //store all user:score pairs in gameLog
+            Dictionary<string, int> gameScores = new Dictionary<string, int>();
+            foreach(string u in users.Keys)
+            {
+                gameScores[u] = users[u].getScore();
+            }
+            gameLog.Add(gameScores);
             foreach(User u in users.Values)
             {
                 u.setScore(0);
+                u.emptyWordLists();
             }
             board.shakeForNewBoard();
             ended = false;
