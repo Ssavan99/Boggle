@@ -38,6 +38,11 @@ namespace Boggle.Models
             return startTime;
         }
 
+        public void resetTimer()
+        {
+            startTime = DateTime.Now;
+        }
+
         public List<User> getUsers()
         {
             return users.Values.ToList();

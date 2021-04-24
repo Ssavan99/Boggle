@@ -82,6 +82,16 @@ namespace Boggle.Controllers
             }
         }
 
+        public IActionResult startGame(int gameId)
+        {
+            Game g = srv.getGame(gameId);
+            lock (g)
+            {
+                g.resetTimer();
+                return okMsg;
+            }
+        }
+
         public IActionResult getGameState(int gameId, string username)
         {
             Game g = srv.getGame(gameId);

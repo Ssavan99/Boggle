@@ -16,6 +16,16 @@
             });
         }
 
+        function startGame() {
+            return $.ajax({
+                url: "/Server/startGame",
+                dataType: "json",
+                data: {
+                    gameId: boggle.gameId
+                }
+            });
+        }
+
         function login() {
             return $.ajax({
                 url: "/Server/login",
@@ -78,6 +88,8 @@
             $("#sc_lobby").hide();
             $("#sc_game").fadeIn();
             $("#lbl_username").text(boggle.username);
+
+            startGame(g);
 
             console.log("game state: ", g);
             fillBoard(g.board);
