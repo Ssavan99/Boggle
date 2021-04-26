@@ -5,27 +5,15 @@
 
 function initGame(g) {
     $("#sc_start").hide();
-    $("#sc_lobby").hide();
-    $("#sc_game").fadeIn();
+    $("#sc_lobby").fadeIn();
+    $("#sc_game").hide();
+    $("#lbl_gameid").text(g.gameId);
     $("#lbl_username").text(boggle.username);
-
-    startGame(g);
 
     console.log("game state: ", g);
     fillBoard(g.board);
 
     refreshState(g.gameId, true);
-}
-
-function initLobby(g) {
-    $("#lbl_gameid").text(g.gameId);
-    $("#sc_start").hide();
-    $("#sc_lobby").fadeIn();
-}
-
-function initStart() {
-    $("#sc_lobby").hide();
-    $("#sc_start").fadeIn();
 }
 
 function cell(i, j) {
@@ -79,7 +67,7 @@ function renderSelected() {
 }
 
 function refreshState(gameid, auto) {
-    if (boggle.gameId != gameid) return;
+    if (boggle.gameId !== gameid) return;
 
     getGameState().then(function (g) {
         console.log("= refresh: ", g);
@@ -87,25 +75,42 @@ function refreshState(gameid, auto) {
             alert("fail to refresh game state: " + g.msg);
             return;
         }
+        ended = (g.state === 2);
+        if (g.state === 0) { // Lobby
+            $("#sc_lobby").show();
+            $("#sc_game").hide();
 
-        var tbody = $("#tbl_scoreboard tbody");
-        tbody.html("");
-        for (var i = 0; i < g.users.length; i++) {
-            var u = g.users[i];
-            var tr = $("<tr/>");
-            $("<td/>").text(u).appendTo(tr);
-            $("<td/>").text(g.ended ? g.userScores[u] : "?").appendTo(tr);
-            $("<td/>").text(g.userGuesses[u]).appendTo(tr);
-            $("<td/>").text(g.userGuessesOk[u]).appendTo(tr);
-            tbody.append(tr);
+            var str = "";
+            for (var i = 0; i < g.users.length; i++) {
+                if (i > 0)
+                    str += ", ";
+                str += g.users[i];
+            }
+            $("#lbl_members").text(str);
+        } else { // Playing/Ended
+            $("#sc_lobby").hide();
+            $("#sc_game").show();
+
+            var tbody = $("#tbl_scoreboard tbody");
+            tbody.html("");
+            for (var i = 0; i < g.users.length; i++) {
+                var u = g.users[i];
+                var tr = $("<tr/>");
+                $("<td/>").text(u).appendTo(tr);
+                $("<td/>").text(ended ? g.userScores[u] : "?").appendTo(tr);
+                $("<td/>").text(g.userGuesses[u]).appendTo(tr);
+                $("<td/>").text(g.userGuessesOk[u]).appendTo(tr);
+                tbody.append(tr);
+            }
+
+            if (ended) {
+                $("#lbl_time").html("<b>Game is ended</b>");
+            } else {
+                $("#lbl_time").text(g.remainingTime + " s");
+            }
         }
 
-        if (g.ended) {
-            $("#lbl_time").html("<b>Game is ended</b>");
-        } else {
-            $("#lbl_time").text(g.remainingTime + " s");
-        }
-        if (auto && !g.ended) {
+        if (auto && !ended) {
             setTimeout(function () {
                 refreshState(gameid, true);
             }, 500);

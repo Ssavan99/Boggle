@@ -8,12 +8,17 @@ namespace Boggle.Models
 {
     public class Game
     {
+        public enum State
+        {
+            Lobby, Playing, Ended
+        }
+
         private int id;
         private DateTime startTime;
         private Board board;
         private Dictionary<string, User> users;
         private List<Dictionary<string, int>> gameLog;
-        private bool ended;
+        private State state;
         private const int gameDurationSec = 3 * 60;
 
         public Game() : this(0, DateTime.Now)
@@ -27,6 +32,7 @@ namespace Boggle.Models
             board = new Board();
             users = new Dictionary<string, User>();
             gameLog = new List<Dictionary<string, int>>();
+            state = State.Lobby;
         }
 
         public int getId()
@@ -113,13 +119,13 @@ namespace Boggle.Models
         }
 
 
-        public void setEnded(bool ended)
+        public void setState(State state)
         {
-            this.ended = ended;
+            this.state = state;
         }
-        public bool isEnded()
+        public State getState()
         {
-            return ended;
+            return state;
         }
         public DateTime getEndTime()
         {
@@ -141,7 +147,7 @@ namespace Boggle.Models
                 u.emptyWordLists();
             }
             board.shakeForNewBoard();
-            ended = false;
+            state = State.Lobby;
             startTime = DateTime.Now;
         }
     }
