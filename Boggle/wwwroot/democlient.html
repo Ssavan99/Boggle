@@ -131,14 +131,6 @@
                         cell(i, j)
                             .text(board[i][j])
                             .click(function () {
-                                var repeat = 0;
-                                for (var l = 0; l < boggle.selected.length - 1; l++) {
-                                    if (boggle.selected[l].i == i && boggle.selected[l].j == j) {
-                                        repeat = 1;
-                                    }
-                                }
-                                //only if no repeating click
-                                if (repeat == 0) {
                                     if (boggle.selected.length > 0) {
                                         if (boggle.selected[boggle.selected.length - 1].i == i && boggle.selected[boggle.selected.length - 1].j == j) {
                                             //deselecting the last letter
@@ -151,8 +143,7 @@
                                     } else {    //first one stored as it is
                                         boggle.selected.push({ i: i, j: j });
                                         renderSelected();
-                                    }
-                                }   
+                                    }   
                             });
                     })(i, j);
                 }
