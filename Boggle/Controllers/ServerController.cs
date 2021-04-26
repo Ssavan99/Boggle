@@ -183,6 +183,17 @@ namespace Boggle.Controllers
             }
         }
 
+        public IActionResult removePlayer(int gameId, string username)
+        {
+            Game g = srv.getGame(gameId);
+            lock (g)
+            {
+                User u = g.getUser(username);
+                g.removePlayer(u);
+                return okMsg;
+            }
+        }
+
         public IActionResult guess(int gameId, string username, string strcoords)
         {
             Game g = srv.getGame(gameId);

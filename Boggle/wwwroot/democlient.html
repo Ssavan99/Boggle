@@ -38,6 +38,18 @@
             });
         }
 
+        function removePlayer() {
+            return $.ajax({
+                url: "/Server/removePlayer",
+                dataType: "json",
+                type: "get",
+                data: {
+                    gameId: boggle.gameId,
+                    username: boggle.username
+                }
+            });
+        }
+
         function getGameState() {
             return $.ajax({
                 url: "/Server/getGameState",
@@ -197,7 +209,6 @@
                     })
                     .then(getGameState)
                     .then(function (stt) {
-                        //initGame(stt);
                         initLobby(stt);
                     })
                     .fail(function (err) {
@@ -213,6 +224,8 @@
             $("#btn_leavelobby").click(function () {
                 //CODE TO BE ADDED
                 //remove player from game
+                removePlayer();
+
                 initStart();
             });
 

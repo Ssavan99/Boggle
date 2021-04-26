@@ -86,6 +86,10 @@ namespace Boggle.Models
         {
             users.Add(u.getUsername(), u);
         }
+        public void removePlayer(User u)
+        {
+            users.Remove(u.getUsername());
+        }
         public User getUser(string username)
         {
             if (users.ContainsKey(username))
