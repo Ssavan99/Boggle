@@ -21,7 +21,7 @@
             })
             .then(getGameState)
             .then(function (stt) {
-                initLobby(stt);
+                initGame(stt);
             })
             .fail(function (err) {
                 alert("Fail: " + err);
@@ -29,16 +29,13 @@
     });
 
     $("#btn_startgame").click(function () {
-        getGameState()
-            .then(initGame);
+        startGame();
     });
 
     $("#btn_leavelobby").click(function () {
         //CODE TO BE ADDED
         //remove player from game
         removePlayer();
-
-        initStart();
     });
 
     $("#btn_joingame").click(function () {
@@ -53,7 +50,7 @@
             })
             .then(getGameState)
             .then(function (stt) {
-                initLobby(stt);
+                initGame(stt);
             })
             .fail(function (err) {
                 alert("Fail: " + err);
