@@ -29,7 +29,9 @@
     });
 
     $("#btn_startgame").click(function () {
-        startGame();
+        startGame().then(function () {
+            $("#sc_lobby").hide();
+        });
     });
 
     $("#btn_leavelobby").click(function () {

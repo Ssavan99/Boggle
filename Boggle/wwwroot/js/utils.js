@@ -79,6 +79,14 @@ function refreshState(gameid, auto) {
         if (g.state === 0) { // Lobby
             $("#sc_lobby").show();
             $("#sc_game").hide();
+
+            var str = "";
+            for (var i = 0; i < g.users.length; i++) {
+                if (i > 0)
+                    str += ", ";
+                str += g.users[i];
+            }
+            $("#lbl_members").text(str);
         } else { // Playing/Ended
             $("#sc_lobby").hide();
             $("#sc_game").show();
