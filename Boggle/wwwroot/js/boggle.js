@@ -30,14 +30,16 @@
 
     $("#btn_startgame").click(function () {
         startGame().then(function () {
-            $("#sc_lobby").hide();
+            refreshState(g.gameId);
         });
     });
 
     $("#btn_leavelobby").click(function () {
         //CODE TO BE ADDED
         //remove player from game
-        removePlayer();
+        var gameId = boggle.gameId;
+        backToStartScreen();
+        removePlayer(gameId);
     });
 
     $("#btn_joingame").click(function () {
