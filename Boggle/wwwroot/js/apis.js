@@ -24,9 +24,9 @@ function login() {
     });
 }
 
-function removePlayer() {
+function removePlayer(gameid) {
     return ajaxReq("/Server/removePlayer", {
-        gameId: boggle.gameId,
+        gameId: gameid,
         username: boggle.username
     });
 }

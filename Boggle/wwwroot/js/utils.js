@@ -3,6 +3,13 @@
     selected: []
 };
 
+function backToStartScreen() {
+    boggle.gameId = -1;
+    $("#sc_lobby").hide();
+    $("#sc_game").fadeOut();
+    $("#sc_start").fadeIn();
+}
+
 function initGame(g) {
     $("#sc_start").hide();
     $("#sc_lobby").fadeIn();
@@ -67,9 +74,17 @@ function renderSelected() {
 }
 
 function refreshState(gameid, auto) {
-    if (boggle.gameId !== gameid) return;
+    if (boggle.gameId !== gameid) {
+        console.log("stop refresh state");
+        return;
+    }
 
     getGameState().then(function (g) {
+        if (boggle.gameId !== gameid) {
+            console.log("stop refresh state");
+            return;
+        }
+
         console.log("= refresh: ", g);
         if (!g.ok) {
             alert("fail to refresh game state: " + g.msg);
