@@ -55,12 +55,12 @@ namespace Boggle.Controllers
         }
         private bool checkIsEnded(Game g)
         {
-            if (!g.isEnded() && g.getEndTime() < DateTime.Now)
+            if (g.getState() == Game.State.Playing && g.getEndTime() < DateTime.Now)
             {
-                g.setEnded(true);
+                g.setState(Game.State.Ended);
                 calcScores(g);
             }
-            return g.isEnded();
+            return g.getState() == Game.State.Ended;
         }
 
         public IActionResult Index()
@@ -88,6 +88,7 @@ namespace Boggle.Controllers
             lock (g)
             {
                 g.resetTimer();
+                g.setState(Game.State.Playing);
                 return okMsg;
             }
         }
@@ -106,7 +107,7 @@ namespace Boggle.Controllers
 
                 checkIsEnded(g);
                 int remainingTime = (int)g.getEndTime().Subtract(DateTime.Now).TotalSeconds;
-                bool ended = g.isEnded();
+                bool ended = g.getState() == Game.State.Ended;
 
                 int sz = g.getBoard().boardSize();
                 string[][] board = new string[sz][];
@@ -153,7 +154,7 @@ namespace Boggle.Controllers
                     userGuesses = userGuesses,
                     userGuessesOk = userGuessesOk,
                     startTime = g.getStartTime(),
-                    ended = ended,
+                    state = g.getState(),
                     remainingTime = remainingTime,
                 });
             }
@@ -243,7 +244,7 @@ namespace Boggle.Controllers
             {
                 if (checkIsEnded(g))
                     return gameWasEnded;
-                g.setEnded(true);
+                g.setState(Game.State.Ended);
                 calcScores(g);
                 return okMsg;
             }
