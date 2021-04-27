@@ -14,7 +14,7 @@ function initGame(g) {
     $("#sc_start").hide();
     $("#sc_lobby").fadeIn();
     $("#sc_game").hide();
-    $("#lbl_gameid").text(g.gameId);
+    $(".cls_gameid").text(g.gameId);
     $("#lbl_username").text(boggle.username);
 
     console.log("game state: ", g);
