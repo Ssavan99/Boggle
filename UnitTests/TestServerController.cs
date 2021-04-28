@@ -15,26 +15,9 @@ namespace UnitTests
         private Dictionary<int, Game> games;
         public TestServerController()
         {
-            //srv = Server.getInstance();
             okMsg = Json(new { ok = true });
             games = new Dictionary<int, Game>();
         }
-
-        /*[TestMethod]
-        public void newGameTest()
-        {
-            ServerController controller1 = new ServerController();
-            Server server = new Server();
-
-            var game1 = controller1.newGame();
-            
-
-            Assert.AreEqual(game1, Json(new
-            {
-                ok = true,
-                gameId = controller1.getServer().
-            }));
-        }*/
 
 
         [TestMethod]
