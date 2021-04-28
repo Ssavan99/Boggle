@@ -23,6 +23,11 @@ namespace Boggle.Controllers
             okMsg = Json(new { ok = true });
         }
 
+        public Server getServer()
+        {
+            return srv;
+        }
+
         private IActionResult failedMsg(string m)
         {
             return Json(new
@@ -258,6 +263,11 @@ namespace Boggle.Controllers
                 g.resetGame();
                 return okMsg;
             }
+        }
+
+        public IActionResult okMessage()
+        {
+            return okMsg;
         }
 
     }
