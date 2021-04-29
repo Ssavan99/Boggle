@@ -55,6 +55,7 @@ function fillBoard(board) {
             (function (i, j) {
                 cell(i, j)
                     .text(board[i][j])
+                    .off('click')
                     .click(function () { cellClick(i, j); });
             })(i, j);
         }
