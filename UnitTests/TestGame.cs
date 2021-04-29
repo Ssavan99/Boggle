@@ -63,6 +63,14 @@ namespace UnitTests
 
             Assert.IsTrue(g.hasPlayer(new User("first user")));
             Assert.IsFalse(g.hasPlayer(new User("First User")));
+        }
+
+        [TestMethod]
+        public void isUsernameUsedTest()
+        {
+            User[] arr = { new User("first user"), new User("second user"), new User("third user") };
+            Game g = makeGame(arr);
+
             Assert.IsTrue(g.isUsernameUsed("first user"));
         }
 
