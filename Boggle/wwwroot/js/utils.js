@@ -122,28 +122,26 @@ function refreshState(gameid, auto) {
 
             var tbody = $("#tbl_scoreboard tbody");
             tbody.html("");
-            //for (var i = 0; i < g.users.length; i++) {
-            //var u = g.users[i];
             var u = boggle.username;
-                // update guess table
-                g.userGuesses[u].forEach(function (word) {
-                    var tr = $("<tr/>");
-                    $("<td/>").text(word).appendTo(tr);
-                    if (ended) {
-                        wordScore(word).then(function (score) {
-                            if (!score.ok) {
-                                boggle.refreshGameId = -1;
-                                alert("fail to get score: ");
-                                return;
-                            }
-                            $("<td/>").text(score.score).appendTo(tr);
-                        });
-                    } else {
-                        $("<td/>").text("?").appendTo(tr);
-                    }
-                    tbody.append(tr);
-                });
-            //}
+            // update guess table
+            g.userGuesses[u].forEach(function (word) {
+                var tr = $("<tr/>");
+                $("<td/>").text(word).appendTo(tr);
+                if (ended) {
+                    wordScore(word).then(function (score) {
+                        if (!score.ok) {
+                            boggle.refreshGameId = -1;
+                            alert("fail to get score: ");
+                            return;
+                        }
+                        $("<td/>").text(score.score).appendTo(tr);
+                    });
+                } else {
+                    $("<td/>").text("?").appendTo(tr);
+                }
+                tbody.append(tr);
+            });
+
 
             if (ended) {
                 $("#lbl_time").html("<b>Game is ended</b>");
