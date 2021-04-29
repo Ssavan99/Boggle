@@ -110,12 +110,23 @@ function refreshState(gameid, auto) {
             tbody.html("");
             for (var i = 0; i < g.users.length; i++) {
                 var u = g.users[i];
-                var tr = $("<tr/>");
-                $("<td/>").text(u).appendTo(tr);
-                $("<td/>").text(ended ? g.userScores[u] : "?").appendTo(tr);
-                $("<td/>").text(g.userGuesses[u]).appendTo(tr);
-                $("<td/>").text(g.userGuessesOk[u]).appendTo(tr);
-                tbody.append(tr);
+                // update guess table
+                g.userGuesses[u].forEach(function (word) {
+                    var tr = $("<tr/>");
+                    $("<td/>").text(word).appendTo(tr);
+                    if (ended) {
+                        wordScore(word).then(function (score) {
+                            if (!score.ok) {
+                                alert("fail to get score: ");
+                                return;
+                            }
+                            $("<td/>").text(score.score).appendTo(tr);
+                        });
+                    } else {
+                        $("<td/>").text("?").appendTo(tr);
+                    }
+                    tbody.append(tr);
+                });
             }
 
             if (ended) {
