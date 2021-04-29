@@ -1,6 +1,8 @@
 ﻿var boggle = {
     size: 4,
-    selected: []
+    selected: [],
+    gameId: -1,
+    refreshGameId: -1,
 };
 
 function backToStartScreen() {
@@ -20,7 +22,11 @@ function initGame(g) {
     console.log("game state: ", g);
     fillBoard(g.board);
 
-    refreshState(g.gameId, true);
+    if (boggle.refreshGameId === -1) {
+        refreshState(g.gameId, true);
+    } else {
+        console.log("already refreshing")
+    }
 }
 
 function cell(i, j) {
@@ -76,18 +82,24 @@ function renderSelected() {
 
 function refreshState(gameid, auto) {
     if (boggle.gameId !== gameid) {
+        boggle.refreshGameId = -1;
         console.log("stop refresh state");
         return;
+    }
+    if (auto) {
+        boggle.refreshGameId = gameid;
     }
 
     getGameState().then(function (g) {
         if (boggle.gameId !== gameid) {
+            boggle.refreshGameId = -1;
             console.log("stop refresh state");
             return;
         }
 
         console.log("= refresh: ", g);
         if (!g.ok) {
+            boggle.refreshGameId = -1;
             alert("fail to refresh game state: " + g.msg);
             return;
         }
@@ -119,6 +131,7 @@ function refreshState(gameid, auto) {
                     if (ended) {
                         wordScore(word).then(function (score) {
                             if (!score.ok) {
+                                boggle.refreshGameId = -1;
                                 alert("fail to get score: ");
                                 return;
                             }
@@ -138,10 +151,15 @@ function refreshState(gameid, auto) {
             }
         }
 
-        if (auto && !ended) {
-            setTimeout(function () {
-                refreshState(gameid, true);
-            }, 500);
+        if (auto) {
+            if (ended) {
+                boggle.refreshGameId = -1;
+                console.log("stop refresh because the game was ended");
+            } else {
+                setTimeout(function () {
+                    refreshState(gameid, true);
+                }, 500);
+            }
         }
     })
 }

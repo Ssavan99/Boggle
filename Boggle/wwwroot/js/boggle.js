@@ -43,11 +43,8 @@
     $("#btn_playagain").click(function () {
         resetGame()
             .then(getGameState)
-            .then(function (g) {
-                fillBoard(g.board);
-            })
-            .then(function () {
-                refreshState(boggle.gameId);
+            .then(function (stt) {
+                initGame(stt);
             });
     });
 
