@@ -278,6 +278,7 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                // get score for word; if not in dictionary it's not a word so 0 points
                 if (WordDictionary.getInstance().IsWord(word))
                 {
                     score = WordValidationEngine.wordPoints(word);
