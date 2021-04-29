@@ -282,10 +282,7 @@ namespace Boggle.Controllers
                 // wordsUsedOk contains only words that were not guessed by other users
                 if(u.getWordsUsedOk().Contains(word))
                 {
-                    if(WordDictionary.getInstance().IsWord(word))
-                    {
-                        score = WordValidationEngine.wordPoints(word);
-                    }
+                    score = WordValidationEngine.wordPoints(word);
                 }
 
                 return Json(new
