@@ -41,10 +41,14 @@
     });
 
     $("#btn_playagain").click(function () {
-        var gameId = boggle.gameId;
-        resetGame().then(function () {
-            refreshState(gameId);
-        });
+        resetGame()
+            .then(getGameState)
+            .then(function (g) {
+                fillBoard(g.board);
+            })
+            .then(function () {
+                refreshState(boggle.gameId);
+            });
     });
 
     $("#btn_joingame").click(function () {
