@@ -103,6 +103,7 @@ function refreshState(gameid, auto) {
             alert("fail to refresh game state: " + g.msg);
             return;
         }
+        fillBoard(g.board);
         ended = (g.state === 2);
         if (g.state === 0) { // Lobby
             $("#sc_lobby").show();
@@ -152,14 +153,9 @@ function refreshState(gameid, auto) {
         }
 
         if (auto) {
-            if (ended) {
-                boggle.refreshGameId = -1;
-                console.log("stop refresh because the game was ended");
-            } else {
-                setTimeout(function () {
-                    refreshState(gameid, true);
-                }, 500);
-            }
+            setTimeout(function () {
+                refreshState(gameid, true);
+            }, 500);
         }
     })
 }
