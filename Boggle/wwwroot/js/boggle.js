@@ -35,11 +35,16 @@
     });
 
     $("#btn_leavelobby").click(function () {
-        //CODE TO BE ADDED
-        //remove player from game
         var gameId = boggle.gameId;
         backToStartScreen();
         removePlayer(gameId);
+    });
+
+    $("#btn_playagain").click(function () {
+        var gameId = boggle.gameId;
+        resetGame().then(function () {
+            refreshState(gameId);
+        });
     });
 
     $("#btn_joingame").click(function () {
