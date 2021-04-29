@@ -108,7 +108,7 @@ namespace Boggle.Models
             }
         }
 
-        public bool isUsernameUsed(User u, string username)
+        public bool isUsernameUsed(string username)
         {
             if (users.ContainsKey(username))
             {

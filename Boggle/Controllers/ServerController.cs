@@ -175,12 +175,12 @@ namespace Boggle.Controllers
                     return gameWasEnded;
                 if (string.IsNullOrWhiteSpace(username))
                     return invalidUsername;
-                User u = g.getUser(username);
-                if (g.isUsernameUsed(u, username))
+                
+                if (g.isUsernameUsed(username))
                 {
                     return failedMsg("Username already used");
                 }
-
+                User u = g.getUser(username);
                 if (u == null)
                 {
                     g.addPlayer(new User(username));

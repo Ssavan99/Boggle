@@ -54,5 +54,32 @@ namespace UnitTests
             Assert.AreEqual(scores[1], 20);
             Assert.AreEqual(scores[2], 30);
         }
+
+        [TestMethod]
+        public void hasPlayerTest()
+        {
+            User[] arr = { new User("first user"), new User("second user"), new User("third user") };
+            Game g = makeGame(arr);
+
+            Assert.IsTrue(g.hasPlayer(new User("first user")));
+            Assert.IsFalse(g.hasPlayer(new User("First User")));
+            Assert.IsTrue(g.isUsernameUsed("first user"));
+        }
+
+        [TestMethod]
+        public void resetGameTest()
+        {
+            User[] arr = { new User("first user")};
+            Game g = makeGame(arr);
+
+            g.getUser("first user").addWord("hello");
+            g.getUser("first user").addWordUsedOk("hello");
+            g.resetGame();
+            Assert.IsTrue(g.isUsernameUsed("first user"));
+            Assert.IsTrue(g.getUser("first user").getWordsUsed().Count == 0);
+            Assert.IsTrue(g.getUser("first user").getWordsUsedOk().Count == 0);
+            Assert.IsTrue(g.getUser("first user").getScore() == 0);
+        }
+        
     }
 }
