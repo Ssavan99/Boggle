@@ -12,6 +12,7 @@ namespace Boggle.Models
 
         public Board()
         {
+            //dice according to requirements
             Die d1 = new Die(new String[] { "R", "I", "F", "O", "B", "X" });
             Die d2 = new Die(new String[] { "H", "M", "S", "R", "A", "O" });
             Die d3 = new Die(new String[] { "Qu", "B", "M", "J", "O", "A" });

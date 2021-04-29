@@ -46,6 +46,7 @@ namespace Boggle.Models
             return score;
         }
 
+        //adds a word to this user's current list of guessed words
         public void addWord(string word)
         {
             if(!isUsed(word))
