@@ -271,5 +271,29 @@ namespace Boggle.Controllers
             return okMsg;
         }
 
+        public IActionResult wordScore(int gameId, string word)
+        {
+            int score = 0;
+            Game g = srv.getGame(gameId);
+            if (g == null) return gameIdNotFound;
+            lock (g)
+            {
+                // get score for word; if not in dictionary it's not a word so 0 points
+                if (WordDictionary.getInstance().IsWord(word))
+                {
+                    score = WordValidationEngine.wordPoints(word);
+                }
+                else
+                {
+                    score = 0;
+                }
+                return Json(new
+                {
+                    ok = true,
+                    score = score,
+                });
+            }
+        }
+
     }
 }
