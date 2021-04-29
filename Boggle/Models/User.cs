@@ -10,7 +10,7 @@ namespace Boggle.Models
     {
         private string username;
         private List<string> wordsUsed;
-        private List<string> wordsUsedOk;
+        private List<string> wordsUsedOk; //guesses verified as real words
         private int score;
 
         public User(string u)
