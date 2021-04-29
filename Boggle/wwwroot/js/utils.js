@@ -108,8 +108,9 @@ function refreshState(gameid, auto) {
 
             var tbody = $("#tbl_scoreboard tbody");
             tbody.html("");
-            for (var i = 0; i < g.users.length; i++) {
-                var u = g.users[i];
+            //for (var i = 0; i < g.users.length; i++) {
+            //var u = g.users[i];
+            var u = boggle.username;
                 // update guess table
                 g.userGuesses[u].forEach(function (word) {
                     var tr = $("<tr/>");
@@ -127,7 +128,7 @@ function refreshState(gameid, auto) {
                     }
                     tbody.append(tr);
                 });
-            }
+            //}
 
             if (ended) {
                 $("#lbl_time").html("<b>Game is ended</b>");
