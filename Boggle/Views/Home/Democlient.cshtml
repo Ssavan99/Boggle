@@ -87,8 +87,19 @@
                         cell(i, j)
                             .text(board[i][j])
                             .click(function () {
-                                boggle.selected.push({ i: i, j: j });
-                                renderSelected();
+                                if (boggle.selected.length > 0) {
+                                    if (boggle.selected[boggle.selected.length - 1].i == i && boggle.selected[boggle.selected.length - 1].j == j) {
+                                        //deselecting the last letter
+                                        cell(i, j).css("background-color", "");
+                                        boggle.selected.pop();
+                                    } else {
+                                        boggle.selected.push({ i: i, j: j });
+                                        renderSelected();
+                                    }
+                                } else {    //first one stored as it is
+                                    boggle.selected.push({ i: i, j: j });
+                                    renderSelected();
+                                }   
                             });
                     })(i, j);
                 }

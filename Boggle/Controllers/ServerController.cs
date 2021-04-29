@@ -23,6 +23,11 @@ namespace Boggle.Controllers
             okMsg = Json(new { ok = true });
         }
 
+        public Server getServer()
+        {
+            return srv;
+        }
+
         private IActionResult failedMsg(string m)
         {
             return Json(new
@@ -170,12 +175,12 @@ namespace Boggle.Controllers
                     return gameWasEnded;
                 if (string.IsNullOrWhiteSpace(username))
                     return invalidUsername;
-                User u = g.getUser(username);
-                if (g.isUsernameUsed(u, username))
+                
+                if (g.isUsernameUsed(username))
                 {
                     return failedMsg("Username already used");
                 }
-
+                User u = g.getUser(username);
                 if (u == null)
                 {
                     g.addPlayer(new User(username));
@@ -261,6 +266,11 @@ namespace Boggle.Controllers
             }
         }
 
+        public IActionResult okMessage()
+        {
+            return okMsg;
+        }
+
         public IActionResult wordScore(int gameId, string word)
         {
             int score = 0;
@@ -268,10 +278,11 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
-                if(WordDictionary.getInstance().IsWord(word))
+                if (WordDictionary.getInstance().IsWord(word))
                 {
                     score = WordValidationEngine.wordPoints(word);
-                } else
+                }
+                else
                 {
                     score = 0;
                 }
@@ -281,7 +292,6 @@ namespace Boggle.Controllers
                     score = score,
                 });
             }
-
         }
 
     }
