@@ -30,7 +30,7 @@
 
     $("#btn_startgame").click(function () {
         startGame().then(function () {
-            refreshState(g.gameId);
+            refreshState(boggle.gameId);
         });
     });
 
