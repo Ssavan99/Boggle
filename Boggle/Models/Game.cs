@@ -39,6 +39,10 @@ namespace Boggle.Models
         {
             return id;
         }
+        public List<Dictionary<string, int>> getGameLog()
+        {
+            return gameLog;
+        }
         public DateTime getStartTime()
         {
             return startTime;
@@ -108,7 +112,7 @@ namespace Boggle.Models
             }
         }
 
-        public bool isUsernameUsed(User u, string username)
+        public bool isUsernameUsed(string username)
         {
             if (users.ContainsKey(username))
             {

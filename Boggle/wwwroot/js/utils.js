@@ -1,6 +1,8 @@
 ﻿var boggle = {
     size: 4,
-    selected: []
+    selected: [],
+    gameId: -1,
+    refreshGameId: -1,
 };
 
 function backToStartScreen() {
@@ -20,7 +22,11 @@ function initGame(g) {
     console.log("game state: ", g);
     fillBoard(g.board);
 
-    refreshState(g.gameId, true);
+    if (boggle.refreshGameId === -1) {
+        refreshState(g.gameId, true);
+    } else {
+        console.log("already refreshing")
+    }
 }
 
 function cell(i, j) {
@@ -55,6 +61,7 @@ function fillBoard(board) {
             (function (i, j) {
                 cell(i, j)
                     .text(board[i][j])
+                    .off('click')
                     .click(function () { cellClick(i, j); });
             })(i, j);
         }
@@ -75,21 +82,28 @@ function renderSelected() {
 
 function refreshState(gameid, auto) {
     if (boggle.gameId !== gameid) {
+        boggle.refreshGameId = -1;
         console.log("stop refresh state");
         return;
+    }
+    if (auto) {
+        boggle.refreshGameId = gameid;
     }
 
     getGameState().then(function (g) {
         if (boggle.gameId !== gameid) {
+            boggle.refreshGameId = -1;
             console.log("stop refresh state");
             return;
         }
 
         console.log("= refresh: ", g);
         if (!g.ok) {
+            boggle.refreshGameId = -1;
             alert("fail to refresh game state: " + g.msg);
             return;
         }
+        fillBoard(g.board);
         ended = (g.state === 2);
         if (g.state === 0) { // Lobby
             $("#sc_lobby").show();
@@ -108,15 +122,26 @@ function refreshState(gameid, auto) {
 
             var tbody = $("#tbl_scoreboard tbody");
             tbody.html("");
-            for (var i = 0; i < g.users.length; i++) {
-                var u = g.users[i];
+            var u = boggle.username;
+            // update guess table
+            g.userGuesses[u].forEach(function (word) {
                 var tr = $("<tr/>");
-                $("<td/>").text(u).appendTo(tr);
-                $("<td/>").text(ended ? g.userScores[u] : "?").appendTo(tr);
-                $("<td/>").text(g.userGuesses[u]).appendTo(tr);
-                $("<td/>").text(g.userGuessesOk[u]).appendTo(tr);
+                $("<td/>").text(word).appendTo(tr);
+                if (ended) {
+                    wordScore(word).then(function (score) {
+                        if (!score.ok) {
+                            boggle.refreshGameId = -1;
+                            alert("fail to get score: ");
+                            return;
+                        }
+                        $("<td/>").text(score.score).appendTo(tr);
+                    });
+                } else {
+                    $("<td/>").text("?").appendTo(tr);
+                }
                 tbody.append(tr);
-            }
+            });
+
 
             if (ended) {
                 $("#lbl_time").html("<b>Game is ended</b>");
@@ -125,7 +150,7 @@ function refreshState(gameid, auto) {
             }
         }
 
-        if (auto && !ended) {
+        if (auto) {
             setTimeout(function () {
                 refreshState(gameid, true);
             }, 500);
