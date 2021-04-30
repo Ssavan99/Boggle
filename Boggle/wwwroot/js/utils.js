@@ -149,14 +149,6 @@ function refreshState(gameid, auto) {
                     if (!found) {
                         $("<td/>").text("0").appendTo(tr);
                     }
-                    /*wordScore(word).then(function (score) {
-                        if (!score.ok) {
-                            boggle.refreshGameId = -1;
-                            alert("fail to get score: ");
-                            return;
-                        }
-                        $("<td/>").text(score.score).appendTo(tr);
-                    });*/
                 } else {
                     $("<td/>").text("?").appendTo(tr);
                 }
