@@ -43,6 +43,10 @@
     $("#btn_playagain").click(function () {
         resetGame()
             .then(getGameState)
+            .then(function () {
+                boggle.selected = [];
+                renderSelected();
+            })
             .then(function (stt) {
                 initGame(stt);
             });
