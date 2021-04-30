@@ -274,29 +274,6 @@ namespace Boggle.Controllers
         {
             return okMsg;
         }
-
-        public IActionResult wordScore(int gameId, string username, string word)
-        {
-            Game g = srv.getGame(gameId);
-            if (g == null) return gameIdNotFound;
-            lock (g)
-            {
-                User u = g.getUser(username);
-                int score = 0;
-                // wordsUsedOk contains only words that were not guessed by other users
-                if(u.getWordsUsedOk().Contains(word))
-                {
-                    score = WordValidationEngine.wordPoints(word);
-                }
-
-                return Json(new
-                {
-                    ok = true,
-                    score = score,
-                });
-            }
-        }
-
         public IActionResult getGameLog(int gameId)
         {
             Game g = srv.getGame(gameId);
@@ -310,6 +287,7 @@ namespace Boggle.Controllers
                 });
             }
         }
-
     }
+
+    
 }
