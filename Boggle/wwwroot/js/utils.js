@@ -128,19 +128,45 @@ function refreshState(gameid, auto) {
                 var tr = $("<tr/>");
                 $("<td/>").text(word).appendTo(tr);
                 if (ended) {
-                    wordScore(word).then(function (score) {
+                    let found = false;
+                    // words in userGuessesOk are unique and verified and counted in user score
+                    g.userGuessesOk[u].forEach(function (guess) {
+                        if (guess == word) {
+                            found = true;
+                            var n = word.length;
+                            if (n < 5)
+                                $("<td/>").text("1").appendTo(tr);
+                            if (n == 5)
+                                $("<td/>").text("2").appendTo(tr);
+                            if (n == 6)
+                                $("<td/>").text("3").appendTo(tr);
+                            if (n == 7)
+                                $("<td/>").text("5").appendTo(tr);
+                            if (n >= 8)
+                                $("<td/>").text("11").appendTo(tr);
+                        }
+                    });
+                    if (!found) {
+                        $("<td/>").text("0").appendTo(tr);
+                    }
+                    /*wordScore(word).then(function (score) {
                         if (!score.ok) {
                             boggle.refreshGameId = -1;
                             alert("fail to get score: ");
                             return;
                         }
                         $("<td/>").text(score.score).appendTo(tr);
-                    });
+                    });*/
                 } else {
                     $("<td/>").text("?").appendTo(tr);
                 }
                 tbody.append(tr);
             });
+
+            var tr = $("<tr/>");
+            $("<td/>").text("Total").appendTo(tr);
+            $("<td/>").text(ended ? g.userScores[u] : "?").appendTo(tr);
+            tbody.append(tr);
 
 
             if (ended) {
