@@ -157,3 +157,7 @@ function refreshState(gameid, auto) {
         }
     })
 }
+
+function changePlayAgainAvailability(value) {
+    document.getElementById("btn_playagain").disabled = value;
+}
