@@ -12,12 +12,33 @@ function backToStartScreen() {
     $("#sc_start").fadeIn();
 }
 
+function initGameLog(g) {
+    var content = "";
+    var gl = g.gameLog;
+
+    for (dict of gl) {
+        content += '<tr>';
+        for (user in dict) {
+            content += '<td>' + user + '</td>';
+        }
+        content += '</tr >';
+
+        content += '<tr>';
+        for (user in dict) {
+            content += '<td>' + dict[user] + '</td>';
+        }
+        content += '</tr >';
+    }
+    $('#tbl_gamelog').append(content);
+}
+
 function initGame(g) {
     $("#sc_start").hide();
     $("#sc_lobby").fadeIn();
     $("#sc_game").hide();
     $(".cls_gameid").text(g.gameId);
     $("#lbl_username").text(boggle.username);
+    initGameLog(g);
 
     console.log("game state: ", g);
     fillBoard(g.board);
