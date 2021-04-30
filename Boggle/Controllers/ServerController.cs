@@ -10,7 +10,7 @@ namespace Boggle.Controllers
     public class ServerController : Controller
     {
         private Server srv;
-        private IActionResult gameIdNotFound, invalidUsername, usernameNotFound, gameWasEnded;
+        private IActionResult gameIdNotFound, invalidUsername, usernameNotFound, gameWasEnded, emptyGuess, duplicateUsername;
         private IActionResult okMsg;
 
         public ServerController()
@@ -20,6 +20,8 @@ namespace Boggle.Controllers
             invalidUsername = failedMsg("invalid username");
             usernameNotFound = failedMsg("username not found");
             gameWasEnded = failedMsg("game was ended");
+            emptyGuess = failedMsg("no word selected");
+            duplicateUsername = failedMsg("Username already used");
             okMsg = Json(new { ok = true });
         }
 
@@ -178,7 +180,7 @@ namespace Boggle.Controllers
                 
                 if (g.isUsernameUsed(username))
                 {
-                    return failedMsg("Username already used");
+                    return duplicateUsername;
                 }
                 User u = g.getUser(username);
                 if (u == null)
@@ -215,6 +217,8 @@ namespace Boggle.Controllers
                     return usernameNotFound;
                 Board b = g.getBoard();
 
+                if (strcoords == null)
+                    return emptyGuess;
                 int[,] coords = WordValidationEngine.generateCoordinates(strcoords);
                 if (!WordValidationEngine.isValidInput(coords))
                     return failedMsg("invalid coords");
@@ -271,26 +275,38 @@ namespace Boggle.Controllers
             return okMsg;
         }
 
-        public IActionResult wordScore(int gameId, string word)
+        public IActionResult wordScore(int gameId, string username, string word)
         {
-            int score = 0;
             Game g = srv.getGame(gameId);
             if (g == null) return gameIdNotFound;
             lock (g)
             {
-                // get score for word; if not in dictionary it's not a word so 0 points
-                if (WordDictionary.getInstance().IsWord(word))
+                User u = g.getUser(username);
+                int score = 0;
+                // wordsUsedOk contains only words that were not guessed by other users
+                if(u.getWordsUsedOk().Contains(word))
                 {
                     score = WordValidationEngine.wordPoints(word);
                 }
-                else
-                {
-                    score = 0;
-                }
+
                 return Json(new
                 {
                     ok = true,
                     score = score,
+                });
+            }
+        }
+
+        public IActionResult getGameLog(int gameId)
+        {
+            Game g = srv.getGame(gameId);
+            if (g == null) return gameIdNotFound;
+            lock (g)
+            {
+                return Json(new
+                {
+                    ok = true,
+                    gameLog = g.getGameLog(),
                 });
             }
         }
