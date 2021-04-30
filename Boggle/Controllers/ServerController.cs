@@ -297,5 +297,19 @@ namespace Boggle.Controllers
             }
         }
 
+        public IActionResult getGameLog(int gameId)
+        {
+            Game g = srv.getGame(gameId);
+            if (g == null) return gameIdNotFound;
+            lock (g)
+            {
+                return Json(new
+                {
+                    ok = true,
+                    gameLog = g.getGameLog(),
+                });
+            }
+        }
+
     }
 }

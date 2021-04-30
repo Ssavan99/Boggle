@@ -65,3 +65,9 @@ function wordScore(word) {
         word: word
     });
 }
+
+function getGameLog() {
+    return ajaxReq("/Server/getGameLog", {
+        gameId: boggle.gameId
+    });
+}

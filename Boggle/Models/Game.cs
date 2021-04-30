@@ -39,6 +39,10 @@ namespace Boggle.Models
         {
             return id;
         }
+        public List<Dictionary<string, int>> getGameLog()
+        {
+            return gameLog;
+        }
         public DateTime getStartTime()
         {
             return startTime;
