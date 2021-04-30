@@ -150,5 +150,34 @@ namespace Boggle.Models
             state = State.Lobby;
             startTime = DateTime.Now;
         }
+
+        public List<String> getAllUsersInGameLog()
+        {
+            List<String> res = new List<String>();
+            foreach(Dictionary<string, int> dict in gameLog)
+            {
+                foreach(String username in dict.Keys)
+                {
+                    if (!res.Contains(username))
+                    {
+                        res.Add(username);
+                    }
+                }
+            }
+            return res;
+
+        }
+
+        public void updateGameLog()
+        {
+            //stores all user:score pairs in gameLog
+
+            Dictionary<string, int> gameScores = new Dictionary<string, int>();
+            foreach (string u in users.Keys)
+            {
+                gameScores[u] = users[u].getScore();
+            }
+            gameLog.Add(gameScores);
+        }
     }
 }
