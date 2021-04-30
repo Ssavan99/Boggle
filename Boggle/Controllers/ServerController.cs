@@ -275,22 +275,20 @@ namespace Boggle.Controllers
             return okMsg;
         }
 
-        public IActionResult wordScore(int gameId, string word)
+        public IActionResult wordScore(int gameId, string username, string word)
         {
-            int score = 0;
             Game g = srv.getGame(gameId);
             if (g == null) return gameIdNotFound;
             lock (g)
             {
-                // get score for word; if not in dictionary it's not a word so 0 points
-                if (WordDictionary.getInstance().IsWord(word))
+                User u = g.getUser(username);
+                int score = 0;
+                // wordsUsedOk contains only words that were not guessed by other users
+                if(u.getWordsUsedOk().Contains(word))
                 {
                     score = WordValidationEngine.wordPoints(word);
                 }
-                else
-                {
-                    score = 0;
-                }
+
                 return Json(new
                 {
                     ok = true,
