@@ -12,6 +12,15 @@ function backToStartScreen() {
     $("#sc_start").fadeIn();
 }
 
+function initGameLog(g) {
+    var content = ""
+    for (i = 0; i < 3; i++) {
+        content += '<tr><td>' + g.gameLogUsers + i + '</td></tr>';
+    }
+    $('#tbl_gamelog').append(content);
+    g.
+}
+
 function initGame(g) {
     $("#sc_start").hide();
     $("#sc_lobby").fadeIn();
