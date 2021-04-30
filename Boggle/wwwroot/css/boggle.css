@@ -47,10 +47,6 @@ table.in_line {
 }
 
 #tbl_game button {
-    width: 2.5em;
-}
-
-#tbl_game button {
     font-size: 40px;
     height: 80px;
     width: 80px;
