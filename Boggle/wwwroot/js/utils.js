@@ -13,10 +13,21 @@ function backToStartScreen() {
 }
 
 function initGameLog(g) {
-    var gl = getGameLog();
-    var content = ""
-    for (i = 0; i < 3; i++) {
-        content += '<tr><td>' + gl + '</td></tr>';
+    var content = "";
+    var gl = g.gameLog;
+
+    for (dict of gl) {
+        content += '<tr>';
+        for (user in dict) {
+            content += '<td>' + user + '</td>';
+        }
+        content += '</tr >';
+
+        content += '<tr>';
+        for (user in dict) {
+            content += '<td>' + dict[user] + '</td>';
+        }
+        content += '</tr >';
     }
     $('#tbl_gamelog').append(content);
 }

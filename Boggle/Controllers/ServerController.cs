@@ -163,7 +163,8 @@ namespace Boggle.Controllers
                     startTime = g.getStartTime(),
                     state = g.getState(),
                     remainingTime = remainingTime,
-                });
+                    gameLog = g.getGameLog(),
+                }); ;
             }
         }
 
