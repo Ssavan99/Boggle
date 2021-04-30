@@ -57,11 +57,3 @@ function resetGame() {
         gameId: boggle.gameId
     });
 }
-
-function wordScore(word) {
-    return ajaxReq("/Server/wordScore", {
-        gameId: boggle.gameId,
-        username: boggle.username,
-        word: word
-    });
-}
