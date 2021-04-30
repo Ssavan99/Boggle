@@ -161,6 +161,17 @@ function refreshState(gameid, auto) {
             tbody.append(tr);
 
 
+            //updated current players table
+            var playerTbody = $("#tbl_players tbody");
+            playerTbody.html("");
+            g.users.forEach(function (user) {
+                var playerTr = $("<tr/>");
+                $("<td/>").text(user).appendTo(playerTr);
+                playerTbody.append(playerTr);
+            });
+
+
+
             if (ended) {
                 $("#lbl_time").html("<b>Game is ended</b>");
             } else {
