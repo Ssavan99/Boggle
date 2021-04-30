@@ -303,10 +303,11 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                
                 return Json(new
                 {
                     ok = true,
-                    gameLog = g.getGameLog(),
+                    gameLog = g.getStringGameLog(),
                 });
             }
         }

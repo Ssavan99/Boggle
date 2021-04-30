@@ -13,12 +13,12 @@ function backToStartScreen() {
 }
 
 function initGameLog(g) {
+    var gl = getGameLog();
     var content = ""
     for (i = 0; i < 3; i++) {
-        content += '<tr><td>' + g.gameLogUsers + i + '</td></tr>';
+        content += '<tr><td>' + gl + '</td></tr>';
     }
     $('#tbl_gamelog').append(content);
-    g.
 }
 
 function initGame(g) {
@@ -27,6 +27,7 @@ function initGame(g) {
     $("#sc_game").hide();
     $(".cls_gameid").text(g.gameId);
     $("#lbl_username").text(boggle.username);
+    initGameLog(g);
 
     console.log("game state: ", g);
     fillBoard(g.board);

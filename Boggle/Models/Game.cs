@@ -43,6 +43,18 @@ namespace Boggle.Models
         {
             return gameLog;
         }
+        public String getStringGameLog()
+        {
+            String res = "";
+            foreach(Dictionary<string, int> dict in gameLog)
+            {
+                foreach (string user in dict.Keys)
+                {
+                    res += user + " " + dict[user];
+                }
+            }
+            return res;
+        }
         public DateTime getStartTime()
         {
             return startTime;
