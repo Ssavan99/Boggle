@@ -6,6 +6,9 @@
       <HashCode>AAQCAAAABAEJAAQAAAQAAAAAAAgAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>Controllers\GameController.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="game" />
+    </ShowAsAssociation>
     <Lollipop Position="0.433" />
   </Class>
   <Class Name="Boggle.Controllers.HomeController" Collapsed="true">
@@ -21,9 +24,12 @@
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AABCEAAAAAAAAAEAACAFAAABAASCAgEAAZMFAAAAFAA=</HashCode>
+      <HashCode>AABCEAAAAAAAAAEAACAFAAABAASCAgAAAZMFAAAAFAA=</HashCode>
       <FileName>Controllers\ServerController.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="srv" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Boggle.Controllers.Utilities" Collapsed="true">
     <Position X="6.5" Y="2.5" Width="1.5" />
@@ -40,11 +46,19 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Boggle.Models.Board" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="3" Y="0.5" Width="1.5" />
+    <Position X="2" Y="0.5" Width="1.5" />
+    <AssociationLine Name="dice" Type="Boggle.Models.Die">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.46" Y="0.043" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>ASAAAAAAAAAAAAAEAAAAAgAAAAAAABAAAQAAEAEBAAE=</HashCode>
       <FileName>Models\Board.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="dice" />
+    </ShowAsCollectionAssociation>
     <Lollipop Position="0.108" />
   </Class>
   <Class Name="Boggle.Models.Die" Collapsed="true">
@@ -54,26 +68,35 @@
       <FileName>Models\Die.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Boggle.Models.ErrorViewModel" Collapsed="true">
-    <Position X="6.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAIAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\ErrorViewModel.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Boggle.Models.Game" Collapsed="true">
     <Position X="8.25" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Boggle.Models.Game.State" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\Game.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>YgCAACgAIBAAAQAAAAAhBIABAACACACEYBAQABEAAgw=</HashCode>
       <FileName>Models\Game.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="board" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="users" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Boggle.Models.Server" Collapsed="true">
-    <Position X="6.5" Y="1.5" Width="1.5" />
+    <Position X="7.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAYACAAAAEAABAg=</HashCode>
       <FileName>Models\Server.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="games" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Boggle.Models.User" Collapsed="true">
     <Position X="3" Y="2.5" Width="1.5" />
@@ -82,15 +105,8 @@
       <FileName>Models\User.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Boggle.Models.UserData" Collapsed="true">
-    <Position X="4.75" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAgAAIAAAAAAIAAAAAAEACACAAAAAIAAAAAA=</HashCode>
-      <FileName>Models\UserData.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Boggle.Models.WordDictionary" Collapsed="true">
-    <Position X="9.75" Y="1.75" Width="1.5" />
+    <Position X="1.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYACAAAAAAAgAA=</HashCode>
       <FileName>Models\WordDictionary.cs</FileName>
@@ -109,10 +125,6 @@
       <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
       <FileName>Startup.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="System.Object" Collapsed="true">
-    <Position X="0.75" Y="1.25" Width="1.5" />
-    <TypeIdentifier />
   </Class>
   <Class Name="Microsoft.AspNetCore.Mvc.Controller" Collapsed="true">
     <Position X="11.25" Y="0.75" Width="1.5" />
