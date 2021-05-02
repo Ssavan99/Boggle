@@ -13,34 +13,27 @@ function backToStartScreen() {
 }
 
 function initGameLog(g) {
-    var content = "";
 
-    var tbody = $("#tbl_gamelog tbody");
-    tbody.html("");
+    var glTable = $("#tbl_gamelog");
+    glTable.html("");
+    var tableBody = $("<tbody>");
     var gl = g.gameLog;
 
-    gl.forEach(function (dict)){
-        var tr = $("<tr/>");
+    for (dict of gl){
+        var tr = $("<tr>");
         for (user in dict) {
-            $("<td/>").text(user).appendTo(tr);
+            $("<td>").text(user).appendTo(tr);
         }
-        tbody.append(tr);
+        tableBody.append(tr);
+
+        tr = $("<tr/>");
+        for (user in dict) {
+            $("<td/>").text(dict[user]).appendTo(tr);
+        }
+        tableBody.append(tr);
     }
 
-    //for (dict of gl) {
-    //    content += '<tr>';
-    //    for (user in dict) {
-    //        content += '<td>' + user + '</td>';
-    //    }
-    //    content += '</tr >';
-
-    //    content += '<tr>';
-    //    for (user in dict) {
-    //        content += '<td>' + dict[user] + '</td>';
-    //    }
-    //    content += '</tr >';
-    //}
-    //$('#tbl_gamelog').text(content);
+    glTable.html(tableBody);
 }
 
 function initGame(g) {
@@ -151,7 +144,6 @@ function refreshState(gameid, auto) {
         } else { // Playing/Ended
             $("#sc_lobby").hide();
             $("#sc_game").show();
-            //initGameLog(g);
 
             var tbody = $("#tbl_scoreboard tbody");
             tbody.html("");
@@ -177,6 +169,7 @@ function refreshState(gameid, auto) {
 
 
             if (ended) {
+                initGameLog(g);
                 $("#lbl_time").html("<b>Game is ended</b>");
             } else {
                 $("#lbl_time").text(g.remainingTime + " s");
