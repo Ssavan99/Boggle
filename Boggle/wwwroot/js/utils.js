@@ -14,22 +14,33 @@ function backToStartScreen() {
 
 function initGameLog(g) {
     var content = "";
+
+    var tbody = $("#tbl_gamelog tbody");
+    tbody.html("");
     var gl = g.gameLog;
 
-    for (dict of gl) {
-        content += '<tr>';
+    gl.forEach(function (dict)){
+        var tr = $("<tr/>");
         for (user in dict) {
-            content += '<td>' + user + '</td>';
+            $("<td/>").text(user).appendTo(tr);
         }
-        content += '</tr >';
-
-        content += '<tr>';
-        for (user in dict) {
-            content += '<td>' + dict[user] + '</td>';
-        }
-        content += '</tr >';
+        tbody.append(tr);
     }
-    $('#tbl_gamelog').append(content);
+
+    //for (dict of gl) {
+    //    content += '<tr>';
+    //    for (user in dict) {
+    //        content += '<td>' + user + '</td>';
+    //    }
+    //    content += '</tr >';
+
+    //    content += '<tr>';
+    //    for (user in dict) {
+    //        content += '<td>' + dict[user] + '</td>';
+    //    }
+    //    content += '</tr >';
+    //}
+    //$('#tbl_gamelog').text(content);
 }
 
 function initGame(g) {
@@ -38,7 +49,7 @@ function initGame(g) {
     $("#sc_game").hide();
     $(".cls_gameid").text(g.gameId);
     $("#lbl_username").text(boggle.username);
-    initGameLog(g);
+
 
     console.log("game state: ", g);
     fillBoard(g.board);
@@ -140,6 +151,7 @@ function refreshState(gameid, auto) {
         } else { // Playing/Ended
             $("#sc_lobby").hide();
             $("#sc_game").show();
+            //initGameLog(g);
 
             var tbody = $("#tbl_scoreboard tbody");
             tbody.html("");
