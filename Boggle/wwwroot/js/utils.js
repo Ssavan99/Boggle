@@ -145,8 +145,7 @@ function refreshState(gameid, auto) {
             $("#sc_lobby").hide();
             $("#sc_game").show();
 
-            var tbody = $("#tbl_scoreboard tbody");
-            tbody.html("");
+            var tbody = $("<tbody/>");
             var u = boggle.username;
             // update guess table
             g.userGuesses[u].forEach(function (word) {
@@ -185,6 +184,7 @@ function refreshState(gameid, auto) {
             $("<td/>").text(ended ? g.userScores[u] : "?").appendTo(tr);
             tbody.append(tr);
 
+            $("#tbl_scoreboard tbody").replaceWith(tbody);
 
             //updated current players table
             var playerTbody = $("#tbl_players tbody");
