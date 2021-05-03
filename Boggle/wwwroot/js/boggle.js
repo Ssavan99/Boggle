@@ -31,6 +31,7 @@
     $("#btn_startgame").click(function () {
         startGame().then(function () {
             refreshState(boggle.gameId);
+            changePlayAgainAvailability(true);
         });
     });
 
@@ -43,6 +44,10 @@
     $("#btn_playagain").click(function () {
         resetGame()
             .then(getGameState)
+            .then(function () {
+                boggle.selected = [];
+                renderSelected();
+            })
             .then(function (stt) {
                 initGame(stt);
             });
@@ -90,6 +95,7 @@
     $("#btn_endgame").click(function () {
         endGame().then(function () {
             refreshState(boggle.gameId);
+            changePlayAgainAvailability(false);
         })
     });
 });

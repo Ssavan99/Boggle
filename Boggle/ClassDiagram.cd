@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Boggle.Controllers.HomeController" Collapsed="true">
+    <Position X="11" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAIggAAQAAgAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Boggle.Controllers.ServerController" Collapsed="true">
+    <Position X="11.25" Y="2.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AABCEAAAAAAAAAEAACAFAAABAASCAgAAAZMFAAAAFAA=</HashCode>
+      <FileName>Controllers\ServerController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="srv" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Boggle.Controllers.Utilities" Collapsed="true">
+    <Position X="6.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Controllers\Utilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Boggle.Controllers.WordValidationEngine" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAIAAAAAAAAAAAAAQAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Controllers\WordValidationEngine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Boggle.Models.Board" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <AssociationLine Name="dice" Type="Boggle.Models.Die">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.46" Y="0.043" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ASAAAAAAAAAAAAAEAAAAAgAAAAAAABAAAQAAEAEBAAE=</HashCode>
+      <FileName>Models\Board.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="dice" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.108" />
+  </Class>
+  <Class Name="Boggle.Models.Die" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAgAAAAAAAAAAAgAIAAgAAAAAAACACAAAA=</HashCode>
+      <FileName>Models\Die.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Boggle.Models.Game" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Boggle.Models.Game.State" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\Game.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>YgCAACgAIBAAAQAAAAAhBIABAACACACEYBAQABEAAgw=</HashCode>
+      <FileName>Models\Game.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="board" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="users" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Boggle.Models.Server" Collapsed="true">
+    <Position X="7.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAYACAAAAEAABAg=</HashCode>
+      <FileName>Models\Server.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="games" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Boggle.Models.User" Collapsed="true">
+    <Position X="3" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEgAAAJAAACAAAIAAEQAIAACAKAAAAAAAwAEAA=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Boggle.Models.WordDictionary" Collapsed="true">
+    <Position X="1.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYACAAAAAAAgAA=</HashCode>
+      <FileName>Models\WordDictionary.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Boggle.Program" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Boggle.Startup" Collapsed="true">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Boggle.Models.IBoard" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Models\IBoard.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Boggle.Models.IDie" Collapsed="true">
+    <Position X="4.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAgAAAAAAAAAAAACACAAAA=</HashCode>
+      <FileName>Models\IDie.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
