@@ -4,7 +4,9 @@
 
 #tbl_gamelog {
     background-color: white;
-    margin-right: auto;
+    position: absolute;
+    top: 30px;
+    left: 30px;
 }
 
 body {
@@ -60,4 +62,5 @@ table.in_line {
     height: 80px;
     width: 80px;
     border-radius: 15px;
+
 }

@@ -19,8 +19,12 @@ function initGameLog(g) {
     var tableBody = $("<tbody>");
     var gl = g.gameLog;
 
+    var tr = $("<tr>");
+    $("<td>").text("Leaderboard").appendTo(tr);
+    tableBody.append(tr);
+
     for (dict of gl){
-        var tr = $("<tr>");
+        tr = $("<tr>");
         for (user in dict) {
             $("<td>").text(user).appendTo(tr);
         }
@@ -101,7 +105,7 @@ function renderSelected() {
     }
     var s = boggle.selected;
     for (var i = 0; i < s.length; i++) {
-        cell(s[i].i, s[i].j).css("background-color", "lightgreen");
+        cell(s[i].i, s[i].j).css("background-color", "#faa964");
     }
 }
 
