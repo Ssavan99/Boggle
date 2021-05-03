@@ -12,12 +12,37 @@ function backToStartScreen() {
     $("#sc_start").fadeIn();
 }
 
+function initGameLog(g) {
+
+    var glTable = $("#tbl_gamelog");
+    glTable.html("");
+    var tableBody = $("<tbody>");
+    var gl = g.gameLog;
+
+    for (dict of gl){
+        var tr = $("<tr>");
+        for (user in dict) {
+            $("<td>").text(user).appendTo(tr);
+        }
+        tableBody.append(tr);
+
+        tr = $("<tr/>");
+        for (user in dict) {
+            $("<td/>").text(dict[user]).appendTo(tr);
+        }
+        tableBody.append(tr);
+    }
+
+    glTable.html(tableBody);
+}
+
 function initGame(g) {
     $("#sc_start").hide();
     $("#sc_lobby").fadeIn();
     $("#sc_game").hide();
     $(".cls_gameid").text(g.gameId);
     $("#lbl_username").text(boggle.username);
+
 
     console.log("game state: ", g);
     fillBoard(g.board);
@@ -173,6 +198,7 @@ function refreshState(gameid, auto) {
 
 
             if (ended) {
+                initGameLog(g);
                 $("#lbl_time").html("<b>Game is ended</b>");
             } else {
                 $("#lbl_time").text(g.remainingTime + " s");

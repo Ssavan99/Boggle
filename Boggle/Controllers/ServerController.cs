@@ -163,7 +163,8 @@ namespace Boggle.Controllers
                     startTime = g.getStartTime(),
                     state = g.getState(),
                     remainingTime = remainingTime,
-                });
+                    gameLog = g.getGameLog(),
+                }); ;
             }
         }
 
@@ -255,6 +256,7 @@ namespace Boggle.Controllers
                     return gameWasEnded;
                 g.setState(Game.State.Ended);
                 calcScores(g);
+                g.updateGameLog();
                 return okMsg;
             }
         }
@@ -280,10 +282,11 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                
                 return Json(new
                 {
                     ok = true,
-                    gameLog = g.getGameLog(),
+                    gameLog = g.getStringGameLog(),
                 });
             }
         }

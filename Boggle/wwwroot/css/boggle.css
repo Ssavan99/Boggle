@@ -1,4 +1,13 @@
-﻿body {
+﻿#tbl_game button {
+    width: 2.5em;
+}
+
+#tbl_gamelog {
+    background-color: white;
+    margin-right: auto;
+}
+
+body {
     background-color: #f2ecbf;
     text-align: center;
 }
