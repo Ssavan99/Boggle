@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="js/jquery/jquery.min.js" type="text/javascript"></script>
+    <script>
+        var boggle = {
+            size: 4,
+            selected: []
+        };
+
+        function newGame() {
+            return $.ajax({
+                url: "/Server/newGame",
+                dataType: "json",
+            });
+        }
+
+        function login() {
+            return $.ajax({
+                url: "/Server/login",
+                dataType: "json",
+                type: "get",
+                data: {
+                    gameId: boggle.gameId,
+                    username: boggle.username
+                }
+            });
+        }
+
+        function getGameState() {
+            return $.ajax({
+                url: "/Server/getGameState",
+                dataType: "json",
+                type: "get",
+                data: {
+                    gameId: boggle.gameId,
+                    username: boggle.username
+                }
+            });
+        }
+
+        function guess(coords) {
+            return $.ajax({
+                url: "/Server/guess",
+                dataType: "json",
+                type: "get",
+                data: {
+                    gameId: boggle.gameId,
+                    username: boggle.username,
+                    strcoords: coords
+                }
+            });
+        }
+
+        function endGame() {
+            return $.ajax({
+                url: "/Server/endGame",
+                dataType: "json",
+                data: {
+                    gameId: boggle.gameId
+                }
+            });
+        }
+
+        function initGame(g) {
+            $("#sc_start").hide();
+            $("#sc_game").fadeIn();
+            $("#lbl_gameid").text(g.gameId);
+            $("#lbl_username").text(boggle.username);
+
+            console.log("game state: ", g);
+            fillBoard(g.board);
+
+            refreshState(g.gameId, true);
+        }
+
+        function cell(i, j) {
+            return $("#cell_" + i + j);
+        }
+
+        function fillBoard(board) {
+            for (var i = 0; i < boggle.size; i++) {
+                for (var j = 0; j < boggle.size; j++) {
+                    (function (i, j) {
+                        cell(i, j)
+                            .text(board[i][j])
+                            .click(function () {
+                                if (boggle.selected.length > 0) {
+                                    if (boggle.selected[boggle.selected.length - 1].i == i && boggle.selected[boggle.selected.length - 1].j == j) {
+                                        //deselecting the last letter
+                                        cell(i, j).css("background-color", "");
+                                        boggle.selected.pop();
+                                    } else {
+                                        boggle.selected.push({ i: i, j: j });
+                                        renderSelected();
+                                    }
+                                } else {    //first one stored as it is
+                                    boggle.selected.push({ i: i, j: j });
+                                    renderSelected();
+                                }   
+                            });
+                    })(i, j);
+                }
+            }
+        }
+
+        function renderSelected() {
+            for (var i = 0; i < boggle.size; i++) {
+                for (var j = 0; j < boggle.size; j++) {
+                    cell(i, j).css("background-color", "");
+                }
+            }
+            var s = boggle.selected;
+            for (var i = 0; i < s.length; i++) {
+                cell(s[i].i, s[i].j).css("background-color", "lightgreen");
+            }
+        }
+
+        function refreshState(gameid, auto) {
+            if (boggle.gameId != gameid) return;
+
+            getGameState().then(function (g) {
+                console.log("= refresh: ", g);
+                if (!g.ok) {
+                    alert("fail to refresh game state: " + g.msg);
+                    return;
+                }
+
+                var tbody = $("#tbl_scoreboard tbody");
+                tbody.html("");
+                for (var i = 0; i < g.users.length; i++) {
+                    var u = g.users[i];
+                    var tr = $("<tr/>");
+                    $("<td/>").text(u).appendTo(tr);
+                    $("<td/>").text(g.ended ? g.userScores[u] : "?").appendTo(tr);
+                    $("<td/>").text(g.userGuesses[u]).appendTo(tr);
+                    $("<td/>").text(g.userGuessesOk[u]).appendTo(tr);
+                    tbody.append(tr);
+                }
+
+                if (g.ended) {
+                    $("#lbl_time").html("<b>Game is ended</b>");
+                } else {
+                    $("#lbl_time").text(g.remainingTime + " s");
+                }
+                if (auto && !g.ended) {
+                    setTimeout(function () {
+                        refreshState(gameid, true);
+                    }, 500);
+                }
+            })
+        }
+
+        $(document).ready(function () {
+            $("#sc_game").hide();
+
+            $("#btn_newgame").click(function () {
+                boggle.username = $("#txt_username").val();
+                newGame()
+                    .then(function (ngResp) {
+                        console.log("new game: ", ngResp);
+                        if (!ngResp.ok) {
+                            return $.Deferred().reject(ngResp.msg);
+                        }
+                        boggle.gameId = ngResp.gameId;
+                        return login();
+                    })
+                    .then(function (loginResp) {
+                        console.log("login: ", loginResp);
+                        if (!loginResp.ok) {
+                            return $.Deferred().reject(loginResp.msg);
+                        }
+                    })
+                    .then(getGameState)
+                    .then(function (stt) {
+                        initGame(stt);
+                    })
+                    .fail(function (err) {
+                        alert("Fail: " + err);
+                    });
+            });
+            $("#btn_joingame").click(function () {
+                boggle.gameId = parseInt($("#txt_gameid").val());
+                boggle.username = $("#txt_username").val();
+                login()
+                    .then(function (loginResp) {
+                        console.log("login: ", loginResp);
+                        if (!loginResp.ok) {
+                            return $.Deferred().reject(loginResp.msg);
+                        }
+                    })
+                    .then(getGameState)
+                    .then(function (stt) {
+                        initGame(stt);
+                    })
+                    .fail(function (err) {
+                        alert("Fail: " + err);
+                    });
+            });
+
+            $("#btn_guess").click(function () {
+                str = "";
+                var s = boggle.selected;
+                for (var i = 0; i < s.length; i++) {
+                    str += s[i].i.toString() + s[i].j.toString() + " ";
+                }
+                str = str.trim();
+                guess(str).then(function (r) {
+                    if (!r.ok) {
+                        alert(r.msg);
+                    }
+                    $("#btn_resetguess").click();
+                    refreshState(boggle.gameId);
+                });
+            });
+            $("#btn_resetguess").click(function () {
+                boggle.selected = [];
+                renderSelected();
+            });
+
+            $("#btn_endgame").click(function () {
+                endGame().then(function () {
+                    refreshState(boggle.gameId);
+                })
+            });
+        });
+    </script>
+    <style>
+        #tbl_game button {
+            width: 2.5em;
+        }
+    </style>
+</head>
+<body>
+    <div id="sc_start">
+        <input id="txt_gameid" placeholder="Game ID" value="" /><br />
+        <input id="txt_username" placeholder="Username" value="" /><br />
+        <button id="btn_joingame">Join Game</button>
+        <button id="btn_newgame">New Game</button>
+    </div>
+
+    <div id="sc_game">
+        GameID: <span id="lbl_gameid"></span> |
+        Username: <span id="lbl_username"></span> |
+        Time: <span id="lbl_time"></span>
+
+        <br />
+        <table id="tbl_game">
+            <tr>
+                <td><button id="cell_00">?</button></td>
+                <td><button id="cell_01">?</button></td>
+                <td><button id="cell_02">?</button></td>
+                <td><button id="cell_03">?</button></td>
+            </tr>
+            <tr>
+                <td><button id="cell_10">?</button></td>
+                <td><button id="cell_11">?</button></td>
+                <td><button id="cell_12">?</button></td>
+                <td><button id="cell_13">?</button></td>
+            </tr>
+            <tr>
+                <td><button id="cell_20">?</button></td>
+                <td><button id="cell_21">?</button></td>
+                <td><button id="cell_22">?</button></td>
+                <td><button id="cell_23">?</button></td>
+            </tr>
+            <tr>
+                <td><button id="cell_30">?</button></td>
+                <td><button id="cell_31">?</button></td>
+                <td><button id="cell_32">?</button></td>
+                <td><button id="cell_33">?</button></td>
+            </tr>
+        </table>
+
+        <br />
+        <button id="btn_guess">Guess</button>
+        <button id="btn_resetguess">Reset</button>
+        <button id="btn_endgame">End Game</button>
+
+        <br /><br /><br />
+        <table id="tbl_scoreboard" border="1">
+            <thead>
+                <tr>
+                    <td>Username</td>
+                    <td>Score</td>
+                    <td>Guesses</td>
+                    <td>Correct</td>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

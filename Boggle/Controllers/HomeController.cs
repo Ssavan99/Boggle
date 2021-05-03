@@ -23,7 +23,25 @@ namespace Boggle.Controllers
             return View();
         }
 
+        public IActionResult Democlient()
+        {
+            return View();
+        }
+
+
+
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        
+        public IActionResult SinglePlayer()
+        {
+            return View();
+        }
+
+        public IActionResult MultiPlayer()
         {
             return View();
         }
@@ -33,5 +51,6 @@ namespace Boggle.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }
