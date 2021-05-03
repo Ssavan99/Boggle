@@ -1,11 +1,9 @@
 # Boggle
 ## Instructions to play
-- Go to `Debug` on the top bar. 
-- Next click on `Boggle Debug Properties`. A new window appears.
-- On the `Debug` page, click on `New...`.
-- Enter the Profile name as **Console**. Click `OK`.
-- Save the configuration.
-- Run the Program with the `Console` configuration to play the game.
+- Go to https://361ourboggle.azurewebsites.net/
+- Enter a username (or a Game ID if playing with others)
+- Hit either `Join Game` or `New Game`
+- Hit `Start Game` when you are ready to play!
 
 ## Game Rules
 - Start by finding words on the grid containing random letters.
