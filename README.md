@@ -22,3 +22,5 @@
 - If the length of the word is **6** letters then you get `3 points`.
 - If the length of the word is **7** letters then you get `5 points`.
 - If the length of the word is **8 or more** letters then you get `11 points`.
+- If another player guessed the same word, all players who guessed that word will receive 0 points.
+- Read the full rule set at https://www.hasbro.com/common/instruct/boggle.pdf
