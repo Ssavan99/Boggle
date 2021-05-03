@@ -4,10 +4,6 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>Boggle</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>C:\Users\mccon\Documents\GitHub\Boggle\Boggle\Properties\PublishProfiles\361OurBoggle - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+    <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
   </PropertyGroup>
 </Project>

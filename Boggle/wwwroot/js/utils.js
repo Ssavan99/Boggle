@@ -203,6 +203,7 @@ function refreshState(gameid, auto) {
 
             if (ended) {
                 initGameLog(g);
+                changePlayAgainAvailability(false)
                 $("#lbl_time").html("<b>Game is ended</b>");
             } else {
                 $("#lbl_time").text(g.remainingTime + " s");
