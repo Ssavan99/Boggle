@@ -13,23 +13,31 @@ function backToStartScreen() {
 }
 
 function initGameLog(g) {
-    var content = "";
+
+    var glTable = $("#tbl_gamelog");
+    glTable.html("");
+    var tableBody = $("<tbody>");
     var gl = g.gameLog;
 
-    for (dict of gl) {
-        content += '<tr>';
-        for (user in dict) {
-            content += '<td>' + user + '</td>';
-        }
-        content += '</tr >';
+    var tr = $("<tr>");
+    $("<td>").text("Leaderboard").appendTo(tr);
+    tableBody.append(tr);
 
-        content += '<tr>';
+    for (dict of gl){
+        tr = $("<tr>");
         for (user in dict) {
-            content += '<td>' + dict[user] + '</td>';
+            $("<td>").text(user).appendTo(tr);
         }
-        content += '</tr >';
+        tableBody.append(tr);
+
+        tr = $("<tr/>");
+        for (user in dict) {
+            $("<td/>").text(dict[user]).appendTo(tr);
+        }
+        tableBody.append(tr);
     }
-    $('#tbl_gamelog').append(content);
+
+    glTable.html(tableBody);
 }
 
 function initGame(g) {
@@ -38,7 +46,7 @@ function initGame(g) {
     $("#sc_game").hide();
     $(".cls_gameid").text(g.gameId);
     $("#lbl_username").text(boggle.username);
-    initGameLog(g);
+
 
     console.log("game state: ", g);
     fillBoard(g.board);
@@ -97,7 +105,7 @@ function renderSelected() {
     }
     var s = boggle.selected;
     for (var i = 0; i < s.length; i++) {
-        cell(s[i].i, s[i].j).css("background-color", "lightgreen");
+        cell(s[i].i, s[i].j).css("background-color", "#faa964");
     }
 }
 
@@ -141,30 +149,60 @@ function refreshState(gameid, auto) {
             $("#sc_lobby").hide();
             $("#sc_game").show();
 
-            var tbody = $("#tbl_scoreboard tbody");
-            tbody.html("");
+            var tbody = $("<tbody/>");
             var u = boggle.username;
             // update guess table
             g.userGuesses[u].forEach(function (word) {
                 var tr = $("<tr/>");
                 $("<td/>").text(word).appendTo(tr);
                 if (ended) {
-                    wordScore(word).then(function (score) {
-                        if (!score.ok) {
-                            boggle.refreshGameId = -1;
-                            alert("fail to get score: ");
-                            return;
+                    let found = false;
+                    // words in userGuessesOk are unique and verified and counted in user score
+                    g.userGuessesOk[u].forEach(function (guess) {
+                        if (guess == word) {
+                            found = true;
+                            var n = word.length;
+                            if (n < 5)
+                                $("<td/>").text("1").appendTo(tr);
+                            if (n == 5)
+                                $("<td/>").text("2").appendTo(tr);
+                            if (n == 6)
+                                $("<td/>").text("3").appendTo(tr);
+                            if (n == 7)
+                                $("<td/>").text("5").appendTo(tr);
+                            if (n >= 8)
+                                $("<td/>").text("11").appendTo(tr);
                         }
-                        $("<td/>").text(score.score).appendTo(tr);
                     });
+                    if (!found) {
+                        $("<td/>").text("0").appendTo(tr);
+                    }
                 } else {
                     $("<td/>").text("?").appendTo(tr);
                 }
                 tbody.append(tr);
             });
 
+            var tr = $("<tr/>");
+            $("<td/>").text("Total").appendTo(tr);
+            $("<td/>").text(ended ? g.userScores[u] : "?").appendTo(tr);
+            tbody.append(tr);
+
+            $("#tbl_scoreboard tbody").replaceWith(tbody);
+
+            //updated current players table
+            var playerTbody = $("#tbl_players tbody");
+            playerTbody.html("");
+            g.users.forEach(function (user) {
+                var playerTr = $("<tr/>");
+                $("<td/>").text(user).appendTo(playerTr);
+                playerTbody.append(playerTr);
+            });
+
+
 
             if (ended) {
+                initGameLog(g);
                 $("#lbl_time").html("<b>Game is ended</b>");
             } else {
                 $("#lbl_time").text(g.remainingTime + " s");
@@ -177,4 +215,8 @@ function refreshState(gameid, auto) {
             }, 500);
         }
     })
+}
+
+function changePlayAgainAvailability(value) {
+    document.getElementById("btn_playagain").disabled = value;
 }

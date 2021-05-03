@@ -3,15 +3,40 @@
 }
 
 #tbl_gamelog {
-    padding: 15px;
     background-color: white;
-    margin-left: auto;
-    margin-right: auto;
+    position: absolute;
+    top: 30px;
+    left: 30px;
 }
 
 body {
     background-color: #f2ecbf;
     text-align: center;
+}
+
+span {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+div {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.btn-rules {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+table.in_line {
+    background-color: white;
+    display: inline-block;
+    margin: 0 1.5%;
+    vertical-align: top;
 }
 
 #logo {
@@ -20,11 +45,6 @@ body {
     width: 25%;
 }
 
-.sc {
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-}
 
 #sc_start input {
     height: 50px;
@@ -41,17 +61,6 @@ body {
     font-size: 40px;
     height: 80px;
     width: 80px;
-    border-radius: 15px
-}
+    border-radius: 15px;
 
-#tbl_scoreboard {
-    background-color: white;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.btn-rules {
-    position: absolute;
-    top: 10px;
-    right: 10px;
 }

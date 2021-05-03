@@ -64,8 +64,12 @@ namespace Boggle.Controllers
         {
             if (g.getState() == Game.State.Playing && g.getEndTime() < DateTime.Now)
             {
+                if(g.getState() != Game.State.Ended)
+                {
+                    calcScores(g);
+                    g.updateGameLog();
+                }
                 g.setState(Game.State.Ended);
-                calcScores(g);
             }
             return g.getState() == Game.State.Ended;
         }
@@ -256,6 +260,7 @@ namespace Boggle.Controllers
                     return gameWasEnded;
                 g.setState(Game.State.Ended);
                 calcScores(g);
+                g.updateGameLog();
                 return okMsg;
             }
         }
@@ -275,29 +280,6 @@ namespace Boggle.Controllers
         {
             return okMsg;
         }
-
-        public IActionResult wordScore(int gameId, string username, string word)
-        {
-            Game g = srv.getGame(gameId);
-            if (g == null) return gameIdNotFound;
-            lock (g)
-            {
-                User u = g.getUser(username);
-                int score = 0;
-                // wordsUsedOk contains only words that were not guessed by other users
-                if(u.getWordsUsedOk().Contains(word))
-                {
-                    score = WordValidationEngine.wordPoints(word);
-                }
-
-                return Json(new
-                {
-                    ok = true,
-                    score = score,
-                });
-            }
-        }
-
         public IActionResult getGameLog(int gameId)
         {
             Game g = srv.getGame(gameId);
@@ -312,6 +294,7 @@ namespace Boggle.Controllers
                 });
             }
         }
-
     }
+
+    
 }
