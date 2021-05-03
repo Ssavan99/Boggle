@@ -150,13 +150,6 @@ namespace Boggle.Models
 
         public void resetGame()
         {
-            //stores all user:score pairs in gameLog
-            Dictionary<string, int> gameScores = new Dictionary<string, int>();
-            foreach(string u in users.Keys)
-            {
-                gameScores[u] = users[u].getScore();
-            }
-            gameLog.Add(gameScores);
             foreach(User u in users.Values)
             {
                 u.setScore(0);

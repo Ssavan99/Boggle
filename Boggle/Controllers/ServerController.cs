@@ -256,6 +256,7 @@ namespace Boggle.Controllers
                     return gameWasEnded;
                 g.setState(Game.State.Ended);
                 calcScores(g);
+                g.updateGameLog();
                 return okMsg;
             }
         }
