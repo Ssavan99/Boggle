@@ -64,8 +64,12 @@ namespace Boggle.Controllers
         {
             if (g.getState() == Game.State.Playing && g.getEndTime() < DateTime.Now)
             {
+                if(g.getState() != Game.State.Ended)
+                {
+                    calcScores(g);
+                    g.updateGameLog();
+                }
                 g.setState(Game.State.Ended);
-                calcScores(g);
             }
             return g.getState() == Game.State.Ended;
         }
