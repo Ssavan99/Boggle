@@ -1,6 +1,6 @@
 # Boggle
 ## Instructions to play
-- Go to https://361ourboggle.azurewebsites.net/
+- Go to https://totallynotboggle.azurewebsites.net/
 - Enter a username (or a Game ID if playing with others)
 - Hit either `Join Game` or `New Game`
 - Hit `Start Game` when you are ready to play!

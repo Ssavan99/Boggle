@@ -7,5 +7,198 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAANzL+PiJ860KJevq7edrg4wAAAAACAAAAAAAQZgAAAAEAACAAAACF8DgUYDNXEsfrPWCJEVluQGLnkgcOPhCLk0Q+OxeDJQAAAAAOgAAAAAIAACAAAAAxhGcrH3pH1N5Aiaqz4xnHoJfKJZ/yblEDLoHLqAC+h4AAAAASffa2hu9Or+p244ITXjQOH0jEWsu8HW385jBE12MK10JLbgimHJtAbdanm28BEIqIr97oKbPlZb7zds6UJ+lSjL9RjoYPOf0+NUbMt9p1DjuQsdRBQLMTWIiL31UMR62/JiZI3fPJFrvBtSU4zRN3vFoWu7G6U4wSjEkprgyGo0AAAAC7C69DiHfTi5yPz4jj43YPfA1okfl0eezEuxBIPMWtPJshYGgsPqh5fsl/rjGcbO6U6KqISPTZVEzZAmtlAfcf</EncryptedPassword>
+    <History>False|2021-12-29T19:35:19.1719586Z;False|2021-12-29T13:34:22.4569670-06:00;True|2021-05-03T16:58:55.0830548-05:00;False|2021-05-03T16:58:29.4463139-05:00;</History>
+    <_PublishTargetUrl>ftp://waws-prod-dm1-193.ftp.azurewebsites.windows.net/site/wwwroot</_PublishTargetUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.Development.json">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="Boggle.deps.json">
+      <publishTime>05/03/2021 17:17:38</publishTime>
+    </File>
+    <File Include="Boggle.dll">
+      <publishTime>05/03/2021 17:17:38</publishTime>
+    </File>
+    <File Include="Boggle.exe">
+      <publishTime>05/03/2021 17:17:38</publishTime>
+    </File>
+    <File Include="Boggle.pdb">
+      <publishTime>05/03/2021 17:17:38</publishTime>
+    </File>
+    <File Include="Boggle.runtimeconfig.json">
+      <publishTime>04/30/2021 12:26:32</publishTime>
+    </File>
+    <File Include="Boggle.Views.dll">
+      <publishTime>05/03/2021 16:58:38</publishTime>
+    </File>
+    <File Include="Boggle.Views.pdb">
+      <publishTime>05/03/2021 17:17:38</publishTime>
+    </File>
+    <File Include="libman.json">
+      <publishTime>05/03/2021 16:19:17</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>05/03/2021 17:17:39</publishTime>
+    </File>
+    <File Include="wwwroot/.DS_Store">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/css/boggle.css">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/css/site.css">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/data/english3.txt">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/democlient.html">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/favicon.ico">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/images/boggle-logo.png">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/images/hahah.png">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/images/logo-new.png">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/js/apis.js">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/js/boggle.js">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/js/jquery/jquery.js">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/js/jquery/jquery.min.js">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/js/jquery/jquery.min.map">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/js/jquery/jquery.slim.js">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/js/jquery/jquery.slim.min.js">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/js/jquery/jquery.slim.min.map">
+      <publishTime>05/03/2021 16:18:31</publishTime>
+    </File>
+    <File Include="wwwroot/js/site.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/js/utils.js">
+      <publishTime>05/03/2021 16:56:14</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap.css">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap.css.map">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap.min.css">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/js/bootstrap.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/js/bootstrap.js.map">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/js/bootstrap.min.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/bootstrap/LICENSE">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery-validation/dist/additional-methods.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery-validation/dist/additional-methods.min.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery-validation/dist/jquery.validate.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery-validation/dist/jquery.validate.min.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery-validation/LICENSE.md">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery/dist/jquery.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery/dist/jquery.min.js">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery/dist/jquery.min.map">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+    <File Include="wwwroot/lib/jquery/LICENSE.txt">
+      <publishTime>04/29/2021 23:36:38</publishTime>
+    </File>
+  </ItemGroup>
 </Project>
