@@ -1,30 +1,37 @@
-using System;
-using System.Threading.Tasks;
-using Boggle.Controllers;
-using Boggle.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-namespace Boggle
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+var app = builder.Build();
+
+// Honour X-Forwarded-* so the app sees the original scheme when it runs behind
+// a TLS-terminating proxy (Azure App Service, Render, etc). Without this the
+// HTTPS redirect below can loop forever in production.
+app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            User u = new User("Eylon");
-            GameController gc = new GameController();
-            //gc.runGame(u);
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
-            CreateHostBuilder(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();

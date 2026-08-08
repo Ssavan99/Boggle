@@ -1,30 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Exe</OutputType>
+    <RootNamespace>Boggle</RootNamespace>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
-    <ExternalConsole>true</ExternalConsole>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Console' " />
   <ItemGroup>
-    <None Remove="Views\Home\democlient.html" />
+    <!-- Ship the word list next to the binaries so it resolves from
+         AppContext.BaseDirectory in dev, tests and published containers. -->
+    <None Update="AppData\english3.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="Views\Home\democlient.html">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="Properties\ServiceDependencies\361OurBoggle - Web Deploy\profile.arm.json">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
 </Project>

@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/.vs/
+**/.idea/
+.git/
+.gitignore
+*.md
+*.mov
+*.mp4
+UnitTests/
