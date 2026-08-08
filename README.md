@@ -85,9 +85,10 @@ be resolved until every player has finished.
 | Path | Contents |
 |---|---|
 | `Boggle/Models/` | Game engine — `Game`, `Board`, `Die`, `User`, `Server`, `WordDictionary` |
-| `Boggle/Controllers/` | `ServerController` (JSON API), `HomeController` (pages), `WordValidationEngine` |
-| `Boggle/Views/` | Razor pages for the single-player and multiplayer screens |
-| `Boggle/wwwroot/` | Client-side JS, CSS, and the word list |
+| `Boggle/Controllers/` | `ServerController` (JSON API), `HomeController`, `WordValidationEngine` |
+| `Boggle/wwwroot/democlient.html` | The game client — served at `/` |
+| `Boggle/wwwroot/js/` | `boggle.js` (screens and input), `apis.js` (server calls), `utils.js` (board rendering) |
+| `Boggle/Views/` | Razor views for the supporting pages |
 | `UnitTests/` | MSTest suite covering the engine and controllers |
 
 ## HTTP API
