@@ -1,7 +1,22 @@
+# Build output
+[Bb]in/
+[Oo]bj/
 *.cache
-.vs
-Boggle/obj
-.vs
-UnitTests/bin
-UnitTests/obj
-Boggle/bin
+
+# IDE / editor state
+.vs/
+.idea/
+*.user
+*.suo
+*.DotSettings.user
+
+# Deployment profiles (may embed credentials)
+**/PublishProfiles/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Large local media (kept out of git; published as release assets instead)
+*.mov
+*.mp4
