@@ -6,4 +6,10 @@
     <RootNamespace>Boggle</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Ship the word list next to the binaries so it resolves from
+         AppContext.BaseDirectory in dev, tests and published containers. -->
+    <None Update="AppData\english3.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
