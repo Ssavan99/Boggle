@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,13 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Serve the game client itself at "/". This replaces a meta-refresh redirect
+// that briefly flashed a "Loading Boggle...." page on every visit.
+app.UseDefaultFiles(new DefaultFilesOptions
+{
+    DefaultFileNames = new List<string> { "democlient.html" }
+});
 app.UseStaticFiles();
 
 app.UseRouting();

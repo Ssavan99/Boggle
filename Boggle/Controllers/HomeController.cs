@@ -18,30 +18,7 @@ namespace Boggle.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Democlient()
-        {
-            return View();
-        }
-
-
-
         public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        
-        public IActionResult SinglePlayer()
-        {
-            return View();
-        }
-
-        public IActionResult MultiPlayer()
         {
             return View();
         }
