@@ -17,11 +17,16 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#faa964" />
     <title>Boggle - online word game</title>
+    <!-- The ?v= markers are cache busters. Browsers that loaded this site before
+         no-cache headers were added applied heuristic freshness from a 2021
+         Last-Modified date, so they will not revalidate for a very long time.
+         Changing the URL sidesteps those cached entries outright. Bump on any
+         change to the files below. -->
     <script src="js/jquery/jquery.min.js" type="text/javascript"></script>
-    <script src="js/apis.js" type="text/javascript"></script>
-    <script src="js/utils.js" type="text/javascript"></script>
-    <script src="js/boggle.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="css/boggle.css">
+    <script src="js/apis.js?v=2" type="text/javascript"></script>
+    <script src="js/utils.js?v=2" type="text/javascript"></script>
+    <script src="js/boggle.js?v=2" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/boggle.css?v=2">
 
 </head>
 <body>
