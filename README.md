@@ -4,10 +4,13 @@ A web implementation of the word game **Boggle**, with single-player and
 multiplayer modes. Built on ASP.NET Core with a dependency-free game engine
 covered by unit tests.
 
+![Two players racing on the same board](docs/demo.gif)
+
+<sub>Two browsers, one game — chaining letters, guesses accumulating, and the
+leaderboard resolving at the end of the round.</sub>
+
 <!-- LIVE_URL -->
 > **Live demo:** _not yet redeployed — link goes here_
-
-<!-- Add a screenshot or short GIF once captured: ![Boggle board](docs/screenshot.png) -->
 
 ## Features
 
@@ -136,6 +139,11 @@ Full rules: <https://www.hasbro.com/common/instruct/boggle.pdf>
 | 6 | 3 |
 | 7 | 5 |
 | 8+ | 11 |
+
+Scores stay hidden as `?` until the round ends, because duplicate cancellation
+cannot be resolved until every player has finished:
+
+![End of round, with scores revealed and the leaderboard updated](docs/scoreboard.png)
 
 ## Project history
 
