@@ -19,6 +19,7 @@ namespace Boggle.Models
         private Dictionary<string, User> users;
         private List<Dictionary<string, int>> gameLog;
         private State state;
+        private DateTime lastActivityUtc;
         private const int gameDurationSec = 3 * 60;
 
         public Game() : this(0, DateTime.Now)
@@ -33,6 +34,27 @@ namespace Boggle.Models
             users = new Dictionary<string, User>();
             gameLog = new List<Dictionary<string, int>>();
             state = State.Lobby;
+            lastActivityUtc = DateTime.UtcNow;
+        }
+
+        /// <summary>
+        /// Marks the game as recently used. The cleanup sweep removes games that
+        /// have not been touched for a while, so every request that concerns a
+        /// game should call this.
+        /// </summary>
+        public void touch()
+        {
+            lastActivityUtc = DateTime.UtcNow;
+        }
+
+        public DateTime getLastActivityUtc()
+        {
+            return lastActivityUtc;
+        }
+
+        public int getPlayerCount()
+        {
+            return users.Count;
         }
 
         public int getId()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Boggle.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,9 @@ using Microsoft.Extensions.Hosting;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
+// Games are held in memory and were never reclaimed; this sweeps idle ones.
+builder.Services.AddHostedService<StaleGameCleanupService>();
 
 var app = builder.Build();
 
