@@ -1,0 +1,70 @@
+﻿name: Build, test and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  # The App Service resource name. Azure appends a unique suffix to the public
+  # hostname (boggle-fxe8hwa0duhvc8hc.centralus-01.azurewebsites.net), but the
+  # resource name itself is just this.
+  AZURE_WEBAPP_NAME: boggle
+  DOTNET_VERSION: '8.0.x'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore Boggle.sln
+
+      - name: Build
+        run: dotnet build Boggle.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test UnitTests/UnitTests.csproj --configuration Release --no-build --verbosity normal
+
+      # Publish only the web project. The solution also contains UnitTests,
+      # and publishing at solution level would try to package that too.
+      - name: Publish
+        if: github.event_name != 'pull_request'
+        run: dotnet publish Boggle/Boggle.csproj --configuration Release --output ./publish
+
+      - name: Upload artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          name: webapp
+          path: ./publish
+
+  deploy:
+    # Pull requests are built and tested, but never deployed.
+    if: github.event_name != 'pull_request'
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.webapp-url }}
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: webapp
+          path: ./publish
+
+      - name: Deploy to Azure Web App
+        id: deploy
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./publish
