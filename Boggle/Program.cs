@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Boggle.Services;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +37,25 @@ app.UseDefaultFiles(new DefaultFilesOptions
 {
     DefaultFileNames = new List<string> { "democlient.html" }
 });
-app.UseStaticFiles();
+
+// The client is plain files with unversioned names, so a browser that cached
+// them keeps running old code after a deploy. Asking it to revalidate markup,
+// script and styles avoids that; ETags make the check a cheap 304. Images are
+// stable, so they keep a long cache.
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        string path = ctx.File.Name;
+        bool revalidate = path.EndsWith(".html", StringComparison.OrdinalIgnoreCase)
+                       || path.EndsWith(".js", StringComparison.OrdinalIgnoreCase)
+                       || path.EndsWith(".css", StringComparison.OrdinalIgnoreCase);
+
+        ctx.Context.Response.Headers["Cache-Control"] = revalidate
+            ? "no-cache, must-revalidate"
+            : "public, max-age=604800";
+    }
+});
 
 app.UseRouting();
 
