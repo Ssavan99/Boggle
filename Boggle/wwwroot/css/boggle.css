@@ -1,66 +1,264 @@
-﻿#tbl_game button {
-    width: 2.5em;
+/* ---------------------------------------------------------------------------
+   Boggle
+
+   The markup is driven by boggle.js, which looks elements up by id, so ids and
+   structure are load-bearing. Everything here is presentation only.
+   --------------------------------------------------------------------------- */
+
+:root {
+    --cream: #f2ecbf;
+    --surface: #fffdf6;
+    --accent: #faa964;
+    --accent-dark: #e08340;
+    --ink: #2f2a1f;
+    --muted: #7d7563;
+    --line: #e0d9ae;
+    --shadow: 0 2px 0 rgba(0, 0, 0, .12);
 }
 
-#tbl_gamelog {
-    background-color: white;
-    position: absolute;
-    top: 30px;
-    left: 30px;
+* {
+    box-sizing: border-box;
 }
 
 body {
-    background-color: #f2ecbf;
+    background-color: var(--cream);
+    color: var(--ink);
     text-align: center;
+    margin: 0;
+    padding: 1.5rem 1rem 3rem;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto,
+                 Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
-span {
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+h1, h2 {
+    font-family: inherit;
+    letter-spacing: .02em;
 }
 
-div {
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+h1 {
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    margin: .4em 0;
 }
 
-.btn-rules {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-table.in_line {
-    background-color: white;
-    display: inline-block;
-    margin: 0 1.5%;
-    vertical-align: top;
+h2 {
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    font-weight: 600;
+    color: var(--muted);
+    margin: .4em 0 1.2em;
 }
 
 #logo {
-    margin-left: auto;
-    margin-right: auto;
-    width: 25%;
+    width: min(260px, 60vw);
+    height: auto;
+    margin: 0 auto .5rem;
+    display: block;
 }
 
+/* Screens ------------------------------------------------------------------ */
+
+.sc {
+    width: min(760px, 100%);
+    margin: 0 auto;
+}
+
+/* Buttons ------------------------------------------------------------------ */
+
+button {
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--surface);
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: .55em 1.1em;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform .08s ease, background-color .15s ease,
+                box-shadow .15s ease;
+}
+
+button:hover:not(:disabled) {
+    background: #fff4e6;
+}
+
+button:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+
+button:focus-visible {
+    outline: 3px solid var(--accent-dark);
+    outline-offset: 2px;
+}
+
+button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    box-shadow: none;
+}
 
 #sc_start input {
-    height: 50px;
-    font-size: 18pt;
+    display: block;
+    width: min(320px, 100%);
+    margin: .5rem auto;
+    height: 3rem;
+    padding: 0 .9rem;
+    font-family: inherit;
+    font-size: 1.1rem;
+    color: var(--ink);
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 12px;
 }
 
-#sc_start button, #sc_lobby button {
-    border-radius: 15px;
-    height: 50px;
-    font-size: 18pt;
+#sc_start input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+#sc_start button,
+#sc_lobby button {
+    height: 3rem;
+    min-width: 9rem;
+    margin: .35rem .25rem;
+    font-size: 1.05rem;
+    border-radius: 14px;
+}
+
+.rules-btn {
+    position: static;
+    margin-top: 1.25rem;
+}
+
+.btn-rules {
+    position: static;
+    background: transparent;
+    border-color: transparent;
+    color: var(--muted);
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.btn-rules:hover:not(:disabled) {
+    background: transparent;
+    color: var(--ink);
+}
+
+/* Status line -------------------------------------------------------------- */
+
+#sc_game {
+    font-size: 1rem;
+    color: var(--muted);
+}
+
+#lbl_time {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+/* The word currently being traced ------------------------------------------ */
+
+#current_word {
+    min-height: 2.4rem;
+    margin: .9rem auto .2rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
+}
+
+#current_word:empty::before {
+    content: "\00a0";
+}
+
+/* Board -------------------------------------------------------------------- */
+
+#tbl_game {
+    margin: .4rem auto 1rem;
+    border-spacing: .5rem;
 }
 
 #tbl_game button {
-    font-size: 40px;
-    height: 80px;
-    width: 80px;
-    border-radius: 15px;
+    width: clamp(56px, 17vw, 84px);
+    height: clamp(56px, 17vw, 84px);
+    padding: 0;
+    font-size: clamp(1.5rem, 6vw, 2.4rem);
+    font-weight: 700;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 16px;
+}
 
+#tbl_game button:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: #fff4e6;
+}
+
+/* renderSelected() toggles this class as letters are chained. */
+#tbl_game button.selected {
+    background: var(--accent);
+    border-color: var(--accent-dark);
+    color: #fff;
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+/* Tables ------------------------------------------------------------------- */
+
+table.in_line {
+    background: var(--surface);
+    display: inline-block;
+    margin: .5rem .75rem;
+    vertical-align: top;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    min-width: 8.5rem;
+}
+
+table.in_line td {
+    border: 1px solid var(--line);
+    padding: .4rem .8rem;
+    font-size: .95rem;
+}
+
+table.in_line thead td {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+}
+
+#gamelog {
+    margin: 0 auto 1rem;
+}
+
+#tbl_gamelog {
+    background: var(--surface);
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+#tbl_gamelog td {
+    border: 1px solid var(--line);
+    padding: .35rem .7rem;
+    font-size: .9rem;
+}
+
+/* On wide screens the leaderboard sits out of the way; on narrow ones it
+   stays in the flow so it cannot cover the board. */
+@media (min-width: 1100px) {
+    #gamelog {
+        position: absolute;
+        top: 24px;
+        left: 24px;
+        margin: 0;
+    }
 }

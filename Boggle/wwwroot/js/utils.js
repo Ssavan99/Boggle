@@ -72,8 +72,8 @@ function cellClick(i, j) {
     if (sel.length > 0) {
         if (sel[sel.length - 1].i === i && sel[sel.length - 1].j === j) {
             //deselecting the last letter
-            cell(i, j).css("background-color", "");
             sel.pop();
+            renderSelected();
         } else {
             sel.push({ i: i, j: j });
             renderSelected();
@@ -95,18 +95,32 @@ function fillBoard(board) {
             })(i, j);
         }
     }
+
+    // Redraw highlights and the guess buttons for the new board, so Guess starts
+    // disabled rather than waiting for the first tile click.
+    renderSelected();
 }
 
 function renderSelected() {
     for (var i = 0; i < boggle.size; i++) {
         for (var j = 0; j < boggle.size; j++) {
-            cell(i, j).css("background-color", "");
+            cell(i, j).removeClass("selected");
         }
     }
+
+    // Build the word as it is traced so the player can see what they are about
+    // to submit; the board only ever showed highlighted tiles before.
     var s = boggle.selected;
+    var word = "";
     for (var i = 0; i < s.length; i++) {
-        cell(s[i].i, s[i].j).css("background-color", "#faa964");
+        var c = cell(s[i].i, s[i].j);
+        c.addClass("selected");
+        word += c.text();
     }
+
+    $("#current_word").text(word);
+    $("#btn_guess").prop("disabled", s.length === 0);
+    $("#btn_resetguess").prop("disabled", s.length === 0);
 }
 
 function refreshState(gameid, auto) {
