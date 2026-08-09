@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Boggle">
+  <!-- A single Boggle die, matching the tile styling used on the board. -->
+  <rect x="3" y="3" width="58" height="58" rx="14" fill="#faa964" stroke="#e08340" stroke-width="4"/>
+  <text x="32" y="33"
+        font-family="Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="40" font-weight="700"
+        fill="#ffffff"
+        text-anchor="middle" dominant-baseline="central">B</text>
+</svg>
