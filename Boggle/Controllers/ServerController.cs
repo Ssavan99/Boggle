@@ -10,8 +10,9 @@ namespace Boggle.Controllers
     public class ServerController : Controller
     {
         private Server srv;
-        private IActionResult gameIdNotFound, invalidUsername, usernameNotFound, gameWasEnded, emptyGuess, duplicateUsername;
+        private IActionResult gameIdNotFound, invalidUsername, usernameNotFound, gameWasEnded, emptyGuess, duplicateUsername, serverAtCapacity;
         private IActionResult okMsg;
+        private static readonly Random rnd = new Random();
 
         public ServerController()
         {
@@ -22,6 +23,7 @@ namespace Boggle.Controllers
             gameWasEnded = failedMsg("game was ended");
             emptyGuess = failedMsg("no word selected");
             duplicateUsername = failedMsg("Username already used");
+            serverAtCapacity = failedMsg("too many games in progress, try again shortly");
             okMsg = Json(new { ok = true });
         }
 
@@ -66,6 +68,9 @@ namespace Boggle.Controllers
             {
                 if(g.getState() != Game.State.Ended)
                 {
+                    // Let the computer play out anything still owed before the
+                    // round is scored, or its late words would be dropped.
+                    g.finishBot();
                     calcScores(g);
                     g.updateGameLog();
                 }
@@ -79,16 +84,27 @@ namespace Boggle.Controllers
             return View();
         }
 
-        public IActionResult newGame()
+        /// <summary>
+        /// Creates a game. Pass vsComputer=true to add the computer opponent,
+        /// optionally with difficulty=easy|medium|hard.
+        /// </summary>
+        public IActionResult newGame(bool vsComputer = false, string difficulty = null)
         {
             Game g = srv.newGame();
+            if (g == null) return serverAtCapacity;
             lock (g)
             {
+                g.touch();
                 g.getBoard().shakeForNewBoard();
+                if (vsComputer)
+                {
+                    g.enableBot(ComputerPlayer.ParseDifficulty(difficulty));
+                }
                 return Json(new
                 {
                     ok = true,
-                    gameId = g.getId()
+                    gameId = g.getId(),
+                    vsComputer = g.isBotEnabled()
                 });
             }
         }
@@ -96,10 +112,15 @@ namespace Boggle.Controllers
         public IActionResult startGame(int gameId)
         {
             Game g = srv.getGame(gameId);
+            if (g == null) return gameIdNotFound;
             lock (g)
             {
+                g.touch();
                 g.resetTimer();
                 g.setState(Game.State.Playing);
+                // Solve the board now that it is final, so the computer plays
+                // words that are actually on the grid in front of the player.
+                g.planBotMoves(rnd);
                 return okMsg;
             }
         }
@@ -110,6 +131,7 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                g.touch();
                 if (string.IsNullOrWhiteSpace(username))
                     return invalidUsername;
                 User u = g.getUser(username);
@@ -119,6 +141,10 @@ namespace Boggle.Controllers
                 checkIsEnded(g);
                 int remainingTime = (int)g.getEndTime().Subtract(DateTime.Now).TotalSeconds;
                 bool ended = g.getState() == Game.State.Ended;
+
+                // The computer plays on a clock rather than a thread: whatever it
+                // owes by now is released whenever a client checks in.
+                g.advanceBot(g.getDurationSeconds() - remainingTime);
 
                 int sz = g.getBoard().boardSize();
                 string[][] board = new string[sz][];
@@ -178,11 +204,12 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                g.touch();
                 if (checkIsEnded(g))
                     return gameWasEnded;
                 if (string.IsNullOrWhiteSpace(username))
                     return invalidUsername;
-                
+
                 if (g.isUsernameUsed(username))
                 {
                     return duplicateUsername;
@@ -199,12 +226,26 @@ namespace Boggle.Controllers
         public IActionResult removePlayer(int gameId, string username)
         {
             Game g = srv.getGame(gameId);
+            if (g == null) return gameIdNotFound;
+
+            bool abandoned;
             lock (g)
             {
+                g.touch();
                 User u = g.getUser(username);
+                if (u == null) return usernameNotFound;
                 g.removePlayer(u);
-                return okMsg;
+                abandoned = g.getPlayerCount() == 0;
             }
+
+            // The last player left, so nobody can reach this game again. Drop it
+            // now rather than waiting for the idle sweep.
+            if (abandoned)
+            {
+                srv.deleteGame(gameId);
+            }
+
+            return okMsg;
         }
 
         public IActionResult guess(int gameId, string username, string strcoords)
@@ -213,6 +254,7 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                g.touch();
                 if (checkIsEnded(g))
                     return gameWasEnded;
                 if (string.IsNullOrWhiteSpace(username))
@@ -256,9 +298,11 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                g.touch();
                 if (checkIsEnded(g))
                     return gameWasEnded;
                 g.setState(Game.State.Ended);
+                g.finishBot();
                 calcScores(g);
                 g.updateGameLog();
                 return okMsg;
@@ -271,6 +315,7 @@ namespace Boggle.Controllers
             if (g == null) return gameIdNotFound;
             lock (g)
             {
+                g.touch();
                 g.resetGame();
                 return okMsg;
             }

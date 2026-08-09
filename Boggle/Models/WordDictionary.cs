@@ -54,6 +54,27 @@ namespace Boggle.Models
             return this.DictionaryWords.BinarySearch(word) >= 0;
         }
 
+        /// <summary>
+        /// True when at least one dictionary word starts with the given text.
+        ///
+        /// This is what makes solving a board tractable: a depth-first walk can
+        /// abandon a path the moment no word could still be reached from it,
+        /// instead of exploring every route to full length. Because the list is
+        /// sorted, the first entry at or after the prefix is the only candidate
+        /// that needs checking.
+        /// </summary>
+        public bool HasPrefix(string prefix)
+        {
+            if (string.IsNullOrEmpty(prefix)) return true;
+
+            int idx = this.DictionaryWords.BinarySearch(prefix);
+            if (idx >= 0) return true;
+
+            idx = ~idx;
+            return idx < this.DictionaryWords.Count
+                && this.DictionaryWords[idx].StartsWith(prefix, StringComparison.Ordinal);
+        }
+
         public static WordDictionary getInstance()
         {
             return inst;

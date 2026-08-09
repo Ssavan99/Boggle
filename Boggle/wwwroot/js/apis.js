@@ -11,6 +11,13 @@ function newGame() {
     return ajaxReq("/Server/newGame");
 }
 
+function newGameVsComputer(difficulty) {
+    return ajaxReq("/Server/newGame", {
+        vsComputer: true,
+        difficulty: difficulty
+    });
+}
+
 function startGame() {
     return ajaxReq("/Server/startGame", {
         gameId: boggle.gameId

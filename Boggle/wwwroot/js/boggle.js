@@ -28,6 +28,39 @@
             });
     });
 
+    // Solo play skips the lobby: there is nobody to wait for, so the round
+    // starts as soon as the board exists.
+    $("#btn_vscomputer").click(function () {
+        boggle.username = $("#txt_username").val() || "You";
+        var difficulty = $("#sel_difficulty").val();
+
+        newGameVsComputer(difficulty)
+            .then(function (ngResp) {
+                if (!ngResp.ok) {
+                    return $.Deferred().reject(ngResp.msg);
+                }
+                boggle.gameId = ngResp.gameId;
+                return login();
+            })
+            .then(function (loginResp) {
+                if (!loginResp.ok) {
+                    return $.Deferred().reject(loginResp.msg);
+                }
+            })
+            .then(getGameState)
+            .then(function (stt) {
+                initGame(stt);
+                return startGame();
+            })
+            .then(function () {
+                refreshState(boggle.gameId);
+                changePlayAgainAvailability(true);
+            })
+            .fail(function (err) {
+                alert("Fail: " + err);
+            });
+    });
+
     $("#btn_startgame").click(function () {
         startGame().then(function () {
             refreshState(boggle.gameId);

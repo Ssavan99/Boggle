@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# The JSON API is not content, and crawling it has side effects: a GET to
+# /Server/newGame creates a real game room.
+Disallow: /Server/
+
+Sitemap: https://boggle-fxe8hwa0duhvc8hc.centralus-01.azurewebsites.net/sitemap.xml
