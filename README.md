@@ -1,5 +1,7 @@
 # Boggle
 
+[![Build, test and deploy](https://github.com/Ssavan99/Boggle/actions/workflows/azure-deploy.yml/badge.svg)](https://github.com/Ssavan99/Boggle/actions/workflows/azure-deploy.yml)
+
 A web implementation of the word game **Boggle**, with single-player and
 multiplayer modes. Built on ASP.NET Core with a dependency-free game engine
 covered by unit tests.
@@ -9,8 +11,10 @@ covered by unit tests.
 <sub>Two browsers, one game — chaining letters, guesses accumulating, and the
 leaderboard resolving at the end of the round.</sub>
 
-<!-- LIVE_URL -->
-> **Live demo:** _not yet redeployed — link goes here_
+### ▶ [Play it live](https://boggle-fxe8hwa0duhvc8hc.centralus-01.azurewebsites.net)
+
+<sub>Hosted on Azure App Service's free tier, so the first request after a quiet
+spell takes up to a minute to wake the app. It's quick once it's warm.</sub>
 
 ## Features
 
@@ -165,4 +169,5 @@ This repo is a solo modernization of that work:
   crashed outside a development layout
 - Removed Azure publish profiles containing credential fields from what is a
   public repository
-- Containerized the app, replacing the retired Azure deployment
+- Containerized the app and added CI that runs the test suite before every deploy
+- Redeployed to Azure App Service, restoring a live demo after three years down
