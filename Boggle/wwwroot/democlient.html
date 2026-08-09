@@ -21,6 +21,18 @@
         <br />
         <button style="color: #faa964; background-color: #ffffff" id="btn_joingame">Join Game</button>
         <button style="color: #ffffff; background-color: #faa964" id="btn_newgame">New Game</button>
+
+        <div class="solo">
+            <label for="sel_difficulty">Or play alone against the computer</label>
+            <div class="solo-row">
+                <select id="sel_difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <button id="btn_vscomputer">Play vs Computer</button>
+            </div>
+        </div>
         <div class="rules-btn" id="btn_rules">
             <button class="btn-rules" onclick=" window.open('https://www.hasbro.com/common/instruct/boggle.pdf','_blank')"> Rules</button>
         </div>

@@ -127,6 +127,46 @@ button:disabled {
     border-radius: 14px;
 }
 
+/* Solo play ---------------------------------------------------------------- */
+
+.solo {
+    margin: 1.75rem auto 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    max-width: 420px;
+}
+
+.solo label {
+    display: block;
+    margin-bottom: .6rem;
+    font-size: .95rem;
+    color: var(--muted);
+}
+
+.solo-row {
+    display: flex;
+    gap: .5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#sel_difficulty {
+    height: 3rem;
+    padding: 0 .8rem;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+#sel_difficulty:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
 .rules-btn {
     position: static;
     margin-top: 1.25rem;

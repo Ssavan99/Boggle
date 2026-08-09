@@ -12,6 +12,7 @@ namespace Boggle.Controllers
         private Server srv;
         private IActionResult gameIdNotFound, invalidUsername, usernameNotFound, gameWasEnded, emptyGuess, duplicateUsername, serverAtCapacity;
         private IActionResult okMsg;
+        private static readonly Random rnd = new Random();
 
         public ServerController()
         {
@@ -67,6 +68,9 @@ namespace Boggle.Controllers
             {
                 if(g.getState() != Game.State.Ended)
                 {
+                    // Let the computer play out anything still owed before the
+                    // round is scored, or its late words would be dropped.
+                    g.finishBot();
                     calcScores(g);
                     g.updateGameLog();
                 }
@@ -80,7 +84,11 @@ namespace Boggle.Controllers
             return View();
         }
 
-        public IActionResult newGame()
+        /// <summary>
+        /// Creates a game. Pass vsComputer=true to add the computer opponent,
+        /// optionally with difficulty=easy|medium|hard.
+        /// </summary>
+        public IActionResult newGame(bool vsComputer = false, string difficulty = null)
         {
             Game g = srv.newGame();
             if (g == null) return serverAtCapacity;
@@ -88,10 +96,15 @@ namespace Boggle.Controllers
             {
                 g.touch();
                 g.getBoard().shakeForNewBoard();
+                if (vsComputer)
+                {
+                    g.enableBot(ComputerPlayer.ParseDifficulty(difficulty));
+                }
                 return Json(new
                 {
                     ok = true,
-                    gameId = g.getId()
+                    gameId = g.getId(),
+                    vsComputer = g.isBotEnabled()
                 });
             }
         }
@@ -105,6 +118,9 @@ namespace Boggle.Controllers
                 g.touch();
                 g.resetTimer();
                 g.setState(Game.State.Playing);
+                // Solve the board now that it is final, so the computer plays
+                // words that are actually on the grid in front of the player.
+                g.planBotMoves(rnd);
                 return okMsg;
             }
         }
@@ -125,6 +141,10 @@ namespace Boggle.Controllers
                 checkIsEnded(g);
                 int remainingTime = (int)g.getEndTime().Subtract(DateTime.Now).TotalSeconds;
                 bool ended = g.getState() == Game.State.Ended;
+
+                // The computer plays on a clock rather than a thread: whatever it
+                // owes by now is released whenever a client checks in.
+                g.advanceBot(g.getDurationSeconds() - remainingTime);
 
                 int sz = g.getBoard().boardSize();
                 string[][] board = new string[sz][];
@@ -282,6 +302,7 @@ namespace Boggle.Controllers
                 if (checkIsEnded(g))
                     return gameWasEnded;
                 g.setState(Game.State.Ended);
+                g.finishBot();
                 calcScores(g);
                 g.updateGameLog();
                 return okMsg;

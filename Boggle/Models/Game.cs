@@ -22,6 +22,11 @@ namespace Boggle.Models
         private DateTime lastActivityUtc;
         private const int gameDurationSec = 3 * 60;
 
+        private bool botEnabled;
+        private Difficulty botDifficulty;
+        private List<BotMove> botPlan;
+        private int botCursor;
+
         public Game() : this(0, DateTime.Now)
         {
         }
@@ -55,6 +60,89 @@ namespace Boggle.Models
         public int getPlayerCount()
         {
             return users.Count;
+        }
+
+        /* ----- computer opponent ------------------------------------------- */
+
+        public bool isBotEnabled()
+        {
+            return botEnabled;
+        }
+
+        public Difficulty getBotDifficulty()
+        {
+            return botDifficulty;
+        }
+
+        /// <summary>
+        /// Adds the computer as a player. Its moves are planned later, when the
+        /// round starts and the final board is known.
+        /// </summary>
+        public void enableBot(Difficulty difficulty)
+        {
+            botEnabled = true;
+            botDifficulty = difficulty;
+            botPlan = null;
+            botCursor = 0;
+
+            if (!users.ContainsKey(ComputerPlayer.BotName))
+            {
+                users.Add(ComputerPlayer.BotName, new User(ComputerPlayer.BotName));
+            }
+        }
+
+        /// <summary>
+        /// Solves the current board and decides what the computer will play.
+        /// Called when the round starts, so the plan matches the board in front
+        /// of the human.
+        /// </summary>
+        public void planBotMoves(Random rnd)
+        {
+            if (!botEnabled) return;
+
+            List<string> solved = BoardSolver.Solve(board);
+            botPlan = ComputerPlayer.BuildPlan(solved, botDifficulty, gameDurationSec, rnd);
+            botCursor = 0;
+        }
+
+        public int getBotPlanCount()
+        {
+            return botPlan == null ? 0 : botPlan.Count;
+        }
+
+        /// <summary>
+        /// Releases any computer moves that are due by <paramref name="elapsedSeconds"/>.
+        /// Driven by client activity rather than a timer, so an idle game does no
+        /// work at all.
+        /// </summary>
+        public void advanceBot(int elapsedSeconds)
+        {
+            if (!botEnabled || botPlan == null) return;
+            if (state != State.Playing && state != State.Ended) return;
+
+            User bot = getUser(ComputerPlayer.BotName);
+            if (bot == null) return;
+
+            while (botCursor < botPlan.Count && botPlan[botCursor].AtSecond <= elapsedSeconds)
+            {
+                string w = botPlan[botCursor].Word;
+                if (!bot.isUsed(w))
+                {
+                    bot.addWord(w);
+                }
+                botCursor++;
+            }
+        }
+
+        /// <summary>Releases every remaining computer move, for end of round.</summary>
+        public void finishBot()
+        {
+            advanceBot(int.MaxValue);
+        }
+
+        public int getDurationSeconds()
+        {
+            return gameDurationSec;
         }
 
         public int getId()
@@ -180,6 +268,11 @@ namespace Boggle.Models
             board.shakeForNewBoard();
             state = State.Lobby;
             startTime = DateTime.Now;
+
+            // The board changed, so the old plan no longer applies; it is rebuilt
+            // when the next round starts.
+            botPlan = null;
+            botCursor = 0;
         }
 
         public List<String> getAllUsersInGameLog()
