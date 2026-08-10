@@ -1,0 +1,15 @@
+# Language statistics
+#
+# GitHub decides a repository's language by counting bytes, and this repo ships
+# roughly 5 MB of third-party front-end libraries against about 13 KB of its own
+# JavaScript. Left alone it reports as a JavaScript project, which misrepresents
+# an ASP.NET Core codebase. Marking the vendored trees keeps them out of the
+# count without removing them from the build.
+
+Boggle/wwwroot/lib/**       linguist-vendored
+Boggle/wwwroot/js/jquery/** linguist-vendored
+
+# The word list is data, not source. Marking it generated keeps it out of the
+# stats and collapses it in diffs, where 194,433 lines are never useful.
+Boggle/AppData/english3.txt        linguist-generated
+Boggle/wwwroot/data/english3.txt   linguist-generated
