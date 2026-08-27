@@ -1,0 +1,37 @@
+# Non-source repository artifacts
+README.md
+docs/
+demo.mov
+Dockerfile
+render.yaml
+
+# Generated/build/IDE output
+**/bin/
+**/obj/
+**/.vs/
+TestResults/
+**/node_modules/
+**/venv/
+**/venvs/
+**/__pycache__/
+**/build/
+**/dist/
+**/ServiceDependencies/
+Boggle/Properties/ServiceDependencies
+Boggle/Properties/ServiceDependencies/**
+
+# Raw data and vendored/static assets
+**/AppData/
+**/wwwroot/data/
+**/wwwroot/lib/
+Boggle/wwwroot/lib
+Boggle/wwwroot/lib/**
+**/wwwroot/js/jquery/
+Boggle/wwwroot/js/jquery
+Boggle/wwwroot/js/jquery/**
+**/wwwroot/images/
+**/*.png
+**/*.gif
+**/*.ico
+**/*.mov
+**/*.mp4

@@ -20,3 +20,9 @@ Thumbs.db
 # Large local media (kept out of git; published as release assets instead)
 *.mov
 *.mp4
+
+# Code knowledge graph output
+graphify-out/
+
+# Local test and coverage output
+TestResults/
