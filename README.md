@@ -149,25 +149,3 @@ cannot be resolved until every player has finished:
 
 ![End of round, with scores revealed and the leaderboard updated](docs/scoreboard.png)
 
-## Project history
-
-This started in 2021 as a **team project for a university software-engineering
-course**, built by ten students, and was deployed to Azure App Service at
-`totallynotboggle.azurewebsites.net`. That subscription was decommissioned with
-the course, taking the site with it.
-
-The original repository is preserved unmodified and archived at
-[Ssavan99/Boggle-class-2021](https://github.com/Ssavan99/Boggle-class-2021).
-The full commit history of everyone who contributed is retained in this
-repository too.
-
-This repo is a solo modernization of that work:
-
-- Migrated .NET Core 3.1 (end-of-life since December 2022) to .NET 8 LTS
-- Adopted the minimal hosting model — `Startup.cs` folded into `Program.cs`
-- Fixed dictionary loading that depended on the process working directory and
-  crashed outside a development layout
-- Removed Azure publish profiles containing credential fields from what is a
-  public repository
-- Containerized the app and added CI that runs the test suite before every deploy
-- Redeployed to Azure App Service, restoring a live demo after three years down
